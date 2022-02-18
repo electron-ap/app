@@ -2,16 +2,26 @@
   "name": "electron-app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://dev-diag.weicha88.com/",
+  "main": "public/main.js",
   "dependencies": {
+    "@craco/craco": "^6.4.3",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
     "@types/jest": "^27.0.1",
+    "@types/lodash": "^4.14.178",
     "@types/node": "^16.7.13",
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
+    "antd": "^4.18.7",
+    "craco-antd": "^1.19.0",
+    "electron": "^17.0.1",
+    "jointjs": "^3.5.2",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-query": "^3.34.15",
     "react-scripts": "5.0.0",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
@@ -20,7 +30,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron": "cross-env NODE_ENV=development electron .",
+    "pack": "cross-env NODE_ENV=production yarn run build && electron-builder --dir",
+    "dist": "cross-env NODE_ENV=production yarn run build && electron-builder",
+    "electron:build": "electron-packager . pcwork --platform=win32 --arch=x64 --icon=computer.ico --out=./out --asar --app-version=1.0.0 --overwrite --ignore=node_modules --electron-version 17.0.1",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -39,5 +54,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.1",
+    "@commitlint/config-conventional": "^16.2.1",
+    "cross-env": "^7.0.3",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
+    "prettier": "2.5.1"
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts,tsx}": "prettier --write"
   }
 }
