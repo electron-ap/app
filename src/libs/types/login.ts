@@ -1,7 +1,6 @@
 export interface loginForm {
-  mobile: string;
+  user: string;
   password: string;
-  code: string;
 }
 
 export interface resetForm {

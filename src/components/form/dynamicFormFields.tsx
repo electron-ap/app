@@ -13,7 +13,7 @@ import {
   RadioGroupField,
   RangePickerField,
   DatePickerField,
-} from "components/dynamic-form/fields";
+} from "components/form/dynamic-form/fields";
 import { Form, FormInstance } from "antd";
 import get from "lodash/get";
 import isFunction from "lodash/isFunction";

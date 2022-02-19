@@ -8,24 +8,28 @@ Object.defineProperty(window, "fetch", {
   get() {
     return (url: string, options: any) => {
       return originFetch(url, options).then(async (response) => {
-        console.log(response);
-        let data;
-        const type = options.headers["Content-Type"];
-        switch (type) {
-          case "blob":
-            data = await response.blob();
-            break;
-          case "text":
-            data = await response.text();
-            break;
-          case "formData":
-            data = await response.formData();
-            break;
-          default:
-            data = await response.json();
-            break;
+        const { status, statusText } = response;
+        if (200 <= status && status < 400) {
+          let data;
+          const type = options.headers["Content-Type"];
+          switch (type) {
+            case "blob":
+              data = await response.blob();
+              break;
+            case "text":
+              data = await response.text();
+              break;
+            case "formData":
+              data = await response.formData();
+              break;
+            default:
+              data = await response.json();
+              break;
+          }
+          return Promise.resolve(data);
+        } else {
+          return Promise.reject(statusText);
         }
-        return Promise.resolve(data);
       });
     };
   },
@@ -41,7 +45,7 @@ export default function fetchImplement(
         if (!data.code) {
           resolve(data);
         } else if (data.code === 401) {
-          message.warning(data.msg, 1).then(() => {
+          message.warning(data.message, 1).then(() => {
             util.clearStorage("__authInfo__");
             window.location.reload();
           });
@@ -51,7 +55,7 @@ export default function fetchImplement(
           }
           resolve(data.data);
         } else {
-          throw new Error(data.msg);
+          throw new Error(data.message);
         }
       })
       .catch((error) => {

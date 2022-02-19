@@ -24,5 +24,11 @@
   "include": [
     "src",
     ".d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "mock"
   ]
 }

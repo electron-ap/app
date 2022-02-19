@@ -108,7 +108,7 @@ const DynamicForm = ({
       name="basic"
     >
       {dynamicFormFields(fields, form)}
-      <Form.Item label=" " colon={false}>
+      <Form.Item colon={false}>
         <>
           {saveText && (
             <Button loading={loading} type="primary" htmlType="submit">
