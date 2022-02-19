@@ -1,10 +1,7 @@
-import Capture from "../capture";
 import { FieldType } from "libs/types/formField";
-import user from "assets/static/user.png";
-import password from "assets/static/password.png";
-// import CheckboxGroupField from "components/dynamic-form/fields/CheckboxGroupField";
+import user from "assets/static/zhanghao.png";
+import password from "assets/static/mima.png";
 import Button from "antd/lib/button";
-import { useAuth } from "../../../../libs/context/authorityProvider";
 
 const fieldsForm: Array<FieldType> = [
   {
@@ -34,53 +31,6 @@ const fieldsForm: Array<FieldType> = [
       type: "password",
     },
   },
-  {
-    name: "code",
-    type: "text",
-    label: "",
-    rules: [{ required: true, message: "请输入验证码" }],
-    style: {
-      marginBottom: 15,
-    },
-    extraProps: {
-      placeholder: "请输入验证码",
-      className: "diyHeightInput",
-      addonAfter: () => <Capture />,
-    },
-  },
-  // {
-  //   name: "remember",
-  //   type: "slot",
-  //   style: {
-  //     marginBottom: 0,
-  //   },
-  //   extraProps: {
-  //     diyRender({ ...restProps }) {
-  //       return <DiyRender {...restProps} />;
-  //     },
-  //     options: [{ label: "记住密码", value: 1 }],
-  //   },
-  // },
 ];
 
-// const DiyRender = ({ ...restProps }) => {
-//   const { setShowModel } = useAuth();
-//   return (
-//     <div style={{ display: "flex", justifyContent: "space-between" }}>
-//       <CheckboxGroupField {...restProps} />
-//       <Button
-//         type="link"
-//         onClick={() => setShowModel(true)}
-//         style={{
-//           fontWeight: 700,
-//           lineHeight: 1,
-//           padding: 0,
-//           height: "auto",
-//         }}
-//       >
-//         忘记密码
-//       </Button>
-//     </div>
-//   );
-// };
 export default fieldsForm;

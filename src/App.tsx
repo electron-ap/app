@@ -10,7 +10,7 @@ const App: FC = () => {
   useBackground("#fff");
   return (
     <ErrorBoundary fallbackRender={fullPageErrorFallback}>
-      <Fragment>{!user ? <Author /> : <Login />}</Fragment>
+      <Fragment>{user ? <Author /> : <Login />}</Fragment>
     </ErrorBoundary>
   );
 };

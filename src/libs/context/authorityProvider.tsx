@@ -8,8 +8,6 @@ import { useMountedRef } from "libs/hooks";
 import omit from "lodash/omit";
 const AuthorityContext = React.createContext<{
   user: User | null;
-  isShow: boolean;
-  setShowModel: Dispatch<boolean>;
   loginImplement: (...args: submitType<loginForm>) => void;
   loginOutImplement: () => void;
 } | null>(null);
@@ -18,7 +16,6 @@ AuthorityContext.displayName = "AuthorityContext";
 
 const AuthorityProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isShow, setShowModel] = useState<boolean>(false);
   const mountedRef = useMountedRef();
 
   useEffect(() => {
@@ -61,8 +58,6 @@ const AuthorityProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AuthorityContext.Provider
       value={{
-        isShow,
-        setShowModel,
         user,
         loginImplement,
         loginOutImplement,

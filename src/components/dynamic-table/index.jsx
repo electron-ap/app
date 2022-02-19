@@ -1,10 +1,9 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
 import { Table } from 'antd'
 import PropTypes from 'prop-types';
-import {useParamsContext} from '@/context'
+// import {useParamsContext} from '@/context'
 
 const TableJsx = ({ callback, data, columns, ...props }) => {
-
   // const { setParams } = useParamsContext()
   const table = useRef(null);
   const [height, setHeight] = useState(0);
