@@ -39,6 +39,11 @@
   display: inline-block;
   line-height: normal;
   cursor: pointer;
+  height: 140px;
+  transition: all 0.3s;
+}
+.pHeaderWrap .pHeader ul li.active {
+  background: #3095fa;
 }
 .pHeaderWrap .pHeader ul li img {
   display: inline-block;

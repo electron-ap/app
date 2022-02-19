@@ -38,6 +38,11 @@
         display: inline-block;
         line-height: normal;
         cursor: pointer;
+        height: 140px;
+        transition: all .3s;
+        &.active {
+          background: #3095FA;
+        }
         img {
           display: inline-block;
           width: 57px;
