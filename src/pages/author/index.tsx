@@ -1,5 +1,11 @@
+import PHeader from "../components/pheader";
+
 const MainJsx = () => {
-  return <div>main</div>;
+  return (
+    <>
+      <PHeader />
+    </>
+  );
 };
 
 export default MainJsx;
