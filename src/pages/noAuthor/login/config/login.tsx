@@ -2,7 +2,7 @@ import Capture from "../capture";
 import { FieldType } from "libs/types/formField";
 import user from "assets/static/user.png";
 import password from "assets/static/password.png";
-import CheckboxGroupField from "components/dynamic-form/fields/CheckboxGroupField";
+// import CheckboxGroupField from "components/dynamic-form/fields/CheckboxGroupField";
 import Button from "antd/lib/button";
 import { useAuth } from "../../../../libs/context/authorityProvider";
 
@@ -48,39 +48,39 @@ const fieldsForm: Array<FieldType> = [
       addonAfter: () => <Capture />,
     },
   },
-  {
-    name: "remember",
-    type: "slot",
-    style: {
-      marginBottom: 0,
-    },
-    extraProps: {
-      diyRender({ ...restProps }) {
-        return <DiyRender {...restProps} />;
-      },
-      options: [{ label: "记住密码", value: 1 }],
-    },
-  },
+  // {
+  //   name: "remember",
+  //   type: "slot",
+  //   style: {
+  //     marginBottom: 0,
+  //   },
+  //   extraProps: {
+  //     diyRender({ ...restProps }) {
+  //       return <DiyRender {...restProps} />;
+  //     },
+  //     options: [{ label: "记住密码", value: 1 }],
+  //   },
+  // },
 ];
 
-const DiyRender = ({ ...restProps }) => {
-  const { setShowModel } = useAuth();
-  return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <CheckboxGroupField {...restProps} />
-      <Button
-        type="link"
-        onClick={() => setShowModel(true)}
-        style={{
-          fontWeight: 700,
-          lineHeight: 1,
-          padding: 0,
-          height: "auto",
-        }}
-      >
-        忘记密码
-      </Button>
-    </div>
-  );
-};
+// const DiyRender = ({ ...restProps }) => {
+//   const { setShowModel } = useAuth();
+//   return (
+//     <div style={{ display: "flex", justifyContent: "space-between" }}>
+//       <CheckboxGroupField {...restProps} />
+//       <Button
+//         type="link"
+//         onClick={() => setShowModel(true)}
+//         style={{
+//           fontWeight: 700,
+//           lineHeight: 1,
+//           padding: 0,
+//           height: "auto",
+//         }}
+//       >
+//         忘记密码
+//       </Button>
+//     </div>
+//   );
+// };
 export default fieldsForm;

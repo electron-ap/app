@@ -23,7 +23,6 @@ const Login: FC = () => {
         <DynamicForm
           saveText={"登录"}
           wrapperCol={{ span: 24, offset: 0 }}
-          formItemLayout={{ labelCol: { span: 0 }, wrapperCol: { span: 24 } }}
           onSubmit={onConfirm}
           fields={loginFormParam}
         />
