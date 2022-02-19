@@ -51,7 +51,7 @@ export default function fetchImplement(
           });
         } else if (data.code === 200) {
           if ([null].includes(data.data)) {
-            message.success(data.msg);
+            message.success(data.message);
           }
           resolve(data.data);
         } else {

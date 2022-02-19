@@ -14,6 +14,8 @@ const xhrFactory = ({
       method,
       headers: {
         "Content-Type": contextType,
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoi5rWL6K-V6LSm5Y-3IiwiYWNjb3VudCI6IjExMTEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiLnrqHnkIblkZgiLCJpZCI6IjQiLCJjb21wYW55aWQiOiIxIiwibmJmIjoxNjQ1MjU2ODYwLCJleHAiOjE2NDUzNDMyNjAsImlzcyI6Imh0dHA6Ly8xMjUuMzkuMTg3LjM4Ojg2ODYiLCJhdWQiOiJodHRwOi8vMTI1LjM5LjE4Ny4zODo4Njg2In0.nOKrKlbUcvkUdEvITs2mCkZEKArjbvpeeO_2iGFKrWU",
       },
     };
 
