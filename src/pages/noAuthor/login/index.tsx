@@ -16,17 +16,22 @@ const Login: FC = () => {
 
   return (
     <div className={"loginComponent"}>
-      <img src={loginBg} alt={loginBg} width={600} />
-      <div className="loginStyle">
-        <img alt={"logo512"} width={100} src={logo512} />
-        <h1>贸易链管理系统</h1>
-        <DynamicForm
-          saveText={"登录"}
-          wrapperCol={{ offset: 0 }}
-          onSubmit={onConfirm}
-          fields={loginFormParam}
-        />
+      <div className={"inner"}>
+        <img src={loginBg} alt={loginBg} width={600} />
+        <div className="loginStyle">
+          <div className={"topInfo"}>
+            <img alt={"logo512"} width={80} src={logo512} />
+            <h1>贸易链管理系统</h1>
+            <p className={"info"}>账号密码登陆</p>
+          </div>
+          <DynamicForm
+            saveText={"登录"}
+            onSubmit={onConfirm}
+            fields={loginFormParam}
+          />
+        </div>
       </div>
+      <p>copyright©上海国药贸易链管理系统版权所有沪ICP123456</p>
     </div>
   );
 };

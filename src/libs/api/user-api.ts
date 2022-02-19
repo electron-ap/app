@@ -2,7 +2,7 @@ import xhrFactory from "libs/http/config";
 
 // 登陆
 export const login = xhrFactory({
-  url: `/engineer/login`,
+  url: `/Home/Login`,
   method: "POST",
 });
 // 退出登录

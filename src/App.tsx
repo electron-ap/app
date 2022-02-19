@@ -7,7 +7,7 @@ import { fullPageErrorFallback } from "components/error/fullPageErrorFallBack";
 import { useBackground } from "libs/hooks";
 const App: FC = () => {
   const { user } = useAuth();
-  useBackground("#fff");
+  useBackground("#eff3fc");
   return (
     <ErrorBoundary fallbackRender={fullPageErrorFallback}>
       <Fragment>{user ? <Author /> : <Login />}</Fragment>

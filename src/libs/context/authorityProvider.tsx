@@ -35,9 +35,8 @@ const AuthorityProvider = ({ children }: { children: ReactNode }) => {
 
   const loginImplement = async (...args: submitType<loginForm>) => {
     const [value, suc, error] = args;
-    const params = omit(value, "remember");
     try {
-      const data = await login<loginForm>(params);
+      const data = await login<loginForm>(value);
       suc();
       setDataMethod(data);
     } catch (e) {
