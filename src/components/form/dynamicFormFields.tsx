@@ -6,50 +6,83 @@ import {
   InputField,
   CheckboxField,
   CheckboxGroupField,
-  SlotField,
+  ComplexField,
+  SelectField,
+  CascaderField,
+  UploadField,
+  RadioGroupField,
+  RangePickerField,
+  DatePickerField,
 } from "components/dynamic-form/fields";
-import { Form } from "antd";
+import { Form, FormInstance } from "antd";
 import get from "lodash/get";
-import { FormInstance } from "antd/lib/form/hooks/useForm";
+import isFunction from "lodash/isFunction";
 
 const FieldTypeComponent = {
+  upload: UploadField,
+  range: RangePickerField,
+  date: DatePickerField,
   number: NumberField,
   textarea: TextAreaField,
   text: InputField,
   checkbox: CheckboxField,
   checkboxGroup: CheckboxGroupField,
-  slot: SlotField,
+  complex: ComplexField,
+  select: SelectField,
+  radioGroup: RadioGroupField,
+  cascader: CascaderField,
 };
 
 const dynamicFormFields = (fields: Array<FieldType>, form: FormInstance) => {
   return fields.map(
-    ({
-      name,
-      label,
-      type,
-      readOnly,
-      rules,
-      extraProps,
-      ...rest
-    }: FieldType) => {
-      const FormItem = Form.Item;
-
-      const formItemProps: { [k: string]: unknown } = {
-        label,
+    (
+      {
         name,
         type,
-        readOnly,
-        rules,
+        extraProps = {},
+        prefixIcon,
+        suffixIcon,
+        calIsVisible = () => true,
+        calIsDisabled = () => false,
+        ...rest
+      }: FieldType,
+      idx: number
+    ) => {
+      const FormItem = Form.Item;
+      const formItemProps: { [k: string]: unknown } = {
+        name,
+        type,
         valuePropName: type === "checkbox" ? "checked" : "value",
         ...rest,
       };
 
+      if (type === "upload") {
+        formItemProps.valuePropName = "devil-file";
+        formItemProps.getValueFromEvent = (e: any) => {
+          return e.fileList;
+        };
+      }
       const FieldComponent = get(FieldTypeComponent, type, InputField);
 
       return (
-        <FormItem key={name} {...formItemProps}>
-          <FieldComponent {...extraProps} form={form} />
-        </FormItem>
+        <Form.Item shouldUpdate key={(name || idx).toString()} noStyle>
+          {({ getFieldValue }) =>
+            calIsVisible(getFieldValue) ? (
+              <>
+                {isFunction(prefixIcon) ? prefixIcon(form) : prefixIcon}
+                <FormItem {...formItemProps}>
+                  <FieldComponent
+                    form={form}
+                    name={name}
+                    disabled={calIsDisabled(getFieldValue)}
+                    {...extraProps}
+                  />
+                </FormItem>
+                {isFunction(suffixIcon) ? suffixIcon(form) : suffixIcon}
+              </>
+            ) : null
+          }
+        </Form.Item>
       );
     }
   );

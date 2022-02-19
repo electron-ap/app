@@ -1,8 +1,8 @@
-import { Checkbox, FormInstance, Space } from "antd";
+import { Radio, Space, FormInstance } from "antd";
 import ComplexFields from "./ComplexFields";
 
 type emums = "vertical" | "horizontal";
-export default function CheckboxGroupField({
+export default function RadioGroupField({
   form,
   options,
   direction = "horizontal",
@@ -13,17 +13,17 @@ export default function CheckboxGroupField({
   options: Array<any>;
 }) {
   return (
-    <Checkbox.Group {...extraProps}>
+    <Radio.Group {...extraProps}>
       <Space direction={direction}>
         {options.map(
           ({ direction = "horizontal", value, label, suffix }, idx) => (
             <Space key={idx} direction={direction}>
-              <Checkbox value={value}>{label}</Checkbox>
+              <Radio value={value}>{label}</Radio>
               {suffix ? <ComplexFields form={form} innerForm={suffix} /> : null}
             </Space>
           )
         )}
       </Space>
-    </Checkbox.Group>
+    </Radio.Group>
   );
 }

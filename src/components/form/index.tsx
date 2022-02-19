@@ -1,50 +1,90 @@
 import { Form, Button, message } from "antd";
-import React, { useCallback, useState } from "react";
-import { FieldType, submitType } from "libs/types/formField";
+import React, { useCallback, useEffect, useState } from "react";
+import { FieldType, submitType, TransformType } from "libs/types/formField";
 import dynamicFormFields from "./dynamicFormFields";
 import { FormProps } from "antd/lib/form/Form";
-import { ColProps } from "antd/lib/grid";
+import get from "lodash/get";
+import set from "lodash/set";
+import omit from "lodash/omit";
+import cloneDeep from "lodash/cloneDeep";
 
 interface Props extends FormProps {
   saveText?: string;
   initialValues?: { [v: string]: unknown };
   onSubmit: (...args: submitType) => void;
   fields: Array<FieldType>;
-  onValuesChange?: (...args: unknown[]) => void;
-  wrapperCol?: ColProps;
-  formItemLayout?: { labelCol?: ColProps; wrapperCol?: ColProps };
+  transformSubmitDataConfig?: Array<TransformType>;
 }
 
 const DynamicForm = ({
   saveText,
   layout = "horizontal",
   wrapperCol = {},
-  formItemLayout = {},
+  labelCol = {},
   initialValues,
   onSubmit,
-  onValuesChange,
-  fields,
+  fields: defaultFields,
+  transformSubmitDataConfig = [],
 }: Props) => {
   const [form] = Form.useForm();
+  const [fields, setFormFields] = useState<Array<FieldType>>([]);
   const [loading, setIsSubmitting] = useState<boolean>(false);
 
-  const onFinish = useCallback(
-    (values) => {
-      setIsSubmitting(true);
-      onSubmit(
-        values,
-        (msg) => {
-          const { setFieldsValue, getFieldsValue } = form;
-          setIsSubmitting(false);
-          setFieldsValue(getFieldsValue()); // reset form touched state
-          if (msg) message.success(msg);
-        },
-        () => {
-          setIsSubmitting(false);
+  useEffect(() => {
+    setFormFields(defaultFields);
+  }, [defaultFields]);
+
+  const computedSubmitValues = useCallback(
+    async (values: { [v: string]: unknown }) => {
+      const forkTransformConfig = cloneDeep(transformSubmitDataConfig);
+      while (forkTransformConfig.length > 0) {
+        const {
+          from,
+          isDelete = false,
+          to,
+          format,
+        } = forkTransformConfig.shift() as TransformType;
+        const prevValue = get(values, from);
+        const value = get(values, to);
+        try {
+          const computedValue = await format(prevValue, value);
+          set(values, to, computedValue);
+          if (isDelete) {
+            values = omit(values, from);
+          }
+        } catch (err: any) {
+          const msg = err.message || err.msg || "数据转化失败";
+          throw new Error(msg);
         }
-      );
+      }
+      return values;
     },
-    [form, onSubmit]
+    [transformSubmitDataConfig]
+  );
+
+  const onFinish = useCallback(
+    async (values) => {
+      setIsSubmitting(true);
+      try {
+        const value = await computedSubmitValues(values);
+        onSubmit(
+          value,
+          (msg) => {
+            const { setFieldsValue, getFieldsValue } = form;
+            setIsSubmitting(false);
+            setFieldsValue(getFieldsValue()); // reset form touched state
+            if (msg) message.success(msg);
+          },
+          () => {
+            setIsSubmitting(false);
+          }
+        );
+      } catch (err: any) {
+        message.error(err.message);
+        setIsSubmitting(false);
+      }
+    },
+    [form, onSubmit, computedSubmitValues]
   );
 
   const onFinishFailed = useCallback(
@@ -62,13 +102,13 @@ const DynamicForm = ({
         onFinish,
         onFinishFailed,
         initialValues,
-        ...formItemLayout,
+        wrapperCol,
+        labelCol,
       }}
       name="basic"
-      onValuesChange={onValuesChange?.bind(null, form)}
     >
       {dynamicFormFields(fields, form)}
-      <Form.Item wrapperCol={wrapperCol}>
+      <Form.Item label=" " colon={false}>
         <>
           {saveText && (
             <Button loading={loading} type="primary" htmlType="submit">
