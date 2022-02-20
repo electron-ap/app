@@ -1,7 +1,6 @@
 import { FieldType } from "libs/types/formField";
 import user from "assets/static/zhanghao.png";
 import password from "assets/static/mima.png";
-import Button from "antd/lib/button";
 
 const fieldsForm: Array<FieldType> = [
   {

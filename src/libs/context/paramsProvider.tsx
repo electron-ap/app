@@ -7,32 +7,32 @@ import React, {
 } from "react";
 import { paramsType } from "libs/types/queryParamsType";
 
-const ParamsContext = createContext<{
+const ParamsProvider = createContext<{
   params: paramsType | null;
   setParams: Dispatch<paramsType | null>;
 } | null>(null);
 
-ParamsContext.displayName = "paramsContext";
+ParamsProvider.displayName = "paramsContext";
 
 const ParamsContextProvider = ({ children }: { children: ReactNode }) => {
   const [params, setParams] = useState<paramsType | null>(null);
 
   return (
-    <ParamsContext.Provider
+    <ParamsProvider.Provider
       value={{
         params,
         setParams,
       }}
     >
       {children}
-    </ParamsContext.Provider>
+    </ParamsProvider.Provider>
   );
 };
 
 export default ParamsContextProvider;
 
 export const useParamsContext = () => {
-  const context = useContext(ParamsContext);
+  const context = useContext(ParamsProvider);
   if (!context) {
     throw new Error("useParamsContext调用必须在ParamsContextProvider里面");
   }

@@ -8,7 +8,7 @@ const ResetPassWordJsx = ({ fields }: { fields: Array<FieldType> }) => {
   const onSubmit = async (...args: submitType<resetForm>) => {
     const [value, error] = args;
     try {
-      await resetPassword<resetForm>(value);
+      await resetPassword(value);
       util.clearStorage("__authInfo__");
       window.location.reload();
     } catch (e) {

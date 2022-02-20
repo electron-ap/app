@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { User } from "libs/types/user";
 import { loginForm } from "libs/types/login";
 import { login, logout } from "libs/api/user-api";
@@ -6,6 +6,7 @@ import util from "libs/utils/util";
 import { submitType } from "libs/types/formField";
 import { useMountedRef } from "libs/hooks";
 import omit from "lodash/omit";
+
 const AuthorityContext = React.createContext<{
   user: User | null;
   loginImplement: (...args: submitType<loginForm>) => void;
@@ -28,8 +29,10 @@ const AuthorityProvider = ({ children }: { children: ReactNode }) => {
 
   const setDataMethod = (res: User): void => {
     if (mountedRef.current) {
+      const data = omit(res, "token");
+      util.setStorage("__authInfo__", data);
+      util.setStorage("accessToken", res.token);
       setUser(res);
-      util.setStorage("__authInfo__", JSON.stringify(res));
     }
   };
 
@@ -50,6 +53,7 @@ const AuthorityProvider = ({ children }: { children: ReactNode }) => {
         if (mountedRef.current) {
           setUser(null);
           util.clearStorage("__authInfo__");
+          util.clearStorage("accessToken");
         }
       })
       .catch(() => {});

@@ -5,6 +5,7 @@ import Author from "pages/author";
 import { ErrorBoundary } from "components/error/error-boundary";
 import { fullPageErrorFallback } from "components/error/fullPageErrorFallBack";
 import { useBackground } from "libs/hooks";
+
 const App: FC = () => {
   const { user } = useAuth();
   useBackground("#eff3fc");

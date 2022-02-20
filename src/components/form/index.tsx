@@ -8,7 +8,7 @@ import set from "lodash/set";
 import omit from "lodash/omit";
 import cloneDeep from "lodash/cloneDeep";
 
-interface Props extends FormProps {
+export interface FormAddProps extends FormProps {
   saveText?: string;
   initialValues?: { [v: string]: unknown };
   onSubmit: (...args: submitType) => void;
@@ -25,7 +25,7 @@ const DynamicForm = ({
   onSubmit,
   fields: defaultFields,
   transformSubmitDataConfig = [],
-}: Props) => {
+}: FormAddProps) => {
   const [form] = Form.useForm();
   const [fields, setFormFields] = useState<Array<FieldType>>([]);
   const [loading, setIsSubmitting] = useState<boolean>(false);

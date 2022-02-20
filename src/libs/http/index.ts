@@ -44,16 +44,16 @@ export default function fetchImplement(
       .then((data: any) => {
         if (!data.code) {
           resolve(data);
-        } else if (data.code === 401) {
-          message.warning(data.message, 1).then(() => {
-            util.clearStorage("__authInfo__");
-            window.location.reload();
-          });
         } else if (data.code === 200) {
           if ([null].includes(data.data)) {
             message.success(data.msg);
           }
           resolve(data.data);
+        } else if (data.code === 401) {
+          message.warning(data.message, 1).then(() => {
+            util.clearStorage("__authInfo__");
+            window.location.reload();
+          });
         } else {
           throw new Error(data.message);
         }

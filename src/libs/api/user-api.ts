@@ -1,31 +1,8 @@
 import xhrFactory from "libs/http/config";
 
 // 登陆
-export const login = xhrFactory({
-  url: `/Home/Login`,
-  method: "POST",
-});
+export const login = xhrFactory.post(`/Home/Login`);
 // 退出登录
-export const logout = xhrFactory({
-  url: "/engineer/logout",
-  method: "GET",
-});
-
-// 修改密码
-export const resetPassword = xhrFactory({
-  url: "/engineer/reset-password",
-  method: "POST",
-});
-
-// 验证码
-export const captcha = xhrFactory({
-  url: "/engineer/login-code",
-  method: "GET",
-  contextType: "blob",
-});
-
-// 验证码
-export const mobile = xhrFactory({
-  url: "/engineer/forget-password",
-  method: "POST",
-});
+export const logout = xhrFactory.get("/engineer/logout");
+//
+export const resetPassword = xhrFactory.post("/engineer/reset-password");

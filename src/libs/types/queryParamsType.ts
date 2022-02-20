@@ -1,5 +1,5 @@
 export interface paramsType {
-  [v: string]: unknown;
+  [v: string]: any;
 }
 
 // export interface returnType extends Promise<Response> {

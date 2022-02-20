@@ -1,37 +1,99 @@
-import fetchImplement from "libs/http/index";
-import { defaultPath } from "libs/http/config/originPath";
+import fetchImplement from "libs/http";
 import qs from "qs";
+import util from "libs/utils/util";
 
-const xhrFactory = ({
-  url = "",
-  method = "GET",
-  contextType = "application/json",
-}) =>
-  function fn<T>(params?: T, signal?: AbortSignal) {
-    let appendPath = "";
-    const config: RequestInit = {
-      signal,
-      method,
-      headers: {
-        "Content-Type": contextType,
-      },
-    };
+class defaultConfig {
+  readonly headers = {
+    "Content-Type": "application/json;charset=utf-8",
+  };
+  protected defaultPath: string;
+  protected config: any;
+  constructor() {
+    this.defaultPath = "/api/";
+    this.config = {};
+  }
 
-    if (method === "GET") {
-      appendPath += `?${qs.stringify(params)}`;
-    } else if (contextType === "application/x-www-form-urlencoded") {
-      config.body = qs.stringify(params);
-    } else {
-      config.body = JSON.stringify(params);
+  computedIo = (
+    url: string,
+    params = {
+      headers: this.headers,
     }
-    return fetchImplement(defaultPath + url + appendPath, config);
+  ) => {
+    // @ts-ignore
+    params.headers["Authorization"] =
+      "Bearer " + util.getStorage("accessToken");
+    return fetchImplement(this.defaultPath + url, params);
   };
 
-/**
- * 去除空value的参数
- * @returns {*}
- * @param target
- */
-type paramsTy = Array<unknown> | { [k: string]: unknown };
+  exceptGet<T>(url: string, params: T) {
+    const computed = { ...this.config.body, ...params };
+    if (
+      this.config.headers["Content-Type"] ===
+      "application/x-www-form-urlencoded"
+    ) {
+      this.config.body = qs.stringify(computed);
+    } else {
+      this.config.body = JSON.stringify(computed);
+    }
+    return this.computedIo(url, this.config);
+  }
+}
 
-export default xhrFactory;
+class Index extends defaultConfig {
+  get(url: string, initialValue?: object) {
+    return <T>(params?: T) => {
+      const computed = { ...initialValue, ...params };
+      const computedUrl = url + `?${qs.stringify(computed)}`;
+      return this.computedIo(computedUrl);
+    };
+  }
+
+  post(url: string, options: RequestInit = {}) {
+    this.config = {
+      method: "POST",
+      headers: this.headers,
+      ...options,
+    };
+    return <T>(params?: T) => {
+      return this.exceptGet(url, params);
+    };
+  }
+
+  put(url: string, options: RequestInit = {}) {
+    this.config = {
+      method: "PUT",
+      headers: this.headers,
+      ...options,
+    };
+    return <T>(params?: T) => {
+      return this.exceptGet(url, params);
+    };
+  }
+
+  delete(url: string, options: RequestInit = {}) {
+    this.config = {
+      method: "DELETE",
+      headers: this.headers,
+      ...options,
+    };
+    return <T>(params?: T) => {
+      return this.exceptGet(url, params);
+    };
+  }
+}
+
+const xhrFactory = (() => {
+  let instance: Index | null = null;
+
+  const createInstance = () => {
+    console.log(82);
+    if (!instance) {
+      console.log(84);
+      instance = new Index();
+    }
+    return instance;
+  };
+  return createInstance;
+})();
+
+export default xhrFactory();

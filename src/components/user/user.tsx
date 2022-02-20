@@ -12,7 +12,11 @@ const User = memo(({ setIsShow }: { setIsShow: Dispatch<boolean> }) => {
   };
 
   const logoutHandler = () => {
-    modelHandler(loginOutImplement, "退出", `确定退出登录状态么`);
+    modelHandler({
+      callback: loginOutImplement,
+      title: "退出",
+      text: `确定退出登录状态么`,
+    });
   };
 
   const resetHandler = () => {
