@@ -28,10 +28,8 @@ Object.defineProperty(window, "fetch", {
           }
           return Promise.resolve(data);
         } else if ([401, 403].includes(status)) {
-          message.warning(statusText, 0).then(() => {
-            util.clearStorage("__authInfo__");
-            window.location.reload();
-          });
+          util.clearStorage("__authInfo__");
+          window.location.reload();
         } else {
           return Promise.reject(statusText);
         }
