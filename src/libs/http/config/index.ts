@@ -12,7 +12,6 @@ class defaultConfig {
     this.defaultPath = "/api/";
     this.config = {};
   }
-
   computedIo = (
     url: string,
     params = {

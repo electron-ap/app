@@ -1,0 +1,60 @@
+.pHeaderWrap {
+  .pHeader {
+    height: 140px;
+    line-height: 140px;
+    width: 100%;
+    background: #1989FA;
+    box-sizing: border-box;
+    padding-left: 60px;
+    .logoBlc {
+      height: 140px;
+      display: inline-block;
+      vertical-align: top;
+      .logo {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: top;
+        margin-top: 30px;
+        margin-right: 25px;
+      }
+      h1 {
+        display: inline-block;
+        font-size: 30px;
+        font-weight: 500;
+        color: #FFFFFF;
+        margin-right: 60px;
+        margin-bottom: 0;
+      }
+    }
+    ul {
+      display: inline-block;
+      vertical-align: top;
+      padding: 0;
+      margin: 0;
+      li {
+        display: inline-block;
+        line-height: normal;
+        cursor: pointer;
+        height: 140px;
+        transition: all .3s;
+        &.active {
+          background: #3095FA;
+        }
+        img {
+          display: inline-block;
+          width: 57px;
+          height: 57px;
+          margin: 30px 28px 14px;
+        }
+        h3 {
+          text-align: center;
+          font-size: 12px;
+          color: #FFFFFF;
+        }
+      }
+    }
+  }
+}
