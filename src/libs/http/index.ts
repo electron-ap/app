@@ -27,6 +27,11 @@ Object.defineProperty(window, "fetch", {
               break;
           }
           return Promise.resolve(data);
+        } else if ([401, 403].includes(status)) {
+          message.warning(statusText, 0).then(() => {
+            util.clearStorage("__authInfo__");
+            window.location.reload();
+          });
         } else {
           return Promise.reject(statusText);
         }
@@ -49,11 +54,6 @@ export default function fetchImplement(
             message.success(data.message);
           }
           resolve(data.data);
-        } else if (data.code === 401) {
-          message.warning(data.message, 1).then(() => {
-            util.clearStorage("__authInfo__");
-            window.location.reload();
-          });
         } else {
           throw new Error(data.message);
         }
