@@ -56,7 +56,7 @@ const MainJsx = () => {
   return (
     <QueryClientProvider client={client}>
       <ParamsContextProvider>
-        <PHeader routerArr={routerArr} />
+        {/*<PHeader routerArr={routerArr} />*/}
         <Routes>
           <Route path="/" element={<Navigate replace to={"/TradePlan"} />} />
           {routerArr.map((item) => {

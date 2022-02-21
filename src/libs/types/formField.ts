@@ -10,6 +10,7 @@ type formType =
   | "range"
   | "date"
   | "cascader"
+  | "innerForm"
   | "upload";
 
 type callResolver = (msg?: string) => void;
