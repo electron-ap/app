@@ -48,8 +48,8 @@ export const useListQuery = ({ queryKey, api }, dependencies) => {
       retry: false,
       // enabled: !isEmpty(dependencies),
       onError: (error) => {
-        setParams(null);
-        queryClient.removeQueries([queryKey, dependencies], { exact: true });
+        // setParams(null);
+        // queryClient.removeQueries([queryKey, dependencies], { exact: true });
       },
     }
   );

@@ -1,26 +1,8 @@
-import {
-  CascaderField,
-  CheckboxField,
-  CheckboxGroupField,
-  ComplexField,
-  DatePickerField,
-  InputField,
-  NumberField,
-  RadioGroupField,
-  RangePickerField,
-  SelectField,
-  TextAreaField,
-  UploadField,
-} from "../../components/form/dynamic-form/fields";
-
 type formType =
   | "text"
   | "textarea"
-  | "email"
-  | "password"
   | "number"
   | "checkbox"
-  | "file"
   | "select"
   | "radioGroup"
   | "checkboxGroup"
@@ -29,19 +11,6 @@ type formType =
   | "date"
   | "cascader"
   | "upload";
-//
-// upload: UploadField,
-//     range: RangePickerField,
-//     date: DatePickerField,
-//     number: NumberField,
-//     textarea: TextAreaField,
-//     text: InputField,
-//     checkbox: CheckboxField,
-//     checkboxGroup: CheckboxGroupField,
-//     complex: ComplexField,
-//     select: SelectField,
-//     radioGroup: RadioGroupField,
-//     cascader: CascaderField,
 
 type callResolver = (msg?: string) => void;
 export type submitType<T = any> = [T, callResolver, callResolver];
