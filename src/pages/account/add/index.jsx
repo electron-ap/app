@@ -5,6 +5,7 @@ import dialogJsx from "../../../libs/utils/dialogJsx";
 import {addUserList} from "../../../libs/api/account-api";
 // import {useQueryClient} from "react-query";
 import {message} from 'antd';
+import util from "../../../libs/utils/util";
 
 const Add = () => {
 
@@ -18,7 +19,8 @@ const Add = () => {
         callback: async(props, destoryImplement) => {
           try {
             const [value, suc] = props;
-            const account = localStorage.getItem('__authInfo__').name
+            const account = util.getStorage('__authInfo__').name
+            console.log(24, {...value, account})
             const response =await addUserList({...value, account});
             await suc(response.message);
             // queryClient.invalidateQueries(['user', params]);

@@ -15,12 +15,11 @@ const AccountTableJsx = ({ params, queryKey, ...resetProps }) => {
     }
   };
 
-  const deleteHandler = async (data, destoryImplement) => {
+  const deleteHandler = async (data) => {
     console.log(19, data.id);
     const res = await delUser({'id': data.id});
     console.log(16, res);
     queryClient.invalidateQueries(['user', params]);
-    destoryImplement()
   }
 
 
