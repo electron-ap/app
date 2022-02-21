@@ -1,4 +1,4 @@
-import PHeader from "../components/pheader";
+// import PHeader from "../components/pheader";
 import one from "../components/pheader/img/1.png";
 import TradePlan from "../tradePlan";
 import two from "../components/pheader/img/2.png";

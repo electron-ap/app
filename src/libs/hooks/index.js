@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { useParamsContext } from "../context/paramsProvider";
+// import { useParamsContext } from "../context/paramsProvider";
 // import isEmpty from 'lodash/isEmpty';
 import get from "lodash/get";
 import cloneDeep from "lodash/cloneDeep";
@@ -30,8 +30,8 @@ export const useMountedRef = () => {
 
 // 文档：https://react-query.tanstack.com/reference/useQuery#_top
 export const useListQuery = ({ queryKey, api }, dependencies) => {
-  const { setParams } = useParamsContext();
-  const queryClient = useQueryClient();
+  // const { setParams } = useParamsContext();
+  // const queryClient = useQueryClient();
 
   return useQuery(
     [queryKey, dependencies],
