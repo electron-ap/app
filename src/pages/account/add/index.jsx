@@ -18,7 +18,8 @@ const Add = () => {
         callback: async(props, destoryImplement) => {
           try {
             const [value, suc] = props;
-            const response =await addUserList(value);
+            const account = localStorage.getItem('__authInfo__').name
+            const response =await addUserList({...value, account});
             await suc(response.message);
             // queryClient.invalidateQueries(['user', params]);
             destoryImplement()

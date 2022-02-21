@@ -2,7 +2,7 @@ import {Spin} from "antd";
 import {useParamsContext} from "../../../libs/context/paramsProvider";
 import {useListQuery} from "../../../libs/hooks";
 import {getUserList} from "../../../libs/api/account-api";
-import AccountTableJsx from "./accountTable";
+import AccountTableJsx from "./accountTableJsx";
 
 const AccountTable = () => {
   const { params } = useParamsContext();

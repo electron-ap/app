@@ -1,3 +1,21 @@
+import ActionsJsx from "../../../components/actions";
+
+const actions = [
+  {
+    code: "edit",
+    type: "primary",
+    name: "编辑",
+  },
+  {
+    code: "delete",
+    type: "danger",
+    name: "删除",
+    style: {
+      margin: "0 10px",
+    },
+  },
+];
+
 export const columns = [
   {
     title: "账号名称",
@@ -34,5 +52,12 @@ export const columns = [
     width: 160,
     dataIndex: "gmt_create",
     key: "gmt_create",
+  },
+  {
+    fixed: "right",
+    title: "操作",
+    width: 100,
+    dataIndex: "action",
+    render: (text, record) => <ActionsJsx record={record} actions={actions} />,
   },
 ];
