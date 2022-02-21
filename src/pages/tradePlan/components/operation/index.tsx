@@ -1,15 +1,8 @@
 import { Button } from "antd";
-import { useParamsContext } from "libs/context/paramsProvider";
 import { operate } from "pages/tradePlan/config/operate";
 
 const TradePlanOperation = () => {
-  const { setParams, params } = useParamsContext();
-  const checkoutImpl = (code: string) => {
-    setParams({
-      ...params,
-      state: code,
-    });
-  };
+  const checkoutImpl = (code: string) => {};
   return (
     <div>
       {operate.map(({ code, name, ...props }) => (

@@ -7,10 +7,8 @@ class defaultConfig {
     "Content-Type": "application/json;charset=utf-8",
   };
   protected defaultPath: string;
-  protected config: any;
   constructor() {
     this.defaultPath = "/api/";
-    this.config = {};
   }
   computedIo = (
     url: string,
@@ -24,17 +22,28 @@ class defaultConfig {
     return fetchImplement(this.defaultPath + url, params);
   };
 
-  exceptGet<T>(url: string, params: T) {
-    const computed = { ...this.config.body, ...params };
+  exceptGet<T>(url: string, params: T, config: any) {
+    const { body } = config;
+    let computed = { ...body, ...params };
     if (
-      this.config.headers["Content-Type"] ===
-      "application/x-www-addForm-urlencoded"
+      config.headers["Content-Type"] === "application/x-www-addForm-urlencoded"
     ) {
-      this.config.body = qs.stringify(computed);
+      computed = qs.stringify(computed);
     } else {
-      this.config.body = JSON.stringify(computed);
+      computed = JSON.stringify(computed);
     }
-    return this.computedIo(url, this.config);
+    return this.computedIo(url, { ...config, body: computed });
+  }
+
+  commonImpl(url: string, options: RequestInit = {}, type: string) {
+    const config = {
+      method: type,
+      headers: this.headers,
+      ...options,
+    };
+    return <T>(params?: T) => {
+      return this.exceptGet(url, params, config);
+    };
   }
 }
 
@@ -48,36 +57,15 @@ class Index extends defaultConfig {
   }
 
   post(url: string, options: RequestInit = {}) {
-    this.config = {
-      method: "POST",
-      headers: this.headers,
-      ...options,
-    };
-    return <T>(params?: T) => {
-      return this.exceptGet(url, params);
-    };
+    return this.commonImpl(url, options, "POST");
   }
 
   put(url: string, options: RequestInit = {}) {
-    this.config = {
-      method: "PUT",
-      headers: this.headers,
-      ...options,
-    };
-    return <T>(params?: T) => {
-      return this.exceptGet(url, params);
-    };
+    return this.commonImpl(url, options, "PUT");
   }
 
   delete(url: string, options: RequestInit = {}) {
-    this.config = {
-      method: "DELETE",
-      headers: this.headers,
-      ...options,
-    };
-    return <T>(params?: T) => {
-      return this.exceptGet(url, params);
-    };
+    return this.commonImpl(url, options, "DELETE");
   }
 }
 
