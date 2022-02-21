@@ -1,6 +1,7 @@
 import {useEffect} from "react";
 import {getUserList} from "../../libs/api/account-api";
 import Add from "./add";
+import AccountTable from "./table";
 
 const Account = () => {
   useEffect(() => {
@@ -11,6 +12,7 @@ const Account = () => {
   return (
     <>
       <Add />
+      <AccountTable/>
     </>
   )
 }

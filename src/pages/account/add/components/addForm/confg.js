@@ -3,12 +3,9 @@ export const addFormConfig = {
   fields: [
     {
       label: "账号名称",
-      name: "account",
+      name: "name",
       type: "text",
       extraProps: {
-        style: {
-          // width: 200,
-        },
         placeholder: "请输入账号名称",
       },
       rules: [
@@ -23,9 +20,6 @@ export const addFormConfig = {
       name: "rolesId",
       type: "select",
       extraProps: {
-        style: {
-          // width: 200,
-        },
         options: [
           {
             label: "管理",
@@ -50,16 +44,31 @@ export const addFormConfig = {
       ],
     },
     {
+      label: "登录密码",
+      name: "password",
+      type: "text",
+      extraProps: {
+        placeholder: "请输入登录密码",
+      },
+      rules: [
+        {
+          required: true,
+          message: "请输入登录密码",
+        },
+      ],
+    },
+    {
       label: "电子邮箱",
       name: "email",
       type: "text",
       extraProps: {
-        style: {
-          // width: 200,
-        },
         placeholder: "请输入电子邮箱",
       },
       rules: [
+        {
+          required: true,
+          message: "请输入账号名称",
+        },
         {
           type: "email",
           message: "请输入正确的电子邮箱",
@@ -71,11 +80,14 @@ export const addFormConfig = {
       name: "telephone",
       type: "text",
       extraProps: {
-        style: {
-          // width: 200,
-        },
         placeholder: "请输入联系方式",
       },
+      rules: [
+        {
+          required: true,
+          message: "请输入账号名称",
+        },
+      ],
     },
   ],
 };
