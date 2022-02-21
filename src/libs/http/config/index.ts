@@ -28,7 +28,7 @@ class defaultConfig {
     const computed = { ...this.config.body, ...params };
     if (
       this.config.headers["Content-Type"] ===
-      "application/x-www-form-urlencoded"
+      "application/x-www-addForm-urlencoded"
     ) {
       this.config.body = qs.stringify(computed);
     } else {
