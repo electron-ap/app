@@ -1,32 +1,29 @@
 import Button from "antd/lib/button";
 import {PlusCircleOutlined} from "@ant-design/icons";
-import AddForm from "./components/addForm";
+import AccountForm from "../accountForm";
 import dialogJsx from "../../../libs/utils/dialogJsx";
 import {addUserList} from "../../../libs/api/account-api";
-// import {useQueryClient} from "react-query";
-import {message} from 'antd';
 import util from "../../../libs/utils/util";
+import {useQueryClient} from "react-query";
 
 const Add = () => {
 
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   const handleModal =  () => {
-    dialogJsx(AddForm, {
+    dialogJsx(AccountForm, {
       dialogConfig: {
         title: '创建账号'
       },
       restsProps: {
-        callback: async(props, destoryImplement) => {
+        callback: async(destoryImplement, value, suc, error) => {
           try {
-            const [value, suc] = props;
             const account = util.getStorage('__authInfo__').name
-            console.log(24, {...value, account})
-            const response =await addUserList({...value, account});
-            await suc(response.message);
-            // queryClient.invalidateQueries(['user', params]);
+            await addUserList({...value, account})
+            suc();
+            await queryClient.invalidateQueries('user');
             destoryImplement()
-          }catch (err) {
-            message.error(err)
+          } catch (err) {
+            error();
           }
         }
       }

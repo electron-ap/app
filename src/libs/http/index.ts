@@ -46,7 +46,7 @@ export default function fetchImplement(
   return new Promise(function (resolve, reject) {
     fetch(url, config)
       .then((data: any) => {
-        if (!data.code) {
+        if (!data.hasOwnProperty("code")) {
           resolve(data);
         } else if (data.code === 200) {
           if ([null].includes(data.data)) {

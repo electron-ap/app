@@ -72,7 +72,7 @@ const DynamicForm = ({
           (msg) => {
             const { setFieldsValue, getFieldsValue } = form;
             setIsSubmitting(false);
-            setFieldsValue(getFieldsValue()); // reset addForm touched state
+            setFieldsValue(getFieldsValue()); // reset accountForm touched state
             if (msg) message.success(msg);
           },
           () => {
