@@ -1,7 +1,15 @@
 import ReactDOM from "react-dom";
-import { Modal } from "antd";
+import { Modal, ModalProps } from "antd";
+import { ReactNode } from "react";
 
-const diaglogJsx = (DialogComponent, props) => {
+const diaglogJsx = (
+  DialogComponent: any,
+  props: {
+    dialogConfig: JSX.IntrinsicAttributes &
+      ModalProps & { children?: ReactNode };
+    restsProps: any;
+  }
+) => {
   const container = document.createElement("div");
   document.body.appendChild(container);
 

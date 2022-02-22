@@ -14,7 +14,7 @@ export interface TablePropsType {
 }
 
 export interface TableType {
-  callback: (...arg: Array<any>) => void;
+  callback?: (...arg: Array<any>) => void;
   data: tableDataType;
   columns: Array<{ [v: string]: unknown }>;
   [v: string]: unknown;

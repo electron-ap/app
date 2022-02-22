@@ -10,7 +10,7 @@ import omit from "lodash/omit";
 const AuthorityContext = React.createContext<{
   user: User | null;
   loginImplement: (...args: submitType<loginForm>) => void;
-  loginOutImplement: () => void;
+  loginOutImplement: (e: any) => void;
 } | null>(null);
 
 AuthorityContext.displayName = "AuthorityContext";

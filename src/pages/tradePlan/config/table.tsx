@@ -1,3 +1,4 @@
+import { ColumnsType } from "antd/lib/table";
 import ActionsJsx, { actionsType } from "components/actions";
 
 const actions = [
@@ -18,26 +19,36 @@ const actions = [
     name: "退回",
   },
 ] as Array<actionsType>;
+//
+// export interface TradePlanType {
+//   productName: string;
+//   distribution: string;
+//   planMonth: string;
+//   applyUser: string;
+//   invoicePlateType: string;
+//   invoiceBalance: string;
+//   invoiceTotal: string;
+//   invoiceUsable: string;
+//   productGeneralCategory: string;
+//   state: string;
+// }
 
 export const columns = [
   {
     title: "序号",
     dataIndex: "orderNumber",
-    key: "orderNumber",
     width: 80,
-    render: (text: any, data: string, ind: number) => ind + 1,
+    render: (text: any, data: object, ind: number) => ind + 1,
   },
   {
     title: "公司名称",
-    width: 160,
-
-    dataIndex: "productName",
-    key: "productName",
+    width: 200,
+    dataIndex: "companyName",
+    key: "companyName",
   },
   {
     title: "分配情况",
     width: 80,
-
     dataIndex: "distribution",
     key: "distribution",
   },
@@ -50,14 +61,12 @@ export const columns = [
   {
     title: "申请人",
     width: 80,
-
     dataIndex: "applyUser",
     key: "applyUser",
   },
   {
     title: "发票版型",
     width: 80,
-
     dataIndex: "invoicePlateType",
     key: "invoicePlateType",
   },
@@ -69,19 +78,19 @@ export const columns = [
   },
   {
     title: "上月发票结余（元）",
-    width: 200,
-    dataIndex: "invoiceTotal",
-    key: "invoiceTotal",
+    width: 180,
+    dataIndex: "invoiceBalance",
+    key: "invoiceBalance",
   },
   {
     title: "发票总金额（元）",
-    width: 200,
+    width: 160,
     dataIndex: "invoiceTotal",
     key: "invoiceTotal",
   },
   {
     title: "可使用发票总金额（元）",
-    width: 240,
+    width: 220,
     dataIndex: "invoiceUsable",
     key: "invoiceUsable",
   },
@@ -89,7 +98,6 @@ export const columns = [
     title: "产品总类",
     dataIndex: "productGeneralCategory",
     width: 80,
-
     key: "productGeneralCategory",
   },
   // {
@@ -128,7 +136,7 @@ export const columns = [
     title: "操作",
     width: 240,
     dataIndex: "action",
-    render: (text: any, record: object) => (
+    render: (text: string, record: object) => (
       <ActionsJsx record={record} actions={actions} />
     ),
   },

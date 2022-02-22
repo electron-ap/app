@@ -4,7 +4,7 @@ import { operate } from "pages/tradePlan/config/stateOperate";
 
 const TradePlanStateOperation = () => {
   const { setParams, params } = useParamsContext();
-  const checkoutImpl = (code: string) => {
+  const checkoutImpl = (code: string | number) => {
     setParams({
       ...params,
       state: code,

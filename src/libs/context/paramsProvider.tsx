@@ -6,8 +6,9 @@ import React, {
   Dispatch,
 } from "react";
 import { paramsType } from "libs/types/queryParamsType";
-
 const ParamsProvider = createContext<{
+  selectsRow: Array<any>;
+  setSelectsRow: Dispatch<Array<any>>;
   params: paramsType | null;
   setParams: Dispatch<paramsType | null>;
 } | null>(null);
@@ -16,10 +17,13 @@ ParamsProvider.displayName = "paramsContext";
 
 const ParamsContextProvider = ({ children }: { children: ReactNode }) => {
   const [params, setParams] = useState<paramsType | null>(null);
+  const [selectsRow, setSelectsRow] = useState<Array<any>>([]);
 
   return (
     <ParamsProvider.Provider
       value={{
+        selectsRow,
+        setSelectsRow,
         params,
         setParams,
       }}

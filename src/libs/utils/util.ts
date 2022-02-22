@@ -32,5 +32,21 @@ class Util {
       window.localStorage.clear();
     }
   }
+
+  /**
+   * 保存为文件，下载文件
+   */
+  saveShareContent(content: any, fileName: string) {
+    const downLink = document.createElement("a");
+    downLink.download = fileName;
+    // 字符内容转换为blod地址
+    const blob = new Blob([content]);
+    downLink.href = URL.createObjectURL(blob);
+    // 链接插入到页面
+    document.body.appendChild(downLink);
+    downLink.click();
+    // 移除下载链接
+    document.body.removeChild(downLink);
+  }
 }
 export default new Util();

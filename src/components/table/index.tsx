@@ -3,6 +3,7 @@ import { Table } from "antd";
 import { useParamsContext } from "libs/context/paramsProvider";
 import { paramsType } from "libs/types/queryParamsType";
 import { TableType } from "libs/types/table";
+import isFunction from "lodash/isFunction";
 
 const TableJsx = ({ callback, data, columns, ...props }: TableType) => {
   const { setParams } = useParamsContext();
@@ -37,8 +38,7 @@ const TableJsx = ({ callback, data, columns, ...props }: TableType) => {
       if (!table.current?.contains(button)) return;
 
       const action = button.dataset.action;
-      if (!action) return;
-
+      if (!action || !isFunction(callback)) return;
       callback(action, JSON.parse(button.dataset.record));
     },
     [callback]

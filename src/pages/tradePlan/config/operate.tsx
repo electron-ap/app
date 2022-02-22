@@ -22,12 +22,12 @@ export const operate = [
     },
   },
   {
-    code: "delete",
+    code: "download",
     name: "下载计划",
     icon: <DownloadOutlined />,
   },
   {
-    code: "allDelete",
+    code: "batchDelete",
     name: "批量删除",
     icon: <DeleteOutlined />,
     type: "danger" as ButtonType,
