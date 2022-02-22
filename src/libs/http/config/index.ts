@@ -72,7 +72,7 @@ class Index extends defaultConfig {
 const xhrFactory = (() => {
   let instance: Index | null = null;
 
-  const createInstance = () => {
+  return () => {
     console.log(82);
     if (!instance) {
       console.log(84);
@@ -80,7 +80,6 @@ const xhrFactory = (() => {
     }
     return instance;
   };
-  return createInstance;
 })();
 
 export default xhrFactory();

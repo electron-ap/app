@@ -6,19 +6,36 @@ import utils from "libs/utils/util";
 import { exportExcel } from "libs/utils/excel";
 import { columns } from "pages/tradePlan/config/table";
 import util from "libs/utils/util";
+import { tradePlanDelete } from "libs/api/trade-plan";
+import { useQueryClient } from "react-query";
+import { modelHandler } from "libs/utils/model";
+import { useNavigate } from "react-router-dom";
+
 const TradePlanOperation = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { selectsRow } = useParamsContext();
 
-  const addImpl = () => {};
+  const addImpl = () => {
+    navigate("/TradePlan/add");
+  };
 
   const uploadImpl = () => {};
 
   const downloadImpl = () => {
     exportExcel(columns, selectsRow);
-    // utils.saveShareContent([selectKey], 'XXXXX.xlsx')
   };
 
-  const deleteImpl = () => {};
+  const deleteImpl = () => {
+    modelHandler({
+      onOk: async (e: any) => {
+        e();
+        const ids = selectsRow.map((item) => item.id);
+        const result = await tradePlanDelete({ ids });
+        queryClient.invalidateQueries("trade");
+      },
+    });
+  };
 
   const checkoutImpl = (code: string) => {
     switch (code) {

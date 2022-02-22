@@ -2,9 +2,11 @@ import TableJsx from "components/table";
 import { tradePlanDelete } from "libs/api/trade-plan";
 import { TablePropsType } from "libs/types/table";
 import { modelHandler } from "libs/utils/model";
+import { useQueryClient } from "react-query";
 import { columns } from "../../config/table";
 
 const PlanTableJsx = ({ params, queryKey, ...resetProps }: TablePropsType) => {
+  const queryClient = useQueryClient();
   const callback = (actions: string, data: { [v: string]: unknown }) => {
     switch (actions) {
       case "delete":
@@ -20,7 +22,8 @@ const PlanTableJsx = ({ params, queryKey, ...resetProps }: TablePropsType) => {
     modelHandler({
       onOk: async (e: any) => {
         e();
-        tradePlanDelete({ ids: data.id });
+        const result = await tradePlanDelete({ ids: [data.id] });
+        queryClient.invalidateQueries(queryKey);
       },
     });
   };

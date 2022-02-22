@@ -6,7 +6,7 @@ import { TableType } from "libs/types/table";
 import isFunction from "lodash/isFunction";
 
 const TableJsx = ({ callback, data, columns, ...props }: TableType) => {
-  const { setParams } = useParamsContext();
+  const { setParams, params } = useParamsContext();
   const table = useRef<Element | null>(null);
   const [height, setHeight] = useState<string>("0");
   const [width, setWidth] = useState(0);
@@ -53,19 +53,19 @@ const TableJsx = ({ callback, data, columns, ...props }: TableType) => {
         dataSource={data.list}
         columns={columns}
         pagination={
-          data?.currentPage
+          data?.total
             ? {
                 showQuickJumper: true,
                 showTotal: () => `共${data.total}条`,
-                pageSize: Number(data.perPage),
-                current: Number(data.currentPage),
+                pageSize: params?.perPage || 2,
+                current: params?.currentPage || 1,
                 total: Number(data.total),
                 size: "small",
                 onChange: (current, pageSize) =>
                   setParams((prev: paramsType) => ({
                     ...prev,
-                    page: current,
-                    page_size: pageSize,
+                    current,
+                    pageSize,
                   })),
               }
             : false
