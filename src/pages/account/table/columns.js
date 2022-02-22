@@ -18,6 +18,12 @@ const actions = [
 
 export const columns = [
   {
+    title: "序号",
+    dataIndex: "orderNumber",
+    width: 80,
+    render: (text, data, ind) => ind + 1,
+  },
+  {
     title: "账号名称",
     width: 160,
     dataIndex: "name",
@@ -30,16 +36,10 @@ export const columns = [
     key: "rolesName",
   },
   {
-    title: "角色",
-    width: 160,
-    dataIndex: "rolesName",
-    key: "rolesName",
-  },
-  {
     title: "电子邮箱",
     width: 160,
-    dataIndex: "mail",
-    key: "mail",
+    dataIndex: "email",
+    key: "email",
   },
   {
     title: "联系方式",

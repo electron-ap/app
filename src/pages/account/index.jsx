@@ -1,17 +1,18 @@
-import {useEffect} from "react";
-import {getUserList} from "../../libs/api/account-api";
 import Add from "./add";
 import AccountTable from "./table";
+import AccountSearch from "./accountSearch";
 
 const Account = () => {
-  useEffect(() => {
-    getUserList().then(res => {
-      console.log(res)
-    })
-  }, [])
   return (
     <>
-      <Add />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}>
+        <AccountSearch/>
+        <Add />
+      </div>
       <AccountTable/>
     </>
   )
