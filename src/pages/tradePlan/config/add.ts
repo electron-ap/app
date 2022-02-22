@@ -26,6 +26,40 @@ const right = {
   width: "30%",
   marginLeft: "20%",
 };
+
+export const productsConfig = [
+  {
+    style: left,
+    label: "产品种类",
+    name: "productId",
+    type: "select",
+    rules: [{ required: true, message: "请输入" }],
+    extraProps: {
+      optionsName: "name",
+      optionsKey: "id",
+      options: [],
+    },
+  },
+  {
+    style: right,
+    label: "预计利润",
+    name: "profit",
+    type: "number",
+  },
+  {
+    style: left,
+    label: "毛利率",
+    name: "grossMargin",
+    type: "number",
+  },
+  {
+    style: right,
+    label: "备注",
+    name: "remark",
+    type: "textarea",
+  },
+];
+
 export const fieldsForm: Array<FieldType> = [
   {
     style: left,
@@ -33,7 +67,10 @@ export const fieldsForm: Array<FieldType> = [
     name: "companyID",
     rules: [{ required: true, message: "请选择" }],
     type: "select",
-    extraProps: {},
+    extraProps: {
+      optionsName: "name",
+      optionsKey: "id",
+    },
   },
   {
     style: right,
@@ -48,7 +85,10 @@ export const fieldsForm: Array<FieldType> = [
     name: "invoicePlateType",
     rules: [{ required: true, message: "请选择" }],
     type: "select",
-    extraProps: {},
+    extraProps: {
+      optionsName: "name",
+      optionsKey: "id",
+    },
   },
   {
     style: right,
@@ -84,6 +124,15 @@ export const fieldsForm: Array<FieldType> = [
     type: "text",
     rules: [{ required: true, message: "请输入" }],
   },
+  // {
+  //     name: "上月发票结余xxxxxx",
+  //     // noStyle: true,
+  //     calIsVisible: (getFieldsValue) => !getFieldsValue(["complex", "isVisible"]),
+  //     type: "complex",
+  //     extraProps: {
+  //         innerForm: extralFormConfig,
+  //     },
+  // },
   // {
   //     label: "增版增量",
   //     name: "editionIncr",
@@ -122,35 +171,4 @@ export const fieldsForm: Array<FieldType> = [
   //     name: "orther",
   //     type: "text",
   // },
-];
-
-export const productsConfig = [
-  {
-    style: left,
-    label: "产品种类",
-    name: "productId",
-    type: "select",
-    rules: [{ required: true, message: "请输入" }],
-    extraProps: {
-      options: [],
-    },
-  },
-  {
-    style: right,
-    label: "预计利润",
-    name: "profit",
-    type: "number",
-  },
-  {
-    style: left,
-    label: "毛利率",
-    name: "grossMargin",
-    type: "number",
-  },
-  {
-    style: right,
-    label: "备注",
-    name: "remark",
-    type: "textarea",
-  },
 ];

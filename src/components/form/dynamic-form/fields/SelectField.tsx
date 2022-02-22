@@ -8,8 +8,8 @@ const SelectFields = ({
   ...restProps
 }: {
   options: Array<{ [v: string]: string | number }>;
-  optionsName: string;
-  optionsKey: string;
+  optionsName: string | undefined;
+  optionsKey: string | undefined;
 }) => {
   return (
     <Select
