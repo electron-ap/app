@@ -1,7 +1,10 @@
+import DynamicForm from "../../../../components/form";
+import {formFields} from "./config";
+
 const LinkForm = () => {
   return (
     <>
-      123
+      <DynamicForm onSubmit={() => {}} fields={formFields}/>
     </>
   )
 }
