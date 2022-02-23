@@ -2,7 +2,7 @@
   "name": "electron-app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://125.39.187.38:8686/",
+  "proxy": "http://139.224.110.251:8686/",
   "main": "public/main.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
