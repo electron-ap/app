@@ -53,14 +53,14 @@ const AddForm = ({ dataOptions }: { dataOptions: dataOptonsType }) => {
   };
 
   // 公司配置项
-  const initCompany = () => {
+  const initCompany = useCallback(() => {
     const { companyOptions, invoicePlateOptions } = dataOptions;
     const fetchCompanyForm = companyFieldsImpl(
       companyOptions,
       invoicePlateOptions
     );
     setCompanyForm(fetchCompanyForm);
-  };
+  }, [setCompanyForm]);
 
   // 产品配置项
   const initProduct = useCallback(
@@ -77,11 +77,14 @@ const AddForm = ({ dataOptions }: { dataOptions: dataOptonsType }) => {
     [setProductForm]
   );
 
-  const reduce = (id: string) => {
-    console.log(productForm);
-    const arr = productForm.filter((item) => item.name !== id);
-    setProductForm(arr);
-  };
+  const reduce = useCallback(
+    (id: string) => {
+      console.log(productForm);
+      const arr = productForm.filter((item) => item.name !== id);
+      setProductForm(arr);
+    },
+    [setProductForm]
+  );
 
   const onSubmit = (...args: submitType) => {
     const [value, suc] = args;
