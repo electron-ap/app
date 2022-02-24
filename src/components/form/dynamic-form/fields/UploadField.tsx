@@ -8,14 +8,14 @@ export default function UploadField({
   name,
   form,
   maxLength = 1,
-  text,
+  label,
   disabled,
   ...extraProps
 }: {
   name: NamePath;
   maxLength?: number;
   form: FormInstance;
-  text: string;
+  label?: string;
   disabled: boolean;
 }) {
   const isDisabled =
@@ -24,7 +24,7 @@ export default function UploadField({
   return (
     <Upload {...extraProps} beforeUpload={() => false}>
       <Button disabled={isDisabled} icon={<UploadOutlined />}>
-        {text}
+        {label}
       </Button>
     </Upload>
   );

@@ -2,14 +2,14 @@ import Select from "antd/lib/select";
 const { Option } = Select;
 
 const SelectFields = ({
-  options,
+  options = [],
   optionsName = "label",
   optionsKey = "value",
   ...restProps
 }: {
-  options: Array<{ [v: string]: string | number }>;
-  optionsName: string | undefined;
-  optionsKey: string | undefined;
+  options?: Array<{ [v: string]: string | number }>;
+  optionsName?: string | undefined;
+  optionsKey?: string | undefined;
 }) => {
   return (
     <Select

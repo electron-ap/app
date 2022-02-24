@@ -17,3 +17,6 @@ export const invoiceTypes = xhrFactory.get("/GlobalList/InvoiceTypes");
 
 // 公司产品
 export const companyProduct = xhrFactory.get("/GlobalList/CompanyProduct");
+
+// 添加计划
+export const addPlan = xhrFactory.post("/TradePlan/crud");

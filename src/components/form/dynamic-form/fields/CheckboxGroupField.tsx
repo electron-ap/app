@@ -4,13 +4,13 @@ import ComplexFields from "./ComplexFields";
 type emums = "vertical" | "horizontal";
 export default function CheckboxGroupField({
   form,
-  options,
+  options = [],
   direction = "horizontal",
   ...extraProps
 }: {
   form: FormInstance;
-  direction: emums;
-  options: Array<any>;
+  direction?: emums;
+  options?: Array<any>;
 }) {
   return (
     <Checkbox.Group {...extraProps}>

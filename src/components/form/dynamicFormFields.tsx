@@ -69,7 +69,9 @@ const dynamicFormFields = (fields: Array<FieldType>, form: FormInstance) => {
           {({ getFieldValue }) =>
             calIsVisible(getFieldValue) ? (
               <>
-                {isFunction(prefixIcon) ? prefixIcon(form) : prefixIcon}
+                {isFunction(prefixIcon)
+                  ? prefixIcon(getFieldValue)
+                  : prefixIcon}
                 <FormItem {...formItemProps}>
                   <FieldComponent
                     form={form}
@@ -78,7 +80,9 @@ const dynamicFormFields = (fields: Array<FieldType>, form: FormInstance) => {
                     {...extraProps}
                   />
                 </FormItem>
-                {isFunction(suffixIcon) ? suffixIcon(form) : suffixIcon}
+                {isFunction(suffixIcon)
+                  ? suffixIcon(getFieldValue)
+                  : suffixIcon}
               </>
             ) : null
           }
