@@ -1,29 +1,47 @@
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 
 import './style.scss';
 import one from './img/1.png';
 
 
 const PHeader = ({routerArr}) => {
-  let navigate = useLocation();
+  let location = useLocation();
+  let navigate = useNavigate();
+
+  const goPage = (secondMenu) => {
+    navigate(secondMenu.url)
+  }
 
   return (
     <div className={'pHeaderWrap'}>
       <div className={'pHeader'}>
         <div className={'logoBlc'}>
           <img src={one} alt="" className={'logo'}/>
-          <h1>贸易链智慧管理系统</h1>
+          {/*<h1>贸易链智慧管理系统</h1>*/}
+          <h1>诊断PC动态模版Demo</h1>
         </div>
-        <ul>
+        <ul className={'menu'}>
           {
             routerArr.map(item => {
               return (
-                <Link to={item.route} key={item.key}>
-                  <li className={navigate.pathname.slice(1)===item.route?'active': ''}>
-                    <img src={item.url} alt=""/>
+                <li className={location.pathname?.slice(1)===item.path?'active menuItem': 'menuItem'} key={item.path}>
+                  <Link to={`/${item.path}`} >
+                    <img src={item.icon} alt=""/>
                     <h3>{item.title}</h3>
-                  </li>
-                </Link>
+                  </Link>
+                  {
+                    item.secondMenu?
+                    <ul>
+                      {
+                        item.secondMenu.map((secondMenu, index) => {
+                          return (
+                            <li key={index} onClick={goPage.bind(null, secondMenu)}>{secondMenu.title}</li>
+                          )
+                        })
+                      }
+                    </ul>:null
+                  }
+                </li>
               )
             })
           }
