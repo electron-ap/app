@@ -12,8 +12,8 @@ const Information = () => {
   return (
     <>
       {/*<h1>信息管理</h1>*/}
-      {/*<Company/>*/}
-      <LinkForm/>
+      <Company/>
+      {/*<LinkForm/>*/}
       {/*<Button onClick={() => {*/}
       {/*  navigate('./tradePlan')*/}
       {/*}}>button</Button>*/}

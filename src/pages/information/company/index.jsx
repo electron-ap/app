@@ -12,6 +12,7 @@ const Company = () => {
 
   return (
     <>
+      Company
       <CompanySearch/>
       <CompanyTable/>
     </>
