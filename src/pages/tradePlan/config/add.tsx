@@ -1,23 +1,22 @@
-import { FormInstance, FormLayout } from "antd/lib/form/Form";
-import { FieldType, NamePath } from "libs/types/formField";
+import { NamePath } from "libs/types/formField";
 import { TitleAndButton, MinusButton } from "../components/add/addButton";
 
 const nzhcn = require("nzh/cn");
 
-const extralFormConfig = [
-  {
-    label: "资料提交截止日",
-    name: "stopTime",
-    rules: [{ required: true, message: "请选择" }],
-    type: "date",
-  },
-  {
-    label: "办理所需时间",
-    name: "needTime",
-    rules: [{ required: true, message: "请输入" }],
-    type: "text",
-  },
-];
+// const extralFormConfig = [
+//   {
+//     label: "资料提交截止日",
+//     name: "stopTime",
+//     rules: [{ required: true, message: "请选择" }],
+//     type: "date",
+//   },
+//   {
+//     label: "办理所需时间",
+//     name: "needTime",
+//     rules: [{ required: true, message: "请输入" }],
+//     type: "text",
+//   },
+// ];
 
 const normalAndAndTop = {
   width: "30%",
@@ -33,7 +32,10 @@ const normal = {
 };
 
 // id = 0 为默认值
-export const productMain = (id: string = "0") => [
+export const productFieldImpl = (
+  id: string = "0",
+  productOptions: Array<any> = []
+) => [
   {
     style: normalAndPadding,
     label: "产品种类",
@@ -43,12 +45,7 @@ export const productMain = (id: string = "0") => [
     extraProps: {
       optionsName: "name",
       optionsKey: "id",
-      options: [
-        {
-          id: 1,
-          name: "123123",
-        },
-      ],
+      options: productOptions,
     },
   },
   {
@@ -140,31 +137,23 @@ export const productMain = (id: string = "0") => [
   },
 ];
 
-export const productsConfigHeader = [
+export const productsHeaderImpl = (id: string = "0", innerForm: Array<any>) => [
   {
-    name: "0", // 默认选项
+    name: id, // 默认选项
     noStyle: true,
-    prefixIcon: () => <TitleAndButton />,
+    prefixIcon: () =>
+      id === "0" ? <TitleAndButton /> : <MinusButton id={id} />,
     type: "complex",
     extraProps: {
-      innerForm: [],
+      innerForm,
     },
   },
 ];
 
-export const appendProductsImpl = (id: string) => [
-  {
-    name: id,
-    noStyle: true,
-    prefixIcon: () => <MinusButton id={id} />,
-    type: "complex",
-    extraProps: {
-      innerForm: [],
-    },
-  },
-];
-
-export const fieldsForm: Array<FieldType> = [
+export const companyFieldsImpl = (
+  companyOptions: Array<any> = [],
+  invoicePlateTypeOptions: Array<any> = []
+) => [
   {
     style: normalAndPadding,
     label: "公司名称",
@@ -174,12 +163,7 @@ export const fieldsForm: Array<FieldType> = [
     extraProps: {
       optionsName: "name",
       optionsKey: "id",
-      options: [
-        {
-          id: 1,
-          name: "123123",
-        },
-      ],
+      options: companyOptions,
     },
   },
   {
@@ -223,12 +207,7 @@ export const fieldsForm: Array<FieldType> = [
     extraProps: {
       optionsName: "name",
       optionsKey: "id",
-      options: [
-        {
-          id: 1,
-          name: "123123",
-        },
-      ],
+      options: invoicePlateTypeOptions,
     },
   },
   {

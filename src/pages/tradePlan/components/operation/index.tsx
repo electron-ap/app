@@ -1,11 +1,8 @@
 import { Button } from "antd";
 import { useParamsContext } from "libs/context/paramsProvider";
-import dialogJsx from "libs/utils/dialogJsx";
 import { operate } from "pages/tradePlan/config/operate";
-import utils from "libs/utils/util";
 import { exportExcel } from "libs/utils/excel";
 import { columns } from "pages/tradePlan/config/table";
-import util from "libs/utils/util";
 import { tradePlanDelete } from "libs/api/trade-plan";
 import { useQueryClient } from "react-query";
 import { modelHandler } from "libs/utils/model";
@@ -31,7 +28,7 @@ const TradePlanOperation = () => {
       onOk: async (e: any) => {
         e();
         const ids = selectsRow.map((item) => item.id);
-        const result = await tradePlanDelete({ ids });
+        await tradePlanDelete({ ids });
         queryClient.invalidateQueries("trade");
       },
     });

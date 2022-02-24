@@ -8,7 +8,7 @@ class defaultConfig {
   };
   protected defaultPath: string;
   constructor() {
-    this.defaultPath = "/api/";
+    this.defaultPath = "/api";
   }
   computedIo = (
     url: string,

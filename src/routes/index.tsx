@@ -18,7 +18,6 @@ import Account from "pages/account";
 import five from "components/pheader/img/5.png";
 import System from "pages/system";
 
-import { ReactNode } from "react";
 import { PathRouteProps } from "react-router-dom";
 
 interface RouterTypeSon {

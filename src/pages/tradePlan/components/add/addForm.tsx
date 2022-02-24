@@ -1,38 +1,26 @@
 import DynamicForm from "components/form";
-import {
-  addPlan,
-  companyProduct,
-  fetchCompany,
-  invoiceTypes,
-} from "libs/api/trade-plan";
+// import {
+//   addPlan,
+// } from "libs/api/trade-plan";
 import { submitType } from "libs/types/formField";
 import {
-  productsConfigHeader,
-  appendProductsImpl,
-  productMain,
+  companyFieldsImpl,
+  productFieldImpl,
+  productsHeaderImpl,
 } from "pages/tradePlan/config/add";
-import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
-import Button from "antd/lib/button";
-import { Fragment, useEffect, useState } from "react";
-import { useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { dataOptonsType } from ".";
 
-const AddForm = ({ companyForm }: { companyForm: Array<any> }) => {
+const AddForm = ({ dataOptions }: { dataOptions: dataOptonsType }) => {
   const container = useRef<Element | null>(null);
-  // // const [fieldsInitialValue, setFields] = useState<Array<any>>([]);
-  // // 获取产品options的产品配置
-  // const [computdProduct, setProduct] = useState<Array<any>>([]);
-  // // // 获取带头的产品配置
-  const [defaultProduct, setProductConfig] = useState<Array<any>>([]);
-  // //
-  // // // 获取带头的产品配置
-  const [appendConfig, setAppendConfig] = useState<Array<any>>([]);
+  const [productForm, setProductForm] = useState<Array<any>>([]);
+  const [companyForm, setCompanyForm] = useState<Array<any>>([]);
 
+  console.log(productForm, companyForm);
   useEffect(() => {
-    productsConfigHeader[0].extraProps = {
-      innerForm: productMain(),
-    } as any;
-    setProductConfig([...productsConfigHeader]);
-  }, [companyForm]);
+    initCompany();
+    initProduct();
+  }, [dataOptions]);
 
   useEffect(() => {
     container.current = document.querySelector("#tradePlanContainer");
@@ -46,36 +34,61 @@ const AddForm = ({ companyForm }: { companyForm: Array<any> }) => {
       );
   });
 
-  const tradeClickImplement = useCallback(
-    (e: any) => {
-      const button = e.target.closest("button");
-      if (!button) return;
-      const action = button.dataset.action;
-      const id = button.dataset.id;
-      if (!action) return;
-      switch (action) {
-        case "add":
-          add();
-          break;
-        case "reduce":
-          reduce(id);
-          break;
-        default:
-          break;
+  const tradeClickImplement = (e: any) => {
+    const button = e.target.closest("button");
+    if (!button) return;
+    const action = button.dataset.action;
+    const id = button.dataset.id;
+    if (!action) return;
+    switch (action) {
+      case "add":
+        add();
+        break;
+      case "reduce":
+        reduce(id);
+        break;
+      default:
+        break;
+    }
+  };
+
+  // 公司配置项
+  const initCompany = () => {
+    const { companyOptions, invoicePlateOptions } = dataOptions;
+    const fetchCompanyForm = companyFieldsImpl(
+      companyOptions,
+      invoicePlateOptions
+    );
+    setCompanyForm(fetchCompanyForm);
+  };
+
+  // 产品配置项
+  const initProduct = useCallback(
+    (id: string = "0") => {
+      const { productOptions } = dataOptions;
+      const productFormConfig = productFieldImpl(id, productOptions);
+      const fetchProductForm = productsHeaderImpl(id, productFormConfig);
+      if (id === "0") {
+        setProductForm(fetchProductForm);
+      } else {
+        setProductForm((prev) => prev.concat(fetchProductForm));
       }
     },
-    [appendConfig]
+    [setProductForm]
   );
 
   const reduce = (id: string) => {
-    const arr = appendConfig.filter((item) => item.name !== id);
-    setAppendConfig(arr);
+    console.log(productForm);
+    const arr = productForm.filter((item) => item.name !== id);
+    setProductForm(arr);
   };
+
   const onSubmit = (...args: submitType) => {
-    const [value, suc, error] = args;
+    const [value, suc] = args;
     const { ticket, ...reset } = value;
     console.log(value);
     const restParams = computedValue(reset);
+    console.log(restParams);
     // addPlan({
     //     products: restParams,
     //     ticket,
@@ -95,11 +108,7 @@ const AddForm = ({ companyForm }: { companyForm: Array<any> }) => {
 
   const add = () => {
     const id = new Date().valueOf() + "";
-    const config = appendProductsImpl(id);
-    config[0].extraProps = {
-      innerForm: productMain(id),
-    } as any;
-    setAppendConfig((prev) => prev.concat(config));
+    initProduct(id);
   };
 
   return (
@@ -108,7 +117,7 @@ const AddForm = ({ companyForm }: { companyForm: Array<any> }) => {
       <DynamicForm
         onSubmit={onSubmit}
         saveText={"保存"}
-        fields={[...companyForm, ...defaultProduct, ...appendConfig]}
+        fields={[...companyForm, ...productForm]}
         layout={"vertical"}
       />
     </>

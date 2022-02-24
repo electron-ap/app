@@ -1,4 +1,3 @@
-import { ColumnsType } from "antd/lib/table";
 import ActionsJsx, { actionsType } from "components/actions";
 
 const actions = [

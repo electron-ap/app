@@ -22,7 +22,7 @@ const PlanTableJsx = ({ params, queryKey, ...resetProps }: TablePropsType) => {
     modelHandler({
       onOk: async (e: any) => {
         e();
-        const result = await tradePlanDelete({ ids: [data.id] });
+        await tradePlanDelete({ ids: [data.id] });
         queryClient.invalidateQueries(queryKey);
       },
     });
