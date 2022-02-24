@@ -6,7 +6,7 @@ const innerForm = (key: number, value: number): Array<FieldType> => [
     noStyle: true,
     colon: false,
     name: ["users", "selectUserDes", key],
-    calIsDisabled: (getFieldValue) =>
+    calIsDisabled: ({ getFieldValue }) =>
       !(getFieldValue(["users", "selectUser"]) || []).includes(value),
     type: "select",
     extraProps: {

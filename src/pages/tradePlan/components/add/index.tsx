@@ -27,9 +27,27 @@ const TradePlanAdd = () => {
         ]);
 
         const data = {
-          companyOptions: datas[0].list,
-          invoicePlateOptions: datas[1].list,
-          productOptions: datas[2].list,
+          // companyOptions: datas[0].list,
+          // invoicePlateOptions: datas[1].list,
+          // productOptions: datas[2].list,
+          companyOptions: [
+            {
+              name: "公司1",
+              id: 1,
+            },
+          ],
+          invoicePlateOptions: [
+            {
+              name: "万元版",
+              id: 1,
+            },
+          ],
+          productOptions: [
+            {
+              name: "产品1",
+              id: 1,
+            },
+          ],
         };
 
         setOptions(data);

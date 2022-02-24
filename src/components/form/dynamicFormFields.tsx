@@ -66,23 +66,19 @@ const dynamicFormFields = (fields: Array<FieldType>, form: FormInstance) => {
 
       return (
         <Form.Item shouldUpdate key={(name || idx).toString()} noStyle>
-          {({ getFieldValue }) =>
-            calIsVisible(getFieldValue) ? (
+          {() =>
+            calIsVisible(form) ? (
               <>
-                {isFunction(prefixIcon)
-                  ? prefixIcon(getFieldValue)
-                  : prefixIcon}
+                {isFunction(prefixIcon) ? prefixIcon(form) : prefixIcon}
                 <FormItem {...formItemProps}>
                   <FieldComponent
                     form={form}
                     name={name}
-                    disabled={calIsDisabled(getFieldValue)}
+                    disabled={calIsDisabled(form)}
                     {...extraProps}
                   />
                 </FormItem>
-                {isFunction(suffixIcon)
-                  ? suffixIcon(getFieldValue)
-                  : suffixIcon}
+                {isFunction(suffixIcon) ? suffixIcon(form) : suffixIcon}
               </>
             ) : null
           }

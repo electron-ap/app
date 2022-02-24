@@ -1,3 +1,5 @@
+import { FormInstance } from "antd";
+
 type formType =
   | "text"
   | "textarea"
@@ -27,8 +29,8 @@ export interface FieldType {
   suffixIcon?: any;
   label?: string;
   shouldUpdate?: boolean;
-  calIsDisabled?: (f: (name: NamePath) => any) => boolean;
-  calIsVisible?: (f: (name: NamePath) => any) => boolean;
+  calIsDisabled?: (form: FormInstance) => boolean;
+  calIsVisible?: (form: FormInstance) => boolean;
   rules?: Array<
     { required?: boolean; message?: string; pattern?: RegExp } | any
   >;

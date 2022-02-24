@@ -1,21 +1,13 @@
-import { NamePath } from "libs/types/formField";
+import { FormInstance } from "antd";
+import dayjs from "dayjs";
+import { NamePath, TransformType } from "libs/types/formField";
+import { values, isEmpty } from "lodash";
 import { TitleAndButton, MinusButton } from "../components/add/addButton";
 
 const nzhcn = require("nzh/cn");
 
 // const extralFormConfig = [
-//   {
-//     label: "资料提交截止日",
-//     name: "stopTime",
-//     rules: [{ required: true, message: "请选择" }],
-//     type: "date",
-//   },
-//   {
-//     label: "办理所需时间",
-//     name: "needTime",
-//     rules: [{ required: true, message: "请输入" }],
-//     type: "text",
-//   },
+
 // ];
 
 const normalAndAndTop = {
@@ -53,7 +45,7 @@ export const productFieldImpl = (
     label: "预计利润",
     name: [id, "profit"],
     type: "number",
-    suffixIcon: (getFieldValue: (e: NamePath) => void) => {
+    suffixIcon: ({ getFieldValue }: FormInstance) => {
       const value = getFieldValue([id, "profit"]) as any;
       return (
         <span
@@ -85,7 +77,7 @@ export const productFieldImpl = (
     name: [id, "tradeAmountTotal"],
     type: "number",
     rules: [{ required: true, message: "请输入" }],
-    suffixIcon: (getFieldValue: (e: NamePath) => void) => {
+    suffixIcon: ({ getFieldValue }: FormInstance) => {
       const value = getFieldValue([id, "tradeAmountTotal"]) as any;
       return (
         <span
@@ -150,6 +142,19 @@ export const productsHeaderImpl = (id: string = "0", innerForm: Array<any>) => [
   },
 ];
 
+// 计算是否显示
+const calIsVisible = ({ getFieldsValue }: FormInstance) => {
+  let { ticket, ...rest } = getFieldsValue();
+  let value = 0;
+  if (isEmpty(rest)) return false;
+  values(rest).forEach((item: any) => {
+    if (!isEmpty(item)) {
+      value += item.tradeAmountTotal || 0;
+    }
+  });
+  return ticket.invoiceTotal < value;
+};
+
 export const companyFieldsImpl = (
   companyOptions: Array<any> = [],
   invoicePlateTypeOptions: Array<any> = []
@@ -172,8 +177,8 @@ export const companyFieldsImpl = (
     name: ["ticket", "invoiceTotal"],
     type: "number",
     rules: [{ required: true, message: "请输入" }],
-    suffixIcon: (getFieldValue: (e: NamePath) => void) => {
-      const value = getFieldValue("invoiceTotal") as any;
+    suffixIcon: ({ getFieldValue }: FormInstance) => {
+      const value = getFieldValue(["ticket", "invoiceTotal"]) as any;
       return (
         <span
           style={{
@@ -216,8 +221,8 @@ export const companyFieldsImpl = (
     name: ["ticket", "invoiceUsable"],
     type: "number",
     rules: [{ required: true, message: "请输入" }],
-    suffixIcon: (getFieldValue: (e: string) => void) => {
-      const value = getFieldValue("invoiceUsable") as any;
+    suffixIcon: ({ getFieldValue }: FormInstance) => {
+      const value = getFieldValue(["ticket", "invoiceUsable"]) as any;
       return (
         <span
           style={{
@@ -248,8 +253,8 @@ export const companyFieldsImpl = (
     name: ["ticket", "ticketQuantity"],
     type: "number",
     rules: [{ required: true, message: "请输入" }],
-    suffixIcon: (getFieldValue: (e: string) => void) => {
-      const value = getFieldValue("ticketQuantity") as any;
+    suffixIcon: ({ getFieldValue }: FormInstance) => {
+      const value = getFieldValue(["ticket", "ticketQuantity"]) as any;
       return (
         <span
           style={{
@@ -276,6 +281,19 @@ export const companyFieldsImpl = (
   },
   {
     style: normalAndPadding,
+    label: "资料提交截止日",
+    name: ["ticket", "stopTime"],
+    calIsVisible,
+    rules: [{ required: true, message: "请选择" }],
+    type: "date",
+    extraProps: {
+      style: {
+        width: "100%",
+      },
+    },
+  },
+  {
+    style: normalAndPadding,
     label: "计划月份",
     name: ["ticket", "planMonth"],
     type: "date",
@@ -288,12 +306,32 @@ export const companyFieldsImpl = (
   },
   {
     style: normal,
+    label: "增版增量",
+    name: ["ticket", "editionIncr"],
+    calIsVisible,
+    rules: [{ required: true, message: "请选择" }],
+    type: "radioGroup",
+    extraProps: {
+      options: [
+        {
+          value: 1,
+          label: "增版",
+        },
+        {
+          value: 2,
+          label: "增量",
+        },
+      ],
+    },
+  },
+  {
+    style: normal,
     label: "上月发票结余",
     name: ["ticket", "invoiceBalance"],
     type: "number",
     rules: [{ required: true, message: "请输入" }],
-    suffixIcon: (getFieldValue: (e: string) => void) => {
-      const value = getFieldValue("invoiceBalance") as any;
+    suffixIcon: ({ getFieldValue }: FormInstance) => {
+      const value = getFieldValue(["ticket", "invoiceBalance"]) as any;
       return (
         <span
           style={{
@@ -318,42 +356,46 @@ export const companyFieldsImpl = (
       parser: (value: any) => value.replace(/\$\s?|(,*)/g, ""),
     },
   },
-  // {
-  //     label: "增版增量",
-  //     name: "editionIncr",
-  //     rules: [{ required: true, message: "请选择" }],
-  //     type: "checkboxGroup",
-  //     extraProps: {
-  //         options: [
-  //             {
-  //                 value: 1,
-  //                 label: '增版'
-  //             },
-  //             {
-  //                 value: 2,
-  //                 label: '增量'
-  //             }
-  //         ]
-  //     }
-  // },
-  // {
-  //     name: "",
-  //     noStyle: true,
-  //     calIsVisible: (getFieldsValue) => !getFieldsValue(["complex", "isVisible"]),
-  //     type: "complex",
-  //     extraProps: {
-  //         innerForm: extralFormConfig,
-  //     },
-  // },
-  // {
-  //     label: "所需资料",
-  //     name: "materials",
-  //     type: "text",
-  //     rules: [{ required: true, message: "请输入" }],
-  // },
-  // {
-  //     label: "其他",
-  //     name: "orther",
-  //     type: "text",
-  // },
+  {
+    calIsVisible,
+    style: normalAndPadding,
+    label: "办理所需时间",
+    name: ["ticket", "needTime"],
+    rules: [{ required: true, message: "请输入" }],
+    type: "number",
+    extraProps: {
+      style: {
+        width: "100%",
+      },
+      addonAfter: "工作日",
+    },
+  },
+  {
+    calIsVisible,
+    style: normalAndPadding,
+    label: "所需资料",
+    name: ["ticket", "materials"],
+    type: "text",
+    rules: [{ required: true, message: "请输入" }],
+  },
+  {
+    calIsVisible,
+    style: normalAndPadding,
+    label: "其他",
+    name: ["ticket", "orther"],
+    type: "textarea",
+  },
+];
+
+export const transformSubmitDataConfig: Array<TransformType> = [
+  {
+    from: "ticket.planMonth",
+    to: "ticket.planMonth",
+    format: (value: Date) => dayjs(value).format("YYYY-MM"),
+  },
+  {
+    from: "ticket.stopTime",
+    to: "ticket.stopTime",
+    format: (value: Date) => dayjs(value).format("YYYY-MM-DD"),
+  },
 ];

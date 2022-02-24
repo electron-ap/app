@@ -68,7 +68,8 @@ const InnerFormTwo: Array<FieldType> = [
     },
     name: ["twoField", "checkTwo"],
     type: "text",
-    calIsDisabled: (getFieldValue) => !getFieldValue(["twoField", "checkOne"]),
+    calIsDisabled: ({ getFieldValue }) =>
+      !getFieldValue(["twoField", "checkOne"]),
     rules: [{ required: false, message: "请输入名称3" }],
     extraProps: {
       disabled: true,
@@ -108,7 +109,7 @@ const InnerFormThree: Array<FieldType> = [
   },
   {
     name: ["user", "select1", "selectTwo"],
-    calIsVisible: (getFieldValue) =>
+    calIsVisible: ({ getFieldValue }) =>
       getFieldValue(["user", "select1", "selectOne"]) === 2,
     type: "radioGroup",
     label: "说明",
@@ -177,7 +178,7 @@ const InnerFormThree: Array<FieldType> = [
     type: "text",
     label: "名称4",
     rules: [{ required: true, message: "请输入名称4" }],
-    calIsVisible: (getFieldValue) => getFieldValue("testOne"),
+    calIsVisible: ({ getFieldValue }) => getFieldValue("testOne"),
     extraProps: {
       placeholder: "请输入名称3",
     },
@@ -241,7 +242,8 @@ const fieldsForm: Array<FieldType> = [
   {
     name: "twoField",
     noStyle: true,
-    calIsVisible: (getFieldsValue) => !getFieldsValue(["complex", "isVisible"]),
+    calIsVisible: ({ getFieldsValue }) =>
+      !getFieldsValue(["complex", "isVisible"]),
     type: "complex",
     extraProps: {
       innerForm: InnerFormThree,

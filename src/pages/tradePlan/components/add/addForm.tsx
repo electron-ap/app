@@ -1,12 +1,11 @@
 import DynamicForm from "components/form";
-// import {
-//   addPlan,
-// } from "libs/api/trade-plan";
+import { addPlan } from "libs/api/trade-plan";
 import { submitType } from "libs/types/formField";
 import {
   companyFieldsImpl,
   productFieldImpl,
   productsHeaderImpl,
+  transformSubmitDataConfig,
 } from "pages/tradePlan/config/add";
 import { useEffect, useState, useRef, useCallback, memo } from "react";
 import { dataOptonsType } from ".";
@@ -16,7 +15,6 @@ const AddForm = ({ dataOptions }: { dataOptions: dataOptonsType }) => {
   const [productForm, setProductForm] = useState<Array<any>>([]);
   const [companyForm, setCompanyForm] = useState<Array<any>>([]);
 
-  console.log(productForm, companyForm);
   useEffect(() => {
     // 公司配置项
     const initCompany = () => {
@@ -78,18 +76,36 @@ const AddForm = ({ dataOptions }: { dataOptions: dataOptonsType }) => {
     setProductForm(arr);
   };
 
-  const onSubmit = (...args: submitType) => {
-    const [value, suc] = args;
+  const onSubmit = async (...args: submitType) => {
+    const [value, suc, err] = args;
     const { ticket, ...reset } = value;
+    const companynName = fetchCompanyName(ticket, dataOptions);
     const restParams = computedValue(reset);
     console.log(restParams);
-    // addPlan({
-    //     products: restParams,
-    //     ticket,
-    //     state: 0,
-    //
-    // })
-    suc();
+    try {
+      const data = await addPlan({
+        products: restParams,
+        ticket: {
+          ...ticket,
+          companynName,
+        },
+        state: 0,
+      });
+      suc();
+    } catch (error) {
+      err();
+    }
+  };
+
+  const fetchCompanyName = (
+    ticket: { [v: string]: unknown },
+    dataOptions: dataOptonsType
+  ) => {
+    const { companyID } = ticket;
+    const { companyOptions } = dataOptions as any;
+    return companyOptions.find(
+      ({ id }: { id: number | string }) => id === companyID
+    ).name;
   };
 
   const computedValue = (value: { [v: string]: unknown }) => {
@@ -109,6 +125,7 @@ const AddForm = ({ dataOptions }: { dataOptions: dataOptonsType }) => {
     <>
       <h1 style={{ fontSize: 16 }}>贸易计划：发票</h1>
       <DynamicForm
+        transformSubmitDataConfig={transformSubmitDataConfig}
         onSubmit={onSubmit}
         saveText={"保存"}
         fields={[...companyForm, ...productForm]}

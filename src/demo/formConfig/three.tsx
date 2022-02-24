@@ -6,7 +6,7 @@ const innerForm = (value: number): Array<FieldType> => [
     name: ["user", "testOne"],
     type: "checkbox",
     label: " ",
-    calIsVisible: (getFieldValue) =>
+    calIsVisible: ({ getFieldValue }) =>
       getFieldValue(["user", "select"]) === value,
     prefixIcon: (
       <div>

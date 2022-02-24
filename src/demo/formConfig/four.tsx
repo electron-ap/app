@@ -14,7 +14,7 @@ const innerForm = (
     noStyle: true,
     colon: false,
     name: ["users", "selectUserDes", key],
-    calIsDisabled: (getFieldValue) =>
+    calIsDisabled: ({ getFieldValue }) =>
       !(getFieldValue(["users", "selectUser"]) || []).includes(value),
     type: "select",
     rules: [
@@ -36,7 +36,7 @@ const innerForm = (
     noStyle: true,
     colon: false,
     name: ["users", "selectUserDesOne", key + 1],
-    calIsDisabled: (getFieldValue) =>
+    calIsDisabled: ({ getFieldValue }) =>
       !(getFieldValue(["users", "selectUser"]) || []).includes(value),
     type: "select",
     rules: [

@@ -12,7 +12,7 @@ const formLineConfig = (params: Array<innerConfigType>): Array<FieldType> => [
   {
     ...params[1],
     type: "text",
-    calIsDisabled: (getFieldValue) => !getFieldValue(params[0].name),
+    calIsDisabled: ({ getFieldValue }) => !getFieldValue(params[0].name),
   },
 ];
 const fieldsForm: Array<FieldType> = [
