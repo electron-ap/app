@@ -62,12 +62,15 @@ const routerArr: Array<RouterType> = [
     element: <Information />,
     children: [
       {
-        path: "company",
         element: <Company />,
       },
       {
         path: "product",
         element: <Product />,
+      },
+      {
+        path: "company",
+        element: <Company />,
       },
     ],
     secondMenu: [

@@ -8,7 +8,7 @@ import PHeader from "../../components/pheader";
 const MainJsx = () => {
   return (
     <>
-      <PHeader routerArr={routerArr} />
+      {/*<PHeader routerArr={routerArr} />*/}
       <Routes>
         <Route path="/" element={<Navigate replace to={"/TradePlan"} />} />
         {routerArr.map(
