@@ -11,15 +11,11 @@ export type dataOptonsType = {
   companyOptions: Array<any>;
   invoicePlateOptions: Array<any>;
   productOptions: Array<any>;
-};
+} | null;
 
 const TradePlanAdd = () => {
   // 获取公司 / 产品options的产品配置
-  const [dataOptions, setOptions] = useState<dataOptonsType>({
-    companyOptions: [],
-    invoicePlateOptions: [],
-    productOptions: [],
-  });
+  const [dataOptions, setOptions] = useState<dataOptonsType>(null);
 
   useEffect(() => {
     (async () => {
@@ -45,7 +41,7 @@ const TradePlanAdd = () => {
 
   return (
     <div id={"tradePlanContainer"} style={{ width: 1000, margin: "0 auto" }}>
-      <AddForm dataOptions={dataOptions} />
+      {dataOptions ? <AddForm dataOptions={dataOptions} /> : null}
     </div>
   );
 };
