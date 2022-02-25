@@ -55,10 +55,3 @@
 //
 // const m = new MissileDecorator(instance);
 // m.fire();
-
-var a = null;
-if (a) {
-  console.log(123);
-} else {
-  console.log(1);
-}

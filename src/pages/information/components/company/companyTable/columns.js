@@ -1,5 +1,5 @@
 import { Tag } from "antd";
-import ActionsJsx from "../../../../components/actions";
+import ActionsJsx from "../../../../../components/actions";
 
 const actions = [
   {
