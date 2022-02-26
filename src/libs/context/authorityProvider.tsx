@@ -10,7 +10,7 @@ import omit from "lodash/omit";
 const AuthorityContext = React.createContext<{
   user: User | null;
   loginImplement: (...args: submitType<loginForm>) => void;
-  loginOutImplement: (e: any) => void;
+  loginOutImplement: () => void;
 } | null>(null);
 
 AuthorityContext.displayName = "AuthorityContext";
@@ -54,6 +54,7 @@ const AuthorityProvider = ({ children }: { children: ReactNode }) => {
           setUser(null);
           util.clearStorage("__authInfo__");
           util.clearStorage("accessToken");
+          window.location.reload();
         }
       })
       .catch(() => {});
