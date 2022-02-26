@@ -1,4 +1,3 @@
-// import PHeader from "../components/pheader";
 import { Route, Routes, Navigate, PathRouteProps } from "react-router-dom";
 import ParamsContextProvider from "libs/context/paramsProvider";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -15,16 +14,8 @@ const MainJsx = () => {
   }, []);
 
   const getUserInfoFunc = async () => {
-    if (!util.getStorage("userInfo")) {
-      try {
-        const result = await getUserInfo();
-        util.setStorage("userInfo", result);
-      } catch (err) {
-        message.error(err);
-      }
-    } else {
-      return;
-    }
+    const result = await getUserInfo();
+    console.log(result);
   };
 
   return (

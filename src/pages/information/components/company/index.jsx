@@ -15,8 +15,8 @@ const Company = () => {
     <>
       Company
       <AddLinkCompany/>
-      {/*<CompanySearch/>*/}
-      {/*<CompanyTable/>*/}
+      <CompanySearch/>
+      <CompanyTable/>
     </>
   )
 }

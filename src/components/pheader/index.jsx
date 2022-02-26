@@ -10,13 +10,13 @@ import {useAuth} from "../../libs/context/authorityProvider";
 
 const PHeader = ({routerArr}) => {
   const {loginOutImplement} = useAuth()
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState({});
 
   let location = useLocation();
   let navigate = useNavigate();
 
   useEffect(() => {
-    setUserInfo(util.getStorage('userInfo'))
+    setUserInfo(util.getStorage('__authInfo__'))
   }, [])
 
   const goPage = (secondMenu) => {
@@ -35,7 +35,7 @@ const PHeader = ({routerArr}) => {
           {
             routerArr.map(item => {
               return (
-                <li className={location.pathname?.slice(1) === item.path ? 'active menuItem' : 'menuItem'}
+                <li className={location.pathname?.split('/')[1] === item.path ? 'active menuItem' : 'menuItem'}
                     key={item.path}>
                   <Link to={`/${item.path}`}>
                     <img src={item.icon} alt=""/>

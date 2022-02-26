@@ -4,7 +4,9 @@ import xhrFactory from "libs/http/config";
 export const login = xhrFactory.post(`/Home/Login`);
 
 // 获取用户信息
-export const getUserInfo = xhrFactory.get("/Home/GetUserInfo");
+export const getUserInfo = xhrFactory.get("/Home/GetUserInfo", {
+  header: "123123",
+});
 
 // 退出登录
 export const logout = xhrFactory.get("/Home/LoginOut");
