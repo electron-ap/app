@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { useParamsContext } from "libs/context/paramsProvider";
 import { operate } from "pages/tradePlan/config/operate";
 import { exportExcel } from "libs/utils/excel";
@@ -7,6 +7,9 @@ import { tradePlanDelete } from "libs/api/trade-plan";
 import { useQueryClient } from "react-query";
 import { modelHandler } from "libs/utils/model";
 import { useNavigate } from "react-router-dom";
+import dialogJsx from "libs/utils/dialogJsx";
+import UploadForm from "../upload";
+import { isEmpty } from "lodash";
 
 const TradePlanOperation = () => {
   const navigate = useNavigate();
@@ -17,13 +20,28 @@ const TradePlanOperation = () => {
     navigate("/TradePlan/add");
   };
 
-  const uploadImpl = () => {};
+  const uploadImpl = () => {
+    dialogJsx(UploadForm, {
+      dialogConfig: {
+        title: "上传计划",
+      },
+      restsProps: undefined,
+    });
+  };
 
   const downloadImpl = () => {
+    if (isEmpty(selectsRow)) {
+      message.info("请选择需要导出的计划");
+      return;
+    }
     exportExcel(columns, selectsRow);
   };
 
   const deleteImpl = () => {
+    if (isEmpty(selectsRow)) {
+      message.info("请选择需要删除的计划");
+      return;
+    }
     modelHandler({
       onOk: async (e: any) => {
         e();

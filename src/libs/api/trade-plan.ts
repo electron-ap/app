@@ -20,3 +20,19 @@ export const companyProduct = xhrFactory.get("/GlobalList/CompanyProduct");
 
 // 添加计划
 export const addPlan = xhrFactory.post("/TradePlan/crud");
+
+// 修改计划
+export const editorPlan = xhrFactory.put("/TradePlan/crud");
+
+// 获取计划详情
+export const getDetailPlan = xhrFactory.get("/TradePlan/GetDetialPlan");
+
+// 获取下载模版
+export const fetchModel = xhrFactory.get("/TradePlan/ExportModel", {
+  headers: {
+    "Content-Type": "blob",
+  },
+});
+
+// 上传计划
+export const importPlan = xhrFactory.post("/TradePlan/Import");

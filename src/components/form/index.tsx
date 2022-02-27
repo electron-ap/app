@@ -7,6 +7,7 @@ import get from "lodash/get";
 import set from "lodash/set";
 import omit from "lodash/omit";
 import cloneDeep from "lodash/cloneDeep";
+import hasIn from "lodash/hasIn";
 
 export interface FormAddProps extends FormProps {
   saveText?: string;
@@ -44,6 +45,14 @@ const DynamicForm = ({
           to,
           format,
         } = forkTransformConfig.shift() as TransformType;
+
+        // flag为falsy类型需要检查不需要转化
+        const flag = hasIn(values, from);
+        if (!flag) {
+          values = omit(values, from);
+          continue;
+        }
+
         const prevValue = get(values, from);
         const value = get(values, to);
         try {

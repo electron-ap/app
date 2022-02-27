@@ -1,7 +1,7 @@
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import Button from "antd/lib/button";
 
-export const TitleAndButton = () => {
+export const TitleAndButton = ({ add }: { add: () => void }) => {
   return (
     <div
       style={{
@@ -16,7 +16,7 @@ export const TitleAndButton = () => {
     >
       <h1 style={{ fontSize: 16 }}>贸易计划：产品</h1>
       <Button
-        data-action="add"
+        onClick={add}
         type="primary"
         shape="circle"
         icon={<PlusOutlined />}
@@ -25,7 +25,13 @@ export const TitleAndButton = () => {
   );
 };
 
-export const MinusButton = ({ id }: { id: string }) => {
+export const MinusButton = ({
+  id,
+  reduce,
+}: {
+  id: string;
+  reduce: (e: string) => void;
+}) => {
   return (
     <div
       style={{
@@ -39,8 +45,7 @@ export const MinusButton = ({ id }: { id: string }) => {
       }}
     >
       <Button
-        data-action="reduce"
-        data-id={id}
+        onClick={reduce.bind(null, id)}
         danger
         type="primary"
         shape="circle"

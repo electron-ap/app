@@ -49,11 +49,22 @@ class defaultConfig {
 }
 
 class Index extends defaultConfig {
-  get(url: string, initialValue?: object) {
+  get(
+    url: string,
+    options: {
+      [v: string]: unknown;
+      headers?: {
+        "Content-Type": string;
+      };
+    } = {}
+  ) {
+    const { headers = this.headers, ...initialValue } = options;
     return <T>(params?: T) => {
       const computed = { ...initialValue, ...params };
       const computedUrl = url + `?${qs.stringify(computed)}`;
-      return this.computedIo(computedUrl);
+      return this.computedIo(computedUrl, {
+        headers,
+      });
     };
   }
 

@@ -3,6 +3,7 @@ import one from "components/pheader/img/1.png";
 import TradePlan from "pages/tradePlan";
 import TradePlanJsx from "pages/tradePlan/components";
 import TradePlanAdd from "pages/tradePlan/components/add";
+import TradePlanEditor from "pages/tradePlan/components/editor";
 
 import two from "components/pheader/img/2.png";
 import TradeSchedule from "pages/tradeSchedule";
@@ -45,6 +46,10 @@ const routerArr: Array<RouterType> = [
       {
         path: "add",
         element: <TradePlanAdd />,
+      },
+      {
+        path: "editor",
+        element: <TradePlanEditor />,
       },
     ],
   },

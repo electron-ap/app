@@ -57,8 +57,8 @@ const TableJsx = ({ callback, data, columns, ...props }: TableType) => {
             ? {
                 showQuickJumper: true,
                 showTotal: () => `共${data.total}条`,
-                pageSize: params?.perPage || 2,
-                current: params?.currentPage || 1,
+                pageSize: data.pageSize,
+                current: data.currentPage,
                 total: Number(data.total),
                 size: "small",
                 onChange: (current, pageSize) =>

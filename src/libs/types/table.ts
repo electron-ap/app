@@ -4,7 +4,7 @@ type tableDataType = {
   list: Array<any>;
   currentPage?: number;
   total?: number;
-  perPage?: number;
+  pageSize?: number;
 };
 export interface TablePropsType {
   params: paramsType | null;

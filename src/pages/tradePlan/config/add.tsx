@@ -1,8 +1,7 @@
 import { FormInstance } from "antd";
 import dayjs from "dayjs";
-import { NamePath, TransformType } from "libs/types/formField";
+import { TransformType } from "libs/types/formField";
 import { values, isEmpty } from "lodash";
-import { TitleAndButton, MinusButton } from "../components/add/addButton";
 
 const nzhcn = require("nzh/cn");
 
@@ -106,7 +105,7 @@ export const productFieldImpl = (
   {
     style: normalAndPadding,
     label: "备注",
-    name: [id, "remark"],
+    name: [id, "remake"],
     type: "textarea",
     extraProps: {
       style: {
@@ -129,18 +128,18 @@ export const productFieldImpl = (
   },
 ];
 
-export const productsHeaderImpl = (id: string = "0", innerForm: Array<any>) => [
-  {
-    name: id, // 默认选项
-    noStyle: true,
-    prefixIcon: () =>
-      id === "0" ? <TitleAndButton /> : <MinusButton id={id} />,
-    type: "complex",
-    extraProps: {
-      innerForm,
-    },
-  },
-];
+// export const productsHeaderImpl = (id: string = "0", innerForm: Array<any>) => [
+//   {
+//     name: id, // 默认选项
+//     noStyle: true,
+//     prefixIcon: () =>
+//       id === "0" ? <TitleAndButton /> : <MinusButton id={id} />,
+//     type: "complex",
+//     extraProps: {
+//       innerForm,
+//     },
+//   },
+// ];
 
 // 计算是否显示
 const calIsVisible = ({ getFieldsValue }: FormInstance) => {
@@ -162,7 +161,7 @@ export const companyFieldsImpl = (
   {
     style: normalAndPadding,
     label: "公司名称",
-    name: ["ticket", "companyID"],
+    name: ["ticket", "companyId"],
     rules: [{ required: true, message: "请选择" }],
     type: "select",
     extraProps: {
@@ -391,11 +390,14 @@ export const transformSubmitDataConfig: Array<TransformType> = [
   {
     from: "ticket.planMonth",
     to: "ticket.planMonth",
-    format: (value: Date) => dayjs(value).format("YYYY-MM"),
+    format: (value: Date) => dayjs(value).format("YYYY-MM-DD"),
   },
   {
     from: "ticket.stopTime",
     to: "ticket.stopTime",
-    format: (value: Date) => dayjs(value).format("YYYY-MM-DD"),
+    format: (value: Date) => {
+      console.log(value);
+      return dayjs(value).format("YYYY-MM-DD");
+    },
   },
 ];
