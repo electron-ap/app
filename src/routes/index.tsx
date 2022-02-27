@@ -11,8 +11,8 @@ import three from "components/pheader/img/3.png";
 
 // 信息管理
 import Information from "pages/information";
-import Product from "pages/information/product";
-import Company from "pages/information/company";
+import Product from "pages/information/components/product";
+import Company from "pages/information/components/company";
 
 import four from "components/pheader/img/4.png";
 import Account from "pages/account";

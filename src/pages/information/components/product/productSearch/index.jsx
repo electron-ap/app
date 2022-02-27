@@ -1,6 +1,6 @@
 import debounce from "lodash/debounce";
-import DynamicForm from "../../../../components/form";
-import {useParamsContext} from "../../../../libs/context/paramsProvider";
+import DynamicForm from "../../../../../components/form";
+import {useParamsContext} from "../../../../../libs/context/paramsProvider";
 import config from "./config";
 
 const ProductSearch = () => {

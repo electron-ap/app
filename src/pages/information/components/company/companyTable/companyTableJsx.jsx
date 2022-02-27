@@ -1,5 +1,5 @@
 import {columns} from "./columns";
-import TableJsx from "../../../../components/table";
+import TableJsx from "../../../../../components/table";
 
 const CompanyTableJsx = ({ params, queryKey, ...resetProps }) => {
   const callback = (actions, data) => {

@@ -1,7 +1,8 @@
 import {useEffect} from "react";
-import {getCompanyList} from "../../../libs/api/product-api";
+import {getCompanyList} from "../../../../libs/api/product-api";
 import CompanyTable from "./companyTable";
 import CompanySearch from "./companySearch";
+import AddLinkCompany from "./addLinkCompany";
 
 const Company = () => {
   useEffect(() => {
@@ -13,6 +14,7 @@ const Company = () => {
   return (
     <>
       Company
+      <AddLinkCompany/>
       <CompanySearch/>
       <CompanyTable/>
     </>

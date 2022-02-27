@@ -50,7 +50,7 @@ const System = () => {
                   onChange={changeVal.bind(null, item.seting_code)}
                 />
                 {
-                  item.seting_code === "JHSBTX" && item.status ?
+                  item.seting_code === "jhsbtx" && item.status ?
                     <Remind/> : null
                 }
               </Col>

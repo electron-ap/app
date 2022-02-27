@@ -1,16 +1,17 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { User } from "libs/types/user";
 import { loginForm } from "libs/types/login";
-import { login, logout } from "libs/api/user-api";
+import { getUserInfo, login } from "libs/api/user-api";
 import util from "libs/utils/util";
 import { submitType } from "libs/types/formField";
 import { useMountedRef } from "libs/hooks";
 import omit from "lodash/omit";
+import defaults from "lodash/defaults";
 
 const AuthorityContext = React.createContext<{
   user: User | null;
   loginImplement: (...args: submitType<loginForm>) => void;
-  loginOutImplement: (e: any) => void;
+  loginOutImplement: () => void;
 } | null>(null);
 
 AuthorityContext.displayName = "AuthorityContext";
@@ -31,7 +32,6 @@ const AuthorityProvider = ({ children }: { children: ReactNode }) => {
     if (mountedRef.current) {
       const data = omit(res, "token");
       util.setStorage("__authInfo__", data);
-      util.setStorage("accessToken", res.token);
       setUser(res);
     }
   };
@@ -40,23 +40,24 @@ const AuthorityProvider = ({ children }: { children: ReactNode }) => {
     const [value, suc, error] = args;
     try {
       const data = await login<loginForm>(value);
+      util.setStorage("accessToken", data.token);
+      const userInfo = await getUserInfo();
       suc();
-      setDataMethod(data);
+      setDataMethod(defaults(userInfo, data));
     } catch (e) {
       error();
     }
   };
 
-  const loginOutImplement = () =>
-    logout()
-      .then(() => {
-        if (mountedRef.current) {
-          setUser(null);
-          util.clearStorage("__authInfo__");
-          util.clearStorage("accessToken");
-        }
-      })
-      .catch(() => {});
+  const loginOutImplement = () => {
+    if (mountedRef.current) {
+      setUser(null);
+      util.clearStorage("__authInfo__");
+      util.clearStorage("accessToken");
+      util.clearStorage("userInfo");
+      window.location.reload();
+    }
+  };
 
   return (
     <AuthorityContext.Provider

@@ -1,7 +1,7 @@
 import {Spin} from "antd";
-import {useListQuery} from "../../../../libs/hooks";
-import {getCompanyList} from "../../../../libs/api/product-api";
-import {useParamsContext} from "../../../../libs/context/paramsProvider";
+import {useListQuery} from "../../../../../libs/hooks";
+import {getCompanyList} from "../../../../../libs/api/product-api";
+import {useParamsContext} from "../../../../../libs/context/paramsProvider";
 import CompanyTableJsx from "./companyTableJsx";
 import {useState} from "react";
 
