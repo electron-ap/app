@@ -51,8 +51,17 @@ export const columns = [
   {
     title: "关联公司",
     width: 200,
-    dataIndex: "link",
-    key: "link",
+    dataIndex: "companyrelateds",
+    key: "companyrelateds",
+    render: (text) => {
+      return text?.map((item, index) => {
+        return (
+          <Tag key={index} color="magenta">
+            {item.name}
+          </Tag>
+        );
+      });
+    },
   },
   {
     title: "所属tag",
@@ -60,16 +69,17 @@ export const columns = [
     dataIndex: "tags",
     key: "tags",
     render: (arr) => {
-      return arr.map((item) => {
+      return arr?.map((item) => {
         return <Tag key={item.tagId}>{item.tagName}</Tag>;
       });
     },
   },
   {
     title: "操作",
-    width: 200,
+    width: 280,
     dataIndex: "action",
     key: "action",
+    fixed: "right",
     render: (text, record) => <ActionsJsx record={record} actions={actions} />,
   },
 ];

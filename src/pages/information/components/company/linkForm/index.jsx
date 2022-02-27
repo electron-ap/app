@@ -1,18 +1,23 @@
 import DynamicForm from "../../../../../components/form";
 import {formFields, item, itemImpl} from "./config";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
+import values from "lodash/values"
+import sortedUniq from "lodash/sortedUniq";
 
 import './style.scss'
-import {reduce} from "lodash";
+import {getLinkCompanyList, LinkCompanyList} from "../../../../../libs/api/information-api";
+import {message} from "antd";
+import {useQueryClient} from "react-query";
 
-const LinkForm = () => {
+const LinkForm = ({tableItemRecord, destroyDialog}) => {
+  // const queryClient = useQueryClient();
   const [value, setValue] = useState(0);
   const [config, setConfig] = useState(formFields);
 
   useEffect(() => {
-    let warp = document.querySelector('#addCon');
+    let wrap = document.querySelector('#addCon');
 
-    let a = (e) => {
+    let handleButtonAction = (e) => {
       const button = e.target.closest('button');
       if(!button) return;
       const action = button.dataset.type;
@@ -28,27 +33,41 @@ const LinkForm = () => {
           break;
       }
     }
-    warp.addEventListener('click', a)
-    return () => warp.removeEventListener('click', a);
+    wrap.addEventListener('click', handleButtonAction)
+    return () => wrap.removeEventListener('click', handleButtonAction);
   })
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     const id = new Date().valueOf();
-    const item = itemImpl(id);
+    const options = await getLinkCompanyList({
+      parentCompanyID: tableItemRecord.id
+    })
+    const item = itemImpl('关联公司', id, options);
     setConfig(prev => prev.concat(item));
   }
 
   const handleReduce = (id) => {
     let result = config.filter((arrItem) => {
-      console.log(arrItem)
       return arrItem.name+'' !==  id
     })
     setConfig(result)
-    // console.log(49, result)
   }
 
-  const onFinish = (a) => {
-    console.log(a);
+  const onFinish = async (...params) => {
+    console.log(55, ...params)
+    const [result, suc] = params
+    const parentCompanyID = tableItemRecord.id;
+    const childrenCompanyIds = values(result);
+    childrenCompanyIds.shift()
+    console.log(result, sortedUniq(childrenCompanyIds));
+    await LinkCompanyList({
+      parentCompanyID,
+      childrenCompanyIds: sortedUniq(childrenCompanyIds)
+    })
+    suc()
+    console.log(68, useQueryClient)
+    // await queryClient.invalidateQueries('company');
+    destroyDialog()
   }
 
   return (

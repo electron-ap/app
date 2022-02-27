@@ -46,6 +46,11 @@
         height: 140px;
         transition: all .3s;
         position: relative;
+        & a {
+          display: block;
+          width: 113px;
+          height: 140px;
+        }
         &.active {
           background: #3095FA;
         }

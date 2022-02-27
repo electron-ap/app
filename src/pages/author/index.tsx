@@ -3,21 +3,8 @@ import ParamsContextProvider from "libs/context/paramsProvider";
 import { QueryClient, QueryClientProvider } from "react-query";
 import routerArr, { RouterType } from "routes";
 import PHeader from "../../components/pheader";
-import { useEffect } from "react";
-import { getUserInfo } from "../../libs/api/user-api";
-import { message } from "antd";
-import util from "../../libs/utils/util";
 
 const MainJsx = () => {
-  useEffect(() => {
-    getUserInfoFunc();
-  }, []);
-
-  const getUserInfoFunc = async () => {
-    const result = await getUserInfo();
-    console.log(result);
-  };
-
   return (
     <>
       <PHeader routerArr={routerArr} />

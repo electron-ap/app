@@ -8,7 +8,6 @@ Object.defineProperty(window, "fetch", {
   get() {
     return (url: string, options: any) => {
       return originFetch(url, options).then(async (response) => {
-        debugger;
         const { status, statusText } = response;
         if (200 <= status && status < 400) {
           let data;
@@ -47,7 +46,6 @@ export default function fetchImplement(
   return new Promise(function (resolve, reject) {
     fetch(url, config)
       .then((data: any) => {
-        debugger;
         if (!data.hasOwnProperty("code")) {
           resolve(data);
         } else if (data.code === 200) {
