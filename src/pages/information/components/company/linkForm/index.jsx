@@ -9,10 +9,15 @@ import {getLinkCompanyList, LinkCompanyList} from "../../../../../libs/api/infor
 import {message} from "antd";
 import {useQueryClient} from "react-query";
 
-const LinkForm = ({tableItemRecord, destroyDialog}) => {
+const LinkForm = ({tableItemRecord, destroyDialog, callback, ...restProps}) => {
   // const queryClient = useQueryClient();
   const [value, setValue] = useState(0);
   const [config, setConfig] = useState(formFields);
+
+  useEffect(() => {
+    callback()
+    console.log(18, tableItemRecord)
+  }, [])
 
   useEffect(() => {
     let wrap = document.querySelector('#addCon');
@@ -54,7 +59,6 @@ const LinkForm = ({tableItemRecord, destroyDialog}) => {
   }
 
   const onFinish = async (...params) => {
-    console.log(55, ...params)
     const [result, suc] = params
     const parentCompanyID = tableItemRecord.id;
     const childrenCompanyIds = values(result);
@@ -65,14 +69,13 @@ const LinkForm = ({tableItemRecord, destroyDialog}) => {
       childrenCompanyIds: sortedUniq(childrenCompanyIds)
     })
     suc()
-    console.log(68, useQueryClient)
     // await queryClient.invalidateQueries('company');
     destroyDialog()
   }
 
   return (
     <div id={'addCon'} onClick={() => setValue(value+1)}>
-      <DynamicForm onSubmit={onFinish} fields={config} saveText={'保存'}/>
+      <DynamicForm onSubmit={onFinish} fields={config} saveText={'保存'} {...restProps}/>
     </div>
   )
 }

@@ -14,7 +14,6 @@ export const formFields = [
     ),
     extraProps: {
       disabled: true,
-      defaultValue: "123",
       style: {
         width: 320,
       },

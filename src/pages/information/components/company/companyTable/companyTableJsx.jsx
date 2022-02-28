@@ -12,7 +12,6 @@ const CompanyTableJsx = ({ params, queryKey, ...resetProps }) => {
       default:
         break;
     }
-    console.log(actions, data);
   };
 
   const linkCompanyHandler = (data) => {
@@ -21,10 +20,13 @@ const CompanyTableJsx = ({ params, queryKey, ...resetProps }) => {
         title: '关联公司'
       },
       restsProps: {
-        tableItemRecord: data
-      },
-      callback: () => {
-        console.log('callback')
+        initialValues: {
+          CName: data.name
+        },
+        tableItemRecord: data,
+        callback: () => {
+          console.log('callback')
+        }
       }
     })
   }
