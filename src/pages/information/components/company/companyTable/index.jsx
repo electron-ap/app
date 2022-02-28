@@ -7,7 +7,7 @@ import {useState} from "react";
 
 const CompanyTable = () => {
   const [selectKey, setSelectKey] = useState();
-  const { params, selectsRow, setSelectsRow } = useParamsContext();
+  const { params, setSelectsRow } = useParamsContext();
 
   const { data = {}, isLoading } = useListQuery(
     {

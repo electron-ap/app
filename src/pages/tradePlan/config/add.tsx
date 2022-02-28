@@ -9,8 +9,9 @@ const nzhcn = require("nzh/cn");
 
 // ];
 
-const normalAndAndTop = {
+const normalWidthAndTop = {
   width: "30%",
+  marginRight: "70%",
   marginTop: -60,
 };
 const normalAndPadding = {
@@ -61,6 +62,7 @@ export const productFieldImpl = (
       );
     },
     extraProps: {
+      disabled: true,
       addonAfter: "元",
       style: {
         width: "100%",
@@ -75,7 +77,20 @@ export const productFieldImpl = (
     label: "预计贸易总金额",
     name: [id, "tradeAmountTotal"],
     type: "number",
-    rules: [{ required: true, message: "请输入" }],
+    rules: [
+      { required: true, message: "请输入" },
+      ({ getFieldValue, setFieldsValue }: FormInstance) => ({
+        validator(_: unknown, value: number) {
+          const grossMargin = getFieldValue([id, "grossMargin"]);
+          setFieldsValue({
+            [id]: {
+              profit: value * +(grossMargin / 100).toPrecision(4),
+            },
+          });
+          return Promise.resolve();
+        },
+      }),
+    ],
     suffixIcon: ({ getFieldValue }: FormInstance) => {
       const value = getFieldValue([id, "tradeAmountTotal"]) as any;
       return (
@@ -114,11 +129,24 @@ export const productFieldImpl = (
     },
   },
   {
-    style: normalAndAndTop,
+    style: normalWidthAndTop,
     label: "毛利率",
     name: [id, "grossMargin"],
     type: "number",
-    rules: [{ required: true, message: "请输入" }],
+    rules: [
+      { required: true, message: "请输入" },
+      ({ getFieldValue, setFieldsValue }: FormInstance) => ({
+        validator(_: unknown, value: number) {
+          const tradeAmountTotal = getFieldValue([id, "tradeAmountTotal"]);
+          setFieldsValue({
+            [id]: {
+              profit: tradeAmountTotal * +(value / 100).toPrecision(4),
+            },
+          });
+          return Promise.resolve();
+        },
+      }),
+    ],
     extraProps: {
       addonAfter: "%",
       style: {
@@ -210,7 +238,7 @@ export const companyFieldsImpl = (
     type: "select",
     extraProps: {
       optionsName: "name",
-      optionsKey: "id",
+      optionsKey: "name",
       options: invoicePlateTypeOptions,
     },
   },
@@ -313,11 +341,11 @@ export const companyFieldsImpl = (
     extraProps: {
       options: [
         {
-          value: 1,
+          value: "1",
           label: "增版",
         },
         {
-          value: 2,
+          value: "2",
           label: "增量",
         },
       ],
@@ -381,7 +409,7 @@ export const companyFieldsImpl = (
     calIsVisible,
     style: normalAndPadding,
     label: "其他",
-    name: ["ticket", "orther"],
+    name: ["ticket", "remake"],
     type: "textarea",
   },
 ];
@@ -390,7 +418,7 @@ export const transformSubmitDataConfig: Array<TransformType> = [
   {
     from: "ticket.planMonth",
     to: "ticket.planMonth",
-    format: (value: Date) => dayjs(value).format("YYYY-MM-DD"),
+    format: (value: Date) => dayjs(value).format("YYYY-MM"),
   },
   {
     from: "ticket.stopTime",

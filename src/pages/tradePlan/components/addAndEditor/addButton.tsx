@@ -3,17 +3,7 @@ import Button from "antd/lib/button";
 
 export const TitleAndButton = ({ add }: { add: () => void }) => {
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "space-between",
-        paddingBottom: 10,
-        marginTop: 20,
-        marginBottom: 15,
-        borderBottom: "dotted 1px #ddd",
-      }}
-    >
+    <div className={"title"}>
       <h1 style={{ fontSize: 16 }}>贸易计划：产品</h1>
       <Button
         onClick={add}
@@ -33,17 +23,7 @@ export const MinusButton = ({
   reduce: (e: string) => void;
 }) => {
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "flex-end",
-        paddingBottom: 10,
-        marginTop: 20,
-        marginBottom: 15,
-        borderBottom: "dotted 1px #ddd",
-      }}
-    >
+    <div className={"title"} style={{ justifyContent: "flex-end" }}>
       <Button
         onClick={reduce.bind(null, id)}
         danger

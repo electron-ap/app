@@ -19,3 +19,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+#uploadPlan {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.main {
+  padding: 0 60px 0 60px;
+}

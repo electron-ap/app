@@ -2,11 +2,6 @@ export const operate = [
   {
     code: 0,
     name: "待处理",
-    style: {
-      border: 0,
-      background: "#FEAE4D",
-      color: "#fff",
-    },
   },
   {
     code: 1,

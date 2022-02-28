@@ -211,15 +211,15 @@ const fieldsForm: Array<FieldType> = [
     name: ["complex", "isVisible"],
     type: "checkbox",
     label: " ",
-    // rules: [
-    //   ({ getFieldValue }: FormInstance) => ({
-    //     required: getFieldValue(["complex", "isVisible"]),
-    //     message: "请输入名称3",
-    //   }),
-    //   setFieldsImp.bind(null, (value: unknown) => ({
-    //     test: value,
-    //   })),
-    // ],
+    rules: [
+      ({ getFieldValue }: FormInstance) => ({
+        required: getFieldValue(["complex", "isVisible"]),
+        message: "请输入名称3",
+      }),
+      setFieldsImp.bind(null, (value: unknown) => ({
+        test: value,
+      })),
+    ],
     extraProps: {
       label: "未显示",
       placeholder: "请输入名称1",

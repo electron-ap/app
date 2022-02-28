@@ -6,7 +6,6 @@ import {
 
 import { useEffect, useState } from "react";
 import CommonForm from "./form";
-import { addPlan } from "libs/api/trade-plan";
 import { submitType } from "libs/types/formField";
 import "./index.scss";
 
@@ -17,9 +16,11 @@ export type dataOptonsType = {
 } | null;
 
 const AddAndEditor = ({
+  title,
   initialValues = {},
   submitImpl,
 }: {
+  title: string;
   initialValues?: { [v: string]: unknown };
   submitImpl: (...args: submitType) => void;
 }) => {
@@ -48,8 +49,20 @@ const AddAndEditor = ({
     })();
   }, []);
 
+  // const submitHandler = () => {
+  //   const event = document.createEvent('HTMLEvents');
+  //   event.initEvent('submit', true, true);
+  //   const elem = document.querySelector('#tradePlanContainer button[type=submit]')
+  //   console.log(elem)
+  //   elem?.dispatchEvent(event);
+  // }
+
   return (
     <div id={"tradePlanContainer"} style={{ width: 1000, margin: "0 auto" }}>
+      <section>
+        <h1>{title}</h1>
+        {/*<Button onClick={submitHandler}>保存</Button>*/}
+      </section>
       {dataOptions ? (
         <CommonForm
           submitImpl={submitImpl}

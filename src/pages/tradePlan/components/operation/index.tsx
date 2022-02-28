@@ -3,13 +3,14 @@ import { useParamsContext } from "libs/context/paramsProvider";
 import { operate } from "pages/tradePlan/config/operate";
 import { exportExcel } from "libs/utils/excel";
 import { columns } from "pages/tradePlan/config/table";
-import { tradePlanDelete } from "libs/api/trade-plan";
+import { importPlan, tradePlanDelete } from "libs/api/trade-plan";
 import { useQueryClient } from "react-query";
 import { modelHandler } from "libs/utils/model";
 import { useNavigate } from "react-router-dom";
 import dialogJsx from "libs/utils/dialogJsx";
 import UploadForm from "../upload";
 import { isEmpty } from "lodash";
+import { submitType } from "libs/types/formField";
 
 const TradePlanOperation = () => {
   const navigate = useNavigate();
@@ -25,7 +26,21 @@ const TradePlanOperation = () => {
       dialogConfig: {
         title: "上传计划",
       },
-      restsProps: undefined,
+      restsProps: {
+        callback: async (destroyDialog: () => void, ...args: submitType) => {
+          const [value, suc, err] = args;
+          const file = new FormData();
+          file.append("file", value.upload[0].originFileObj);
+          try {
+            await importPlan(file);
+            suc();
+            destroyDialog();
+            queryClient.invalidateQueries("trade");
+          } catch (error) {
+            err();
+          }
+        },
+      },
     });
   };
 

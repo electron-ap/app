@@ -40,7 +40,8 @@ const Form = ({
     for (let i = 0; length > i; ++i) {
       initProduct(i + "");
     }
-  }, [dataOptions]);
+    // eslint-disable-next-line
+  }, [dataOptions, initialValues]);
 
   const productsHeaderImpl = (id: string = "0", innerForm: Array<any>) => [
     {
@@ -116,7 +117,7 @@ const Form = ({
 
   return (
     <>
-      <h1 style={{ fontSize: 16 }}>贸易计划：发票</h1>
+      <h1 className={"title"}>贸易计划：发票</h1>
       <DynamicForm
         initialValues={initialValues}
         transformSubmitDataConfig={transformSubmitDataConfig}

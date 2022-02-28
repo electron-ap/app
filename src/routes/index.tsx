@@ -33,6 +33,18 @@ export interface RouterType extends PathRouteProps {
   secondMenu?: RouterTypeSon[];
 }
 
+export const breadcrumbNameMap = {
+  "/TradePlan": "贸易计划",
+  "/TradePlan/add": "贸易计划新增",
+  "/TradePlan/editor": "贸易计划编辑",
+  "/TradeSchedule": "贸易排期",
+  "/Information": "信息管理",
+  "/Information/product": "产品信息",
+  "/Information/company": "公司信息",
+  "/Account": "账户管理",
+  "/System": "系统设置",
+};
+
 const routerArr: Array<RouterType> = [
   {
     icon: one,

@@ -1,6 +1,7 @@
 import fetchImplement from "libs/http";
 import qs from "qs";
 import util from "libs/utils/util";
+import { httpContentType } from "libs/types/contentType";
 
 class defaultConfig {
   readonly headers = {
@@ -24,15 +25,22 @@ class defaultConfig {
 
   exceptGet<T>(url: string, params: T, config: any) {
     const { body } = config;
-    let computed = { ...body, ...params };
-    if (
-      config.headers["Content-Type"] ===
-      "application/x-www-accountForm-urlencoded"
-    ) {
-      computed = qs.stringify(computed);
-    } else {
-      computed = JSON.stringify(computed);
+    let computed;
+    const type: httpContentType = config.headers["Content-Type"];
+    switch (type) {
+      case "application/x-www-accountForm-urlencoded":
+        computed = qs.stringify({ ...body, ...params });
+        break;
+      case "multipart/form-data":
+        delete config.headers["Content-Type"];
+        computed = params;
+        break;
+      case "application/json;charset=utf-8":
+      default:
+        computed = JSON.stringify({ ...body, ...params });
+        break;
     }
+
     return this.computedIo(url, { ...config, body: computed });
   }
 
@@ -54,7 +62,7 @@ class Index extends defaultConfig {
     options: {
       [v: string]: unknown;
       headers?: {
-        "Content-Type": string;
+        "Content-Type": httpContentType;
       };
     } = {}
   ) {

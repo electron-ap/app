@@ -6,6 +6,8 @@ import {useEffect, useState} from "react";
 import util from "../../libs/utils/util";
 import {LogoutOutlined} from "@ant-design/icons";
 import {useAuth} from "../../libs/context/authorityProvider";
+import {Breadcrumb} from "antd";
+import {breadcrumbNameMap} from "routes";
 
 
 const PHeader = ({routerArr}) => {
@@ -18,6 +20,20 @@ const PHeader = ({routerArr}) => {
   useEffect(() => {
     setUserInfo(util.getStorage('__authInfo__'))
   }, [])
+
+  const pathSnippets = location.pathname.split('/').filter(i => i);
+  const extraBreadcrumbItems = pathSnippets.map((_, index) => {
+    const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+    // @ts-ignore
+    const breadUrl = breadcrumbNameMap[url]
+    return (
+        <Breadcrumb.Item key={url}>
+          <Link to={url}>{breadUrl}</Link>
+        </Breadcrumb.Item>
+    );
+  });
+  // @ts-ignore
+  const breadcrumbItems = [].concat(extraBreadcrumbItems);
 
   const goPage = (secondMenu) => {
     navigate(secondMenu.url)
@@ -60,7 +76,9 @@ const PHeader = ({routerArr}) => {
         </ul>
       </div>
       <div className={'infoWrap'}>
-        <div className={'Breadcrumb'}></div>
+        <div className={'Breadcrumb'}>
+          <Breadcrumb>{breadcrumbItems}</Breadcrumb>
+        </div>
         <div className={'info'}>
           <div className={'user'}>
             <h4>{userInfo?.name}</h4>

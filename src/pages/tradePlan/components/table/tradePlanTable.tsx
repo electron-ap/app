@@ -1,5 +1,5 @@
 import TableJsx from "components/table";
-import { getDetailPlan, tradePlanDelete } from "libs/api/trade-plan";
+import { tradePlanDelete, tradePlanReturn } from "libs/api/trade-plan";
 import { TablePropsType } from "libs/types/table";
 import { modelHandler } from "libs/utils/model";
 import { useQueryClient } from "react-query";
@@ -18,10 +18,24 @@ const PlanTableJsx = ({ params, queryKey, ...resetProps }: TablePropsType) => {
       case "edit":
         editHandler(data);
         break;
+      case "cancel":
+        cancelHandler(data);
+        break;
       default:
         break;
     }
-    console.log(actions, data);
+  };
+
+  const cancelHandler = (data: { [v: string]: unknown }) => {
+    modelHandler({
+      title: "退回",
+      text: "您确定要退回当前数据么",
+      onOk: async (e: any) => {
+        e();
+        await tradePlanReturn({ id: data.id, remake: data.remake });
+        queryClient.invalidateQueries(queryKey);
+      },
+    });
   };
 
   const editHandler = async (data: { [v: string]: unknown }) => {

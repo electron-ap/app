@@ -1,16 +1,17 @@
 import { editorPlan, getDetailPlan } from "libs/api/trade-plan";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import TradePlanAdd from "../add";
 import { submitType } from "libs/types/formField";
 import AddAndEditor from "../addAndEditor/addAndEditor";
 import { Spin } from "antd";
+import { useNavigate } from "react-router-dom";
 
 interface initialType {
   [v: string]: unknown;
 }
 
 const TradePlanEditor = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   let [searchParams] = useSearchParams();
   const [initialValues, setValue] = useState<any>(null);
@@ -37,16 +38,17 @@ const TradePlanEditor = () => {
         }
       })();
     }
-  }, []);
+  }, [searchParams]);
 
   const submitImpl = async (...args: submitType) => {
     let [value, suc, err] = args;
     try {
-      const result = await editorPlan({
+      await editorPlan({
         ...value,
         planID: searchParams.get("id"),
       });
       suc();
+      navigate(-1);
     } catch (error) {
       err();
     }
@@ -55,7 +57,11 @@ const TradePlanEditor = () => {
   return (
     <Spin spinning={loading}>
       {initialValues ? (
-        <AddAndEditor submitImpl={submitImpl} initialValues={initialValues} />
+        <AddAndEditor
+          title={"编辑计划"}
+          submitImpl={submitImpl}
+          initialValues={initialValues}
+        />
       ) : null}
     </Spin>
   );

@@ -6,7 +6,7 @@ import { TableType } from "libs/types/table";
 import isFunction from "lodash/isFunction";
 
 const TableJsx = ({ callback, data, columns, ...props }: TableType) => {
-  const { setParams, params } = useParamsContext();
+  const { setParams } = useParamsContext();
   const table = useRef<Element | null>(null);
   const [height, setHeight] = useState<string>("0");
   const [width, setWidth] = useState(0);

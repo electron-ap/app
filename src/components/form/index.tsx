@@ -11,6 +11,7 @@ import hasIn from "lodash/hasIn";
 
 export interface FormAddProps extends FormProps {
   saveText?: string;
+  name?: string;
   initialValues?: { [v: string]: unknown };
   onSubmit: (...args: submitType) => void;
   fields: Array<FieldType>;
@@ -19,6 +20,7 @@ export interface FormAddProps extends FormProps {
 
 const DynamicForm = ({
   saveText,
+  name = "basic",
   layout = "horizontal",
   wrapperCol = {},
   labelCol = {},
@@ -113,8 +115,8 @@ const DynamicForm = ({
         initialValues,
         wrapperCol,
         labelCol,
+        name,
       }}
-      name="basic"
     >
       {dynamicFormFields(fields, form)}
       <Form.Item label=" " colon={false}>

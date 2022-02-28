@@ -9,7 +9,7 @@ import util from "../../../libs/utils/util";
 import {useState} from "react";
 
 const AccountTableJsx = ({ params, queryKey, ...resetProps }) => {
-  const [selectKey, setSelectKey] = useState();
+  const [selectKey] = useState();
   const queryClient = useQueryClient();
 
   const callback = (actions, data) => {
@@ -19,6 +19,7 @@ const AccountTableJsx = ({ params, queryKey, ...resetProps }) => {
         break;
       case "edit":
         editHandler(data);
+        break;
       default:
         break;
     }

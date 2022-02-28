@@ -1,9 +1,8 @@
 import DynamicForm from "../../../../../components/form";
-import {formFields, item, itemImpl} from "./config";
+import {formFields, itemImpl} from "./config";
 import {useEffect, useState} from "react";
 
 import './style.scss'
-import {reduce} from "lodash";
 
 const LinkForm = () => {
   const [value, setValue] = useState(0);

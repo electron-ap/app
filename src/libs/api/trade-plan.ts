@@ -35,4 +35,11 @@ export const fetchModel = xhrFactory.get("/TradePlan/ExportModel", {
 });
 
 // 上传计划
-export const importPlan = xhrFactory.post("/TradePlan/Import");
+export const importPlan = xhrFactory.post("/TradePlan/Import", {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
+
+// 退回
+export const tradePlanReturn = xhrFactory.post("/TradePlan/return");
