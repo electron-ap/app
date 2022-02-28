@@ -76,7 +76,7 @@ export const columns = [
   },
   {
     title: "操作",
-    width: 280,
+    width: 230,
     dataIndex: "action",
     key: "action",
     fixed: "right",

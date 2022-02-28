@@ -9,14 +9,13 @@ import {getLinkCompanyList, LinkCompanyList} from "../../../../../libs/api/infor
 import {message} from "antd";
 import {useQueryClient} from "react-query";
 
-const LinkForm = ({tableItemRecord, destroyDialog, callback, ...restProps}) => {
+const LinkForm = ({tableItemRecord, destroyDialog, ...restProps}) => {
   // const queryClient = useQueryClient();
   const [value, setValue] = useState(0);
   const [config, setConfig] = useState(formFields);
 
   useEffect(() => {
-    callback()
-    console.log(18, tableItemRecord)
+    handleInit()
   }, [])
 
   useEffect(() => {
@@ -42,6 +41,14 @@ const LinkForm = ({tableItemRecord, destroyDialog, callback, ...restProps}) => {
     return () => wrap.removeEventListener('click', handleButtonAction);
   })
 
+  const handleInit = async () => {
+    const id = new Date().valueOf();
+    const options = await getLinkCompanyList({
+      parentCompanyID: tableItemRecord.id
+    })
+    console.log(tableItemRecord?.companyrelateds)
+  }
+
   const handleAdd = async () => {
     const id = new Date().valueOf();
     const options = await getLinkCompanyList({
@@ -59,6 +66,7 @@ const LinkForm = ({tableItemRecord, destroyDialog, callback, ...restProps}) => {
   }
 
   const onFinish = async (...params) => {
+    console.log(62, params)
     const [result, suc] = params
     const parentCompanyID = tableItemRecord.id;
     const childrenCompanyIds = values(result);

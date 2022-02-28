@@ -21,12 +21,9 @@ const CompanyTableJsx = ({ params, queryKey, ...resetProps }) => {
       },
       restsProps: {
         initialValues: {
-          CName: data.name
+          CName: data.name,
         },
-        tableItemRecord: data,
-        callback: () => {
-          console.log('callback')
-        }
+        tableItemRecord: data
       }
     })
   }

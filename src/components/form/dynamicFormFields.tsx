@@ -13,6 +13,7 @@ import {
   RadioGroupField,
   RangePickerField,
   DatePickerField,
+  SearchField,
 } from "components/form/dynamic-form/fields";
 import { Form, FormInstance } from "antd";
 import get from "lodash/get";
@@ -31,6 +32,7 @@ const FieldTypeComponent = {
   select: SelectField,
   radioGroup: RadioGroupField,
   cascader: CascaderField,
+  search: SearchField,
 };
 
 const dynamicFormFields = (fields: Array<FieldType>, form: FormInstance) => {

@@ -10,3 +10,4 @@ export { default as ComplexField } from "./ComplexFields";
 export { default as SelectField } from "./SelectField";
 export { default as RadioGroupField } from "./RadioGroupField";
 export { default as UploadField } from "./UploadField";
+export { default as SearchField } from "./SearchField";

@@ -21,10 +21,11 @@ export const formFields = [
   },
 ];
 
-export const itemImpl = (title, id, options) => ({
+export const itemImpl = (title, id, options, init = "") => ({
   type: "select",
   label: title,
   name: id,
+  value: init,
   suffixIcon: (
     <Button data-id={id} data-type={"reduce"} type="primary" danger>
       删除
@@ -38,4 +39,10 @@ export const itemImpl = (title, id, options) => ({
       width: 320,
     },
   },
+  rules: [
+    {
+      required: true,
+      message: `请选择${title}`,
+    },
+  ],
 });
