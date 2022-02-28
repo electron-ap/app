@@ -1,6 +1,6 @@
 import {Spin} from "antd";
 import {useListQuery} from "../../../../../libs/hooks";
-import {getCompanyList} from "../../../../../libs/api/product-api";
+import {getCompanyList} from "../../../../../libs/api/information-api";
 import {useParamsContext} from "../../../../../libs/context/paramsProvider";
 import CompanyTableJsx from "./companyTableJsx";
 import {useState} from "react";
@@ -11,7 +11,7 @@ const CompanyTable = () => {
 
   const { data = {}, isLoading } = useListQuery(
     {
-      queryKey: "product",
+      queryKey: "company",
       api: getCompanyList,
     },
     params

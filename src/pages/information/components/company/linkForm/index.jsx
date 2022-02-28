@@ -1,17 +1,25 @@
 import DynamicForm from "../../../../../components/form";
 import {formFields, itemImpl} from "./config";
 import {useEffect, useState} from "react";
+import values from "lodash/values"
+import sortedUniq from "lodash/sortedUniq";
 
 import './style.scss'
+import {getLinkCompanyList, LinkCompanyList} from "../../../../../libs/api/information-api";
 
-const LinkForm = () => {
+const LinkForm = ({tableItemRecord, destroyDialog, ...restProps}) => {
+  // const queryClient = useQueryClient();
   const [value, setValue] = useState(0);
   const [config, setConfig] = useState(formFields);
 
   useEffect(() => {
-    let warp = document.querySelector('#addCon');
+    handleInit()
+  }, [])
 
-    let a = (e) => {
+  useEffect(() => {
+    let wrap = document.querySelector('#addCon');
+
+    let handleButtonAction = (e) => {
       const button = e.target.closest('button');
       if(!button) return;
       const action = button.dataset.type;
@@ -27,32 +35,53 @@ const LinkForm = () => {
           break;
       }
     }
-    warp.addEventListener('click', a)
-    return () => warp.removeEventListener('click', a);
+    wrap.addEventListener('click', handleButtonAction)
+    return () => wrap.removeEventListener('click', handleButtonAction);
   })
 
-  const handleAdd = () => {
+  const handleInit = async () => {
     const id = new Date().valueOf();
-    const item = itemImpl(id);
+    const options = await getLinkCompanyList({
+      parentCompanyID: tableItemRecord.id
+    })
+    console.log(tableItemRecord?.companyrelateds)
+  }
+
+  const handleAdd = async () => {
+    const id = new Date().valueOf();
+    const options = await getLinkCompanyList({
+      parentCompanyID: tableItemRecord.id
+    })
+    const item = itemImpl('关联公司', id, options);
     setConfig(prev => prev.concat(item));
   }
 
   const handleReduce = (id) => {
     let result = config.filter((arrItem) => {
-      console.log(arrItem)
       return arrItem.name+'' !==  id
     })
     setConfig(result)
-    // console.log(49, result)
   }
 
-  const onFinish = (a) => {
-    console.log(a);
+  const onFinish = async (...params) => {
+    console.log(62, params)
+    const [result, suc] = params
+    const parentCompanyID = tableItemRecord.id;
+    const childrenCompanyIds = values(result);
+    childrenCompanyIds.shift()
+    console.log(result, sortedUniq(childrenCompanyIds));
+    await LinkCompanyList({
+      parentCompanyID,
+      childrenCompanyIds: sortedUniq(childrenCompanyIds)
+    })
+    suc()
+    // await queryClient.invalidateQueries('company');
+    destroyDialog()
   }
 
   return (
     <div id={'addCon'} onClick={() => setValue(value+1)}>
-      <DynamicForm onSubmit={onFinish} fields={config} saveText={'保存'}/>
+      <DynamicForm onSubmit={onFinish} fields={config} saveText={'保存'} {...restProps}/>
     </div>
   )
 }

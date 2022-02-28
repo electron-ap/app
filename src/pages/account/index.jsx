@@ -5,11 +5,7 @@ import AccountSearch from "./accountSearch";
 const Account = () => {
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between'
-        }}>
+      <div className={'topFlex'}>
         <AccountSearch/>
         <Add />
       </div>

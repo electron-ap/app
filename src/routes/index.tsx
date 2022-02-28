@@ -13,12 +13,13 @@ import three from "components/pheader/img/3.png";
 import Information from "pages/information";
 import Product from "pages/information/components/product";
 import Company from "pages/information/components/company";
+import AddCompany from "pages/information/components/company/addCompany";
 
 import four from "components/pheader/img/4.png";
 import Account from "pages/account";
 import five from "components/pheader/img/5.png";
-import System from "pages/system";
 
+import System from "pages/system";
 import { PathRouteProps } from "react-router-dom";
 
 interface RouterTypeSon {
@@ -87,6 +88,10 @@ const routerArr: Array<RouterType> = [
       {
         path: "company",
         element: <Company />,
+      },
+      {
+        path: "addCompany",
+        element: <AddCompany />,
       },
     ],
     secondMenu: [

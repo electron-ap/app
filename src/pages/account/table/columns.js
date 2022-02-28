@@ -56,7 +56,7 @@ export const columns = [
   {
     fixed: "right",
     title: "操作",
-    width: 100,
+    width: 140,
     dataIndex: "action",
     render: (text, record) => <ActionsJsx record={record} actions={actions} />,
   },

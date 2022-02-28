@@ -1,4 +1,4 @@
-import { FieldType, NamePath } from "libs/types/formField";
+import { FieldType } from "libs/types/formField";
 import { FormInstance } from "antd";
 
 const formFields: Array<FieldType> = [
@@ -35,7 +35,7 @@ const formFields: Array<FieldType> = [
           value: "1",
           suffix: [
             {
-              calIsDisabled: (getFieldValue: (name: NamePath) => any) =>
+              calIsDisabled: ({ getFieldValue }: FormInstance) =>
                 getFieldValue("a") === "2",
               name: "start",
               type: "number",
@@ -58,7 +58,7 @@ const formFields: Array<FieldType> = [
 
           suffix: [
             {
-              calIsDisabled: (getFieldValue: (name: NamePath) => any) =>
+              calIsDisabled: ({ getFieldValue }: FormInstance) =>
                 getFieldValue("a") === "1",
               name: "end",
               type: "number",

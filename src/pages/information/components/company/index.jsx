@@ -1,21 +1,19 @@
-import {useEffect} from "react";
-import {getCompanyList} from "../../../../libs/api/product-api";
 import CompanyTable from "./companyTable";
 import CompanySearch from "./companySearch";
-import AddLinkCompany from "./addLinkCompany";
+import CompanyDownload from "./companyDownload";
+import AddBtn from "./addCompany/addBtn";
+import {Space} from "antd";
 
 const Company = () => {
-  useEffect(() => {
-    getCompanyList().then(res => {
-      console.log(res);
-    })
-  }, [])
-
   return (
     <>
-      Company
-      <AddLinkCompany/>
-      <CompanySearch/>
+      <div className={'topFlex'}>
+        <CompanySearch/>
+        <Space>
+          <AddBtn/>
+          <CompanyDownload/>
+        </Space>
+      </div>
       <CompanyTable/>
     </>
   )
