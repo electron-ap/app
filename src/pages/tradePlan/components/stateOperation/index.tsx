@@ -4,10 +4,8 @@ import { operate } from "pages/tradePlan/config/stateOperate";
 import { useState } from "react";
 import "./actived.scss";
 const TradePlanStateOperation = () => {
-  const [actived, setActived] = useState<number>(0);
   const { setParams, params } = useParamsContext();
   const checkoutImpl = (code: number) => {
-    setActived(code);
     setParams({
       ...params,
       state: code,
@@ -17,7 +15,7 @@ const TradePlanStateOperation = () => {
     <div style={{ marginBottom: 15 }}>
       {operate.map(({ code, name, ...props }) => (
         <Button
-          className={code === actived ? "actived" : "normal"}
+          className={code === params?.state || 0 ? "actived" : "normal"}
           onClick={() => checkoutImpl(code)}
           {...props}
           key={code}

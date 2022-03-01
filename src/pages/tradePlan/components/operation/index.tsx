@@ -12,6 +12,10 @@ import UploadForm from "../upload";
 import { isEmpty } from "lodash";
 import { submitType } from "libs/types/formField";
 
+// 目前electron不支持fetch FormData 暂时用axios
+import axios from "axios";
+import util from "libs/utils/util";
+
 const TradePlanOperation = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -32,11 +36,25 @@ const TradePlanOperation = () => {
           const file = new FormData();
           file.append("file", value.upload[0].originFileObj);
           try {
-            await importPlan(file);
-            suc();
-            destroyDialog();
-            queryClient.invalidateQueries("trade");
-          } catch (error) {
+            const data = await axios({
+              method: "post",
+              headers: {
+                Authorization: "Bearer " + util.getStorage("accessToken"),
+                "Content-Type": "multipart/form-data",
+              },
+              url: "/api/TradePlan/Import",
+              data: file,
+            });
+            const code = data.data.code;
+            if (code === 200) {
+              suc(data.data.message);
+              destroyDialog();
+              queryClient.invalidateQueries("trade");
+            } else {
+              throw new Error(data.data.message);
+            }
+          } catch (error: any) {
+            message.error(error.message);
             err();
           }
         },
@@ -84,18 +102,6 @@ const TradePlanOperation = () => {
       default:
         break;
     }
-    // dialogJsx(() => {
-    //   return <div>123</div>
-    // }, {
-    //   dialogConfig: {
-    //     title: '新增'
-    //   },
-    //   restsProps: {
-    //     callback() {
-    //       console.log(12123)
-    //     }
-    //   }
-    // })
   };
   return (
     <div>
