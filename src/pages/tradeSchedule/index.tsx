@@ -18,7 +18,7 @@ const TradeSchedule = () => {
           Authorization: "Bearer " + util.getStorage("accessToken"),
           "Content-Type": "multipart/form-data",
         },
-        url: "/api/TradePath/ImportTradePath",
+        url: "http://139.224.110.251:8686/api/TradePath/ImportTradePath",
         data: file,
       });
       const code = data.data.code;

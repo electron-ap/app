@@ -42,7 +42,7 @@ const TradePlanOperation = () => {
                 Authorization: "Bearer " + util.getStorage("accessToken"),
                 "Content-Type": "multipart/form-data",
               },
-              url: "/api/TradePlan/Import",
+              url: "http://139.224.110.251:8686/api/TradePlan/Import",
               data: file,
             });
             const code = data.data.code;
