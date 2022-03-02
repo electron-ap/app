@@ -35,8 +35,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "pack": "electron-builder",
-    "prepack": "react-scripts build",
+    "dist": "electron-builder",
+    "predist": "react-scripts build",
     "electron": "electron ."
   },
   "build": {
