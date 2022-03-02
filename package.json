@@ -2,7 +2,7 @@
   "name": "electron-app",
   "version": "0.1.0",
   "private": true,
-  "main": "public/main.js",
+  "main": "public/electron.js",
   "author": "devil",
   "homepage": ".",
   "dependencies": {
@@ -17,8 +17,6 @@
     "antd": "^4.18.7",
     "axios": "^0.26.0",
     "dayjs": "^1.10.7",
-    "electron": "17.0.1",
-    "electron-packager": "^15.4.0",
     "fs": "^0.0.1-security",
     "jointjs": "^3.5.2",
     "lodash": "^4.17.21",
@@ -37,14 +35,26 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "electron": "cross-env NODE_ENV=development electron .",
-    "pack": "cross-env NODE_ENV=production yarn run build && electron-builder --dir",
-    "dist": "cross-env NODE_ENV=production yarn run build && electron-builder",
-    "electron:build": "electron-packager . electron-app --platform=win32 --arch=x64 --icon=computer.ico --out=./out --asar --app-version=1.0.0 --overwrite --ignore=node_modules --electron-version 17.0.1",
-    "prepare": "husky install"
+    "pack": "electron-builder",
+    "prepack": "react-scripts build",
+    "electron": "electron ."
+  },
+  "build": {
+    "productName": "贸易链智慧",
+    "mac": {
+      "icon": "build/logo.png"
+    },
+    "win": {
+      "icon": "build/logo.png",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "ia32"
+          ]
+        }
+      ]
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -70,6 +80,7 @@
     "@types/qs": "^6.9.7",
     "@types/react-router-dom": "^5.1.8",
     "cross-env": "^7.0.3",
+    "electron": "16.0.5",
     "electron-builder": "^22.14.13",
     "eslint-config-prettier": "^8.3.0",
     "husky": ">=6",

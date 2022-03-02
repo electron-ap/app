@@ -1,7 +1,7 @@
 import {Link, useLocation, useNavigate} from "react-router-dom";
 
 import './style.scss';
-import one from './img/1.png';
+import one from 'assets/static/logo512.png';
 import {useEffect, useState} from "react";
 import util from "../../libs/utils/util";
 import {LogoutOutlined} from "@ant-design/icons";
@@ -44,8 +44,7 @@ const PHeader = ({routerArr}) => {
       <div className={'pHeader'}>
         <div className={'logoBlc'}>
           <img src={one} alt="" className={'logo'}/>
-          {/*<h1>贸易链智慧管理系统</h1>*/}
-          <h1>诊断PC动态模版Demo</h1>
+          <h1>贸易链智慧管理系统</h1>
         </div>
         <ul className={'menu'}>
           {
