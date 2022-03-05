@@ -1,20 +1,24 @@
 import ReactDOM from "react-dom";
-import { Drawer } from "antd";
+import { Drawer, Modal } from "antd";
+
+var createLoginLayer = function (fn) {
+  var instance;
+  return function (DrawerComponent, props) {
+    if (!instance) {
+      instance = drawerJsx(DrawerComponent, props);
+    }
+    instance.style.display = "block";
+  };
+};
 
 const drawerJsx = (DrawerComponent, props) => {
   const container = document.createElement("div");
+  container.className = "12";
   document.body.appendChild(container);
 
   function render() {
     ReactDOM.render(
-      <Drawer
-        visible={true}
-        footer={null}
-        {...props.drawerConfig}
-        onClose={destroyDialog}
-      >
-        <DrawerComponent destroyDialog={destroyDialog} {...props.restsProps} />
-      </Drawer>,
+      <DrawerComponent destroyDialog={destroyDialog} {...props.restsProps} />,
       container
     );
   }
@@ -22,12 +26,14 @@ const drawerJsx = (DrawerComponent, props) => {
   function destroyDialog() {
     // Allow calling chain to roll up, and then destroy component
     setTimeout(() => {
-      ReactDOM.unmountComponentAtNode(container);
-      document.body.removeChild(container);
+      container.style.display = "none";
+      // ReactDOM.unmountComponentAtNode(container);
+      // document.body.removeChild(container);
     }, 10);
   }
 
   render();
+  return container;
 };
 
-export default drawerJsx;
+export default createLoginLayer(drawerJsx);

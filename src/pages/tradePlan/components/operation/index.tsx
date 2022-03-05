@@ -7,7 +7,7 @@ import { importPlan, tradePlanDelete } from "libs/api/trade-plan";
 import { useQueryClient } from "react-query";
 import { modelHandler } from "libs/utils/model";
 import { useNavigate } from "react-router-dom";
-import dialogJsx from "libs/utils/dialogJsx";
+import dialogJsx from "libs/utils/drawer";
 import UploadForm from "../upload";
 import { isEmpty } from "lodash";
 import { submitType } from "libs/types/formField";
@@ -32,31 +32,32 @@ const TradePlanOperation = () => {
       },
       restsProps: {
         callback: async (destroyDialog: () => void, ...args: submitType) => {
-          const [value, suc, err] = args;
-          const file = new FormData();
-          file.append("file", value.upload[0].originFileObj);
-          try {
-            const data = await axios({
-              method: "post",
-              headers: {
-                Authorization: "Bearer " + util.getStorage("accessToken"),
-                "Content-Type": "multipart/form-data",
-              },
-              url: "http://139.224.110.251:8686/api/TradePlan/Import",
-              data: file,
-            });
-            const code = data.data.code;
-            if (code === 200) {
-              suc(data.data.message);
-              destroyDialog();
-              queryClient.invalidateQueries("trade");
-            } else {
-              throw new Error(data.data.message);
-            }
-          } catch (error: any) {
-            message.error(error.message);
-            err();
-          }
+          destroyDialog();
+          // const [value, suc, err] = args;
+          // const file = new FormData();
+          // file.append("file", value.upload[0].originFileObj);
+          // try {
+          //   const data = await axios({
+          //     method: "post",
+          //     headers: {
+          //       Authorization: "Bearer " + util.getStorage("accessToken"),
+          //       "Content-Type": "multipart/form-data",
+          //     },
+          //     url: "http://139.224.110.251:8686/api/TradePlan/Import",
+          //     data: file,
+          //   });
+          //   const code = data.data.code;
+          //   if (code === 200) {
+          //     suc(data.data.message);
+          //     destroyDialog();
+          //     queryClient.invalidateQueries("trade");
+          //   } else {
+          //     throw new Error(data.data.message);
+          //   }
+          // } catch (error: any) {
+          //   message.error(error.message);
+          //   err();
+          // }
         },
       },
     });
