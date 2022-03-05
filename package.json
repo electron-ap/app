@@ -56,9 +56,8 @@
       ]
     },
     "nsis" : {
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "allowToChangeInstallationDirectory": true
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true
     }
   },
   "eslintConfig": {

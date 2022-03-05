@@ -13,7 +13,8 @@ const uploadFields: Array<FieldType> = [
     suffixIcon: LoadButton,
     extraProps: {
       text: "上传Excel",
-      maxLength: 1,
+      maxLength: 12,
+      multiple: true,
       accept: ".xlsx, .xls",
     },
   },

@@ -3,11 +3,9 @@ import {PlusCircleOutlined} from "@ant-design/icons";
 import AccountForm from "../accountForm";
 import dialogJsx from "../../../libs/utils/dialogJsx";
 import {addUserList} from "../../../libs/api/account-api";
-import util from "../../../libs/utils/util";
 import {useQueryClient} from "react-query";
 
 const Add = () => {
-
   const queryClient = useQueryClient();
   const handleModal =  () => {
     dialogJsx(AccountForm, {
@@ -17,10 +15,9 @@ const Add = () => {
       restsProps: {
         callback: async(destoryImplement, value, suc, error) => {
           try {
-            const account = util.getStorage('__authInfo__').name
-            await addUserList({...value, account})
+            await addUserList(value)
             suc();
-            await queryClient.invalidateQueries('user');
+            await queryClient.invalidateQueries('account');
             destoryImplement()
           } catch (err) {
             error();

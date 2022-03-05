@@ -5,7 +5,6 @@ import {useQueryClient} from "react-query";
 import {modelHandler} from "../../../libs/utils/model";
 import dialogJsx from "../../../libs/utils/dialogJsx";
 import AccountForm from "../accountForm";
-import util from "../../../libs/utils/util";
 import {useState} from "react";
 
 const AccountTableJsx = ({ params, queryKey, ...resetProps }) => {
@@ -26,21 +25,19 @@ const AccountTableJsx = ({ params, queryKey, ...resetProps }) => {
   };
 
   const editHandler = (data) => {
-    console.log(25, data)
     dialogJsx(AccountForm, {
       dialogConfig: {
         title: '编辑账号'
       },
       restsProps: {
-        initialValues: data,
+        saveText: '保存',
+        initialValues: {...data, rolesId: data.roles.roleId},
         callback: async(destoryImplement, value, suc, error) => {
           try {
-            console.log(34, value);
-            const account = util.getStorage('__authInfo__').name;
             const id = data.id;
-            await editUser({...value, account, id})
+            await editUser({...value, id})
             suc();
-            await queryClient.invalidateQueries('user');
+            await queryClient.invalidateQueries('account');
             destoryImplement()
           } catch (err) {
             error();

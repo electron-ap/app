@@ -3,7 +3,7 @@ export const addFormConfig = {
   fields: [
     {
       label: "账号名称",
-      name: "name",
+      name: "account",
       type: "text",
       extraProps: {
         placeholder: "请输入账号名称",
@@ -21,10 +21,6 @@ export const addFormConfig = {
       type: "select",
       extraProps: {
         options: [
-          {
-            label: "管理",
-            value: 0,
-          },
           {
             label: "经理",
             value: 1,

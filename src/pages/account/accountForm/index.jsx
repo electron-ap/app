@@ -3,7 +3,6 @@ import debounce from "lodash/debounce";
 import {addFormConfig} from "./confg";
 
 const AccountForm = ({callback, destroyDialog, ...restProps}) => {
-  // console.log(6, {...restProps})
 
   const onSubmit = debounce(callback.bind(null, destroyDialog), 200)
 
