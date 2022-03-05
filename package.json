@@ -55,9 +55,16 @@
         }
       ]
     },
-    "nsis" : {
-      "createDesktopShortcut": "always",
-      "createStartMenuShortcut": true
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/logo.png",
+      "uninstallerIcon": "build/logo.png",
+      "installerHeaderIcon": "build/logo.png",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "贸易链智慧"
     }
   },
   "eslintConfig": {
