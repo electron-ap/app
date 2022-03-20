@@ -1,0 +1,19 @@
+.left{
+  width: 260px;
+  border: 1px #ccc solid;
+  border-radius: 4px;
+  height: calc(100vh - 60px);
+  .moduleContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    .module{
+      img{ height: 64px; margin-bottom: 10px;}
+      font-size: 14px; text-align: center;
+      width: 50%;
+    }
+    .basic{
+      margin-bottom: 10px;
+    }
+  }
+}

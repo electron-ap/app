@@ -1,7 +1,9 @@
+
 import {useEffect, useRef} from "react";
-import jointhtml from './joint/joint.shapes.html'
+import jointhtml from './joint.shapes.html'
 import 'jointjs/dist/joint.min.css'
-import '../../assets/css/html.css'
+import 'assets/css/html.css'
+import 'assets/css/joint.css'
 window.joint = require('jointjs')
 
 const Index = () => {
@@ -10,10 +12,12 @@ const Index = () => {
     jointhtml(window.joint, window.joint.util, window.joint.V)
     const joint = window.joint
     var graph = new joint.dia.Graph;
+    
+    
     var paper = new joint.dia.Paper({
       el: document.getElementById('paper'),
-      width: 1250,
-      height: 600,
+      width: '100%',
+      height: 800,
       model: graph,
       async: true,
       frozen: true,
@@ -49,7 +53,7 @@ const Index = () => {
       fields: {
         name: 'Create Story',
         resource: 'bob',
-        state: 'done'
+        // state: 'done'
       }
     });
 
@@ -66,7 +70,7 @@ const Index = () => {
       fields: {
         name: 'Measure',
         resource: 'john',
-        state: 'at-risk'
+        // state: 'at-risk'
       }
     });
 
@@ -127,7 +131,7 @@ const Index = () => {
   }, [])
   return (
       <>
-        <div id='paper'></div>
+        <div id="paper"></div>
         <div className="toolbar">
           <span id="zoom-out" className="toolbar-button">Zoom Out</span>
           <span id="zoom-in" className="toolbar-button">Zoom In</span>

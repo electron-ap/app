@@ -1,0 +1,10 @@
+.top{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  .title{
+    font-size: 18px;
+    color: #333;
+    .t-content{ margin-left: 5px}
+  }
+}
