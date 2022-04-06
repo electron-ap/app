@@ -1,6 +1,7 @@
 import { ButtonType } from 'antd/lib/button'
+import { optType } from '../operate'
 
-export const operate = [
+export const operate: Array<operateType.optAction<optType>> = [
   {
     code: 'undo',
     name: '撤回',
@@ -17,7 +18,7 @@ export const operate = [
     code: 'share',
     name: '共享',
     style: {
-      margin: '0 10px',
+      marginRight: 10,
     },
   },
   {

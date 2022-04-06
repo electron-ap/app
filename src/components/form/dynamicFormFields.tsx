@@ -1,5 +1,5 @@
-import React from "react";
-import { FieldType } from "libs/types/formField";
+import React from 'react'
+import { FieldType } from 'libs/types/formField'
 import {
   NumberField,
   TextAreaField,
@@ -14,10 +14,11 @@ import {
   RangePickerField,
   DatePickerField,
   SearchField,
-} from "components/form/dynamic-form/fields";
-import { Form, FormInstance } from "antd";
-import get from "lodash/get";
-import isFunction from "lodash/isFunction";
+  SlotField,
+} from 'components/form/dynamic-form/fields'
+import { Form, FormInstance } from 'antd'
+import get from 'lodash/get'
+import isFunction from 'lodash/isFunction'
 
 const FieldTypeComponent = {
   upload: UploadField,
@@ -33,7 +34,8 @@ const FieldTypeComponent = {
   radioGroup: RadioGroupField,
   cascader: CascaderField,
   search: SearchField,
-};
+  slot: SlotField,
+}
 
 const dynamicFormFields = (fields: Array<FieldType>, form: FormInstance) => {
   return fields.map(
@@ -48,23 +50,22 @@ const dynamicFormFields = (fields: Array<FieldType>, form: FormInstance) => {
         calIsDisabled = () => false,
         ...rest
       }: FieldType,
-      idx: number
+      idx: number,
     ) => {
-      const FormItem = Form.Item;
+      const FormItem = Form.Item
       const formItemProps: { [k: string]: unknown } = {
         name,
         type,
-        valuePropName: type === "checkbox" ? "checked" : "value",
+        valuePropName: type === 'checkbox' ? 'checked' : 'value',
         ...rest,
-      };
-
-      if (type === "upload") {
-        formItemProps.valuePropName = "devil-file";
-        formItemProps.getValueFromEvent = (e: any) => {
-          return e.fileList;
-        };
       }
-      const FieldComponent = get(FieldTypeComponent, type, InputField);
+      if (type === 'upload') {
+        formItemProps.valuePropName = 'devil-file'
+        formItemProps.getValueFromEvent = (e: any) => {
+          return e.fileList
+        }
+      }
+      const FieldComponent = get(FieldTypeComponent, type, InputField)
 
       return (
         <Form.Item shouldUpdate key={(name || idx).toString()} noStyle>
@@ -85,9 +86,9 @@ const dynamicFormFields = (fields: Array<FieldType>, form: FormInstance) => {
             ) : null
           }
         </Form.Item>
-      );
-    }
-  );
-};
+      )
+    },
+  )
+}
 
-export default dynamicFormFields;
+export default dynamicFormFields

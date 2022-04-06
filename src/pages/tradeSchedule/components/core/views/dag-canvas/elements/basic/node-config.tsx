@@ -19,7 +19,6 @@ export const NodeFormDemo: React.FC<Props> = ({
   initialValues,
 }) => {
   const [form] = Form.useForm()
-
   const expGraph = useExperimentGraph(experimentId)
   const onValuesChange = async (
     changedValues: string | number,

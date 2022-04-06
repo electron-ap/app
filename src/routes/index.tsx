@@ -21,8 +21,9 @@ import five from 'components/pheader/img/5.png'
 
 import System from 'pages/system'
 import { PathRouteProps } from 'react-router-dom'
-import TradeScheduleJsx from 'pages/tradeSchedule/views'
+import TradeScheduleJsx from 'pages/tradeSchedule/views/list'
 import TradeScheduleAdd from 'pages/tradeSchedule/views/add'
+import ChainJsx from 'pages/tradeSchedule/views/chain'
 
 interface RouterTypeSon {
   title: string
@@ -46,6 +47,7 @@ export const breadcrumbNameMap = {
   '/Information/company': '公司信息',
   '/Account': '账户管理',
   '/TradeSchedule/add': '贸易链条',
+  '/TradeSchedule/detailList': '贸易链条列表',
 }
 
 const routerArr: Array<RouterType> = [
@@ -80,6 +82,10 @@ const routerArr: Array<RouterType> = [
       {
         path: 'add',
         element: <TradeScheduleAdd />,
+      },
+      {
+        path: 'detailList/:id',
+        element: <ChainJsx />,
       },
     ],
   },

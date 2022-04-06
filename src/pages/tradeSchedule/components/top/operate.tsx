@@ -1,41 +1,64 @@
 import { Button } from 'antd'
 import { operate } from './config'
 import { useExperimentGraph } from '../core/views/rx-models/experiment-graph'
+import { AddTradePath, UpdateTradePath } from 'libs/api/trade-schedule'
+import OperateJsx from 'components/operate'
+import { useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
+import { ChainModal } from 'pages/tradeSchedule/views/add/model'
+import html2canvas from 'html2canvas'
 
-const OperateJsx = () => {
-  const expGraph = useExperimentGraph('1')
+export type optType = 'undo' | 'save' | 'share' | 'upload'
+interface appendType {
+  id?: number
+  scheduingId?: number
+}
+const TopOperateJsx = ({ id, type }: { id: string; type: string }) => {
+  const expGraph = useExperimentGraph(id, type)
+  const { chainParams } = ChainModal.useContainer()
 
-  const actionImpl: GraphOperate.optImplType = {
+  const actionImpl: operateType.intActionImpl<optType> = {
     undo: function () {},
-    save: function () {
-      // const data = expGraph.experimentGraph$.getValue();
-      localStorage.setItem(
-        'key',
-        JSON.stringify(expGraph.experimentGraph$.getValue()),
+    save: async function () {
+      let api = AddTradePath
+      let appendParams: appendType = {
+        scheduingId: +id,
+      }
+      if (type === 'editor') {
+        api = UpdateTradePath
+        appendParams = {
+          id: +id,
+        }
+      }
+      const data = expGraph.experimentGraph$.getValue()
+      console.log(
+        document
+          .querySelector('.x6-graph .x6-graph-svg-viewport')!
+          .getBoundingClientRect(),
       )
+      try {
+        const canvas: HTMLCanvasElement = await html2canvas(
+          document.querySelector(
+            '.x6-graph .x6-graph-svg-viewport',
+          ) as HTMLElement,
+        )
+        let imgBase64 = canvas.toDataURL('image/jpeg', 0.5)
+        const result = await api({
+          snapshot: imgBase64,
+          name: chainParams.name,
+          producetName: chainParams.producetName,
+          type: 0,
+          data,
+          ...appendParams,
+        })
+      } catch (err) {
+        console.log(err)
+      }
     },
     share: function () {},
     upload: function () {},
   }
 
-  const setCommand = (event: any) => {
-    const button = event.target.closest('button')
-    const code: GraphOperate.optType = button.dataset.code
-    actionImpl[code]()
-  }
-  return (
-    <>
-      {operate.map((item, ind) => (
-        <Button
-          onClick={setCommand}
-          key={ind}
-          style={{ marginLeft: 15 }}
-          data-code={item.code}
-        >
-          {item.name}
-        </Button>
-      ))}
-    </>
-  )
+  return <OperateJsx<optType> operate={operate} actionsImpl={actionImpl} />
 }
-export default OperateJsx
+export default TopOperateJsx

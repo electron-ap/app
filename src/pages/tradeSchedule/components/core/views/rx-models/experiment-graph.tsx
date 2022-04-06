@@ -21,7 +21,8 @@ import {
   formatGraphData,
   formatNodeInfoToNodeMeta,
 } from './graph-util'
-import { addNode, copyNode } from '../../mock/graph'
+import { addNode, copyNode, queryGraph } from '../../mock/graph'
+import { GetDetail } from 'libs/api/trade-schedule'
 
 type NodeMeta = ReturnType<typeof formatGraphData>['nodes'][number]
 
@@ -36,6 +37,9 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
 
   // 实验 id
   experimentId: string
+
+  // 是否是新增 / 编辑
+  type: string
 
   // 实验图加载状态
   loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
@@ -58,7 +62,7 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
   // 主动触发的重新渲染订阅
   reRenderSub?: Subscription
 
-  constructor(expId: string) {
+  constructor(expId: string, type: string = 'add') {
     super({
       history: true,
       frozen: true,
@@ -196,18 +200,18 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
       },
     })
     this.experimentId = expId
+    this.type = type
     this.initialize()
   }
 
   // 获取实验和图及执行状态信息
   async initialize() {
     // eslint-disable-next-line: no-this-assignment
-    const { experimentId } = this
+    const { experimentId, type } = this
     this.loading$.next(true)
     try {
       await this.loadExperiment(experimentId)
-      await this.loadExperimentGraph(experimentId)
-      // await this.loadExecutionStatus(experimentId)
+      await this.loadExperimentGraph(experimentId, type)
       this.loading$.next(false)
     } catch (e) {
       this.loading$.next(false)
@@ -240,17 +244,19 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
   }
 
   // 获取图
-  async loadExperimentGraph(experimentId: string) {
-    // const graphRes = await queryGraph(experimentId)
-    // @ts-ignore
-    const data = JSON.parse(localStorage.getItem('key'))
-    const graphRes = {
-      lang: 'zh_CN',
-      success: true,
-      data,
-      Lang: 'zh_CN',
+  async loadExperimentGraph(experimentId: string, type: string) {
+    let graphRes = {}
+    if (type === 'editor') {
+      const result = await GetDetail({ receive: +experimentId })
+      graphRes = result.data
+    } else {
+      graphRes = {
+        nodes: [],
+        links: [],
+      }
     }
-    this.experimentGraph$.next(graphRes.data as any)
+    console.log(graphRes)
+    this.experimentGraph$.next(graphRes as any)
   }
   // 更新图元
   async updateExperimentGraph(
@@ -342,18 +348,6 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
       return undefined
     }
     if (type === 'basic') {
-      const config = new X6DemoNode({
-        ...nodeMeta,
-        shape: 'ais-rect-port',
-        component: (
-          <NodeElement
-            nodeId={data.id || ''}
-            initialValues={data.initialValues}
-            experimentId={experimentId}
-          />
-        ),
-      })
-      console.log(config)
       const node = this.graph!.addNode(
         new X6DemoNode({
           ...nodeMeta,
@@ -599,7 +593,6 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
 
   // 更新节点数据
   updateNodeData = async (nodeInstanceId: string, initialValues: object) => {
-    console.log(this.experimentGraph$.getValue())
     const oldGraph = this.experimentGraph$.getValue()
     const newGraph = produce(oldGraph, ({ nodes, links }: any) => {
       if (nodes.length) {
@@ -649,11 +642,14 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
 
 export const gModelMap = new Map<string, ExperimentGraph>() // 存储实验图的 model
 
-export const useExperimentGraph = (experimentId: number | string) => {
+export const useExperimentGraph = (
+  experimentId: number | string,
+  type?: string,
+) => {
   const expId = experimentId.toString()
   let existedExperimentGraph = gModelMap.get(expId)
   if (!existedExperimentGraph) {
-    existedExperimentGraph = new ExperimentGraph(expId)
+    existedExperimentGraph = new ExperimentGraph(expId, type)
     gModelMap.set(expId, existedExperimentGraph)
   }
   return existedExperimentGraph

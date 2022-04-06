@@ -11,11 +11,12 @@ import styles from './index.module.less'
 interface Props {
   experimentId: string
   className?: string
+  type: string
 }
 
 export const DAGCanvas: React.FC<Props> = (props) => {
-  const { experimentId, className } = props
-  const expGraph = useExperimentGraph(experimentId)
+  const { experimentId, className, type } = props
+  const expGraph = useExperimentGraph(experimentId, type)
 
   // 处理画布卸载
   useUnmountExperimentGraph(experimentId)

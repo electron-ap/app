@@ -126,6 +126,7 @@ export class GraphCore<
       const width = wrapper!.clientWidth
       const height = wrapper!.clientHeight
       const graph = new Graph({ ...options, width, height })
+      console.log(options, width, height)
       this.graph = graph
       nodeMetas!.forEach((nodeMeta) => this.renderNode(nodeMeta))
       edgeMetas!.forEach((edgeMeta) => this.renderEdge(edgeMeta))

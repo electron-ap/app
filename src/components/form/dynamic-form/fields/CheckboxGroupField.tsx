@@ -1,29 +1,41 @@
-import { Checkbox, FormInstance, Space } from "antd";
-import ComplexFields from "./ComplexFields";
+import { Checkbox, FormInstance, Space } from 'antd'
+import ComplexFields from './ComplexFields'
 
-type emums = "vertical" | "horizontal";
+type emums = 'vertical' | 'horizontal'
 export default function CheckboxGroupField({
   form,
   options = [],
-  direction = "horizontal",
+  optionsName = 'label',
+  optionsKey = 'value',
+  description,
+  direction = 'horizontal',
   ...extraProps
 }: {
-  form: FormInstance;
-  direction?: emums;
-  options?: Array<any>;
+  form: FormInstance
+  direction?: emums
+  options?: Array<any>
+  description?: {
+    key: string
+    func: Function
+  }
+  optionsName?: string | undefined
+  optionsKey?: string | undefined
 }) {
   return (
     <Checkbox.Group {...extraProps}>
       <Space direction={direction}>
         {options.map(
-          ({ direction = "horizontal", value, label, suffix }, idx) => (
+          ({ direction = 'horizontal', suffix, ...restItem }, idx) => (
             <Space key={idx} direction={direction}>
-              <Checkbox value={value}>{label}</Checkbox>
+              <Checkbox value={restItem[optionsKey]}>
+                {restItem[optionsName]}
+              </Checkbox>
+              {description && description.func(restItem[description.key])}
               {suffix ? <ComplexFields form={form} innerForm={suffix} /> : null}
             </Space>
-          )
+          ),
         )}
       </Space>
     </Checkbox.Group>
-  );
+  )
 }

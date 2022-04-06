@@ -1,0 +1,103 @@
+.main {
+  margin-top: 48px;
+  display: flex;
+  flex-wrap: wrap;
+  .normal {
+    margin: 0 10px 24px 10px;
+    position: relative;
+    padding: 20px;
+    width: 300px;
+    height: 200px;
+    color: #333;
+    border-radius: 4px;
+    &:hover {
+      .deleteIcon {
+        display: block;
+      }
+    }
+  }
+  .iconOpetate {
+    display: block;
+    cursor: pointer;
+    background: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    position: absolute;
+    top: 20px;
+    right: 15px;
+  }
+  .deleteIcon {
+    display: none;
+    border-radius: 24px;
+    font-size: 24px;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+  }
+  .noStart {
+    .iconOpetate {
+      color: #333;
+    }
+    .deleteIcon {
+      color: #333;
+      background: #ececec;
+    }
+    background: #ececec;
+  }
+  .process {
+    .iconOpetate {
+      color: #1989fa;
+    }
+    .deleteIcon {
+      color: #1989fa;
+      background: #edf7ff;
+    }
+    background: #edf7ff;
+  }
+  .danger {
+    .iconOpetate {
+      color: #feae4d;
+    }
+    .deleteIcon {
+      color: #feae4d;
+      background: #faebce;
+    }
+    background: #faebce;
+  }
+  .error {
+    .iconOpetate {
+      color: #fd5451;
+    }
+    .deleteIcon {
+      color: #fff;
+      background: #fd5451;
+    }
+    color: #fff;
+    background: #fd5451;
+  }
+  .success {
+    .iconOpetate {
+      color: #0dd78d;
+    }
+    .deleteIcon {
+      color: #0dd78d;
+      background: #e9f4e0;
+    }
+    background: #e9f4e0;
+  }
+  .add {
+    cursor: pointer;
+    .icon {
+      font-size: 40px;
+      margin-bottom: 30px;
+      color: #d6d6d6;
+    }
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    border: solid 1px #e5e5e5;
+  }
+}
