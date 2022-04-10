@@ -2,11 +2,11 @@ import { CloseCircleOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import classNames from 'classnames'
 import DynamicForm from 'components/form'
 import dialogJsx from 'libs/utils/dialogJsx'
-import { Fragment, memo } from 'react'
+import { memo } from 'react'
 import styles from './index.module.less'
 import { submitType, TransformType } from 'libs/types/formField'
 import { addConfig } from './add'
-import Button, { ButtonType } from 'antd/lib/button'
+import { ButtonType } from 'antd/lib/button'
 import { AddTradeScheduling, deleteSchedule } from 'libs/api/trade-schedule'
 import dayjs from 'dayjs'
 import { useQueryClient } from 'react-query'
@@ -23,7 +23,7 @@ export interface PropsType {
   }
 }
 const Main: React.FC<PropsType> = (props) => {
-  const { list = [], ...rest } = props.data
+  const { list = [] } = props.data
   return (
     <div className={styles.main}>
       <Add />
@@ -58,7 +58,7 @@ const Item: React.FC<Props> = ({
   const deleteHandler = () => {
     modelHandler({
       async onOk() {
-        const result = await deleteSchedule(id)()
+        await deleteSchedule(id)()
         queryClient.invalidateQueries('scheduling')
       },
     })
@@ -154,7 +154,7 @@ const Add = memo(() => {
         callback: async (destroyDialog: () => void, ...args: submitType) => {
           const [reset, value] = args
           try {
-            const result = await AddTradeScheduling(value)
+            await AddTradeScheduling(value)
             reset()
             queryClient.invalidateQueries('scheduling')
             destroyDialog()

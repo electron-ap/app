@@ -1,8 +1,6 @@
 import {
   CloudUploadOutlined,
   DeleteOutlined,
-  DownloadOutlined,
-  EyeOutlined,
   ImportOutlined,
   LinkOutlined,
   PlusCircleOutlined,
@@ -31,6 +29,9 @@ export const operate: Array<operateType.optAction<SchedularDetail.actionType>> =
       code: 'publish',
       name: '发布贸易链',
       icon: <CloudUploadOutlined />,
+      style: {
+        marginRight: 10,
+      },
     },
     // {
     //     code: "preview",

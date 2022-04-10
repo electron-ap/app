@@ -3,10 +3,11 @@ import DetailSearch from './search'
 import styles from './index.module.less'
 import OperateJsx from './operate'
 import { useParams } from 'react-router-dom'
-import { useEffect, useState, useMemo } from 'react'
+import { useMemo } from 'react'
 import { GetTradeScheduling } from 'libs/api/trade-schedule'
 import ChainMainJsx from './main'
 import { useListQuery } from 'libs/hooks'
+import { SchedulerChainModal } from './modal'
 import { Spin } from 'antd'
 
 const Title = ({ title, date }: { title: string; date: string }) => {
@@ -19,13 +20,6 @@ const Title = ({ title, date }: { title: string; date: string }) => {
   )
 }
 
-interface chainInterface {
-  chains?: Array<any>
-  endTime?: string
-  id?: number
-  name?: string
-  startTime?: string
-}
 const ChainJsx = () => {
   const { id } = useParams()
   const { data = {}, isLoading } = useListQuery(
@@ -53,4 +47,9 @@ const ChainJsx = () => {
   )
 }
 
-export default ChainJsx
+const ChainContainJsx = () => (
+  <SchedulerChainModal.Provider>
+    <ChainJsx />
+  </SchedulerChainModal.Provider>
+)
+export default ChainContainJsx

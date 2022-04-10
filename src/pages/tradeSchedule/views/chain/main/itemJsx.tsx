@@ -1,23 +1,16 @@
-import { Button, Checkbox } from 'antd'
+import { Checkbox } from 'antd'
 import { operate } from './operateConfig'
 import styles from './item.module.less'
-import { useEffect, useRef } from 'react'
 import OperationJsx from 'components/operate'
 import { DeleteTradePath } from 'libs/api/trade-schedule'
 import { modelHandler } from 'libs/utils/model'
 import { useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
+import ContainerJsx from './container'
 
 const ItemJsx = ({ chain }: { chain: any }) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  useEffect(() => {
-    try {
-      const nodeData = JSON.parse(chain)
-      console.log(nodeData)
-    } catch (err) {}
-  }, [])
 
   const actionsImpl: operateType.intActionImpl<chainType.actionType> = {
     share: function () {
@@ -35,7 +28,7 @@ const ItemJsx = ({ chain }: { chain: any }) => {
     delete: function () {
       modelHandler({
         async onOk() {
-          const result = await DeleteTradePath({
+          await DeleteTradePath({
             ids: [chain.chainId],
           })
           await queryClient.invalidateQueries('chain')
@@ -48,7 +41,7 @@ const ItemJsx = ({ chain }: { chain: any }) => {
     <div className={styles.item}>
       <div className={styles.itemTitle}>
         <div>
-          <Checkbox>{chain.name}</Checkbox>
+          <Checkbox value={chain.chainId}>{chain.name}</Checkbox>
           <span style={{ padding: '0 15px' }}>
             产品名称：{chain.productName}
           </span>
@@ -62,7 +55,7 @@ const ItemJsx = ({ chain }: { chain: any }) => {
         </div>
       </div>
       <div className={styles.chainMain}>
-        <img src={chain.snapshot} height={300} />
+        <ContainerJsx type={'normal'} id={chain.chainId} />
       </div>
     </div>
   )

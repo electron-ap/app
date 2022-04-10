@@ -1,9 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import classNames from 'classnames'
-import {
-  useExperimentGraph,
-  useUnmountExperimentGraph,
-} from '../rx-models/experiment-graph'
+import { useUnmountExperimentGraph } from '../rx-models/experiment-graph'
 import { CanvasContent } from './canvas-content'
 
 import styles from './index.module.less'
@@ -12,28 +9,21 @@ interface Props {
   experimentId: string
   className?: string
   type: string
+  nodes?: any
 }
 
 export const DAGCanvas: React.FC<Props> = (props) => {
-  const { experimentId, className, type } = props
-  const expGraph = useExperimentGraph(experimentId, type)
-
+  const { experimentId, className, type, nodes } = props
   // 处理画布卸载
   useUnmountExperimentGraph(experimentId)
-
-  // 自定义组件的渲染控制
-  useEffect(() => {
-    ;(window as any).renderForm = expGraph.setActiveAlgoData
-    return () => {
-      delete (window as any).renderForm
-    }
-  }, [expGraph])
 
   return (
     <div className={classNames(styles.dagContainer, className)}>
       <CanvasContent
         experimentId={experimentId}
         className={styles.canvasContent}
+        type={type}
+        nodes={nodes}
       />
     </div>
   )

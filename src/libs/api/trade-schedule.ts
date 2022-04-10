@@ -19,6 +19,12 @@ export const UpdateTradePath = xhrFactory.put(`/TradePath/UpdateTradePath`)
 // 删除贸易链条
 export const DeleteTradePath = xhrFactory.delete(`/TradePath/DeleteTradePath`)
 
+// 发布贸易链条
+export const PublishTradePath = xhrFactory.post(`/TradePath/PublishTradePath`)
+
+// 共享贸易链条
+export const ShareTradePath = xhrFactory.post(`/TradePath/ShareTradePath`)
+
 // 获取链条明细
 export const GetDetail = xhrFactory.get(`/TradePath/GetDetail`)
 

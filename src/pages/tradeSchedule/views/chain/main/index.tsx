@@ -1,12 +1,11 @@
-import { Checkbox, Divider } from 'antd'
+import { Checkbox } from 'antd'
 import { useState } from 'react'
 import ItemJsx from './itemJsx'
-
-const CheckboxGroup = Checkbox.Group
+import { SchedulerChainModal } from '../modal'
 
 const ChainMainJsx = ({ chains }: { chains: Array<any> }) => {
-  const [checkedChain, setChain] = useState<Array<any>>([])
-  const [indeterminate, setIndeterminate] = useState(true)
+  const [checkedChain, setChain] = SchedulerChainModal.useContainer()
+  const [indeterminate, setIndeterminate] = useState(false)
   const [checkAll, setCheckAll] = useState(false)
 
   const onChange = (list: any) => {
@@ -16,7 +15,7 @@ const ChainMainJsx = ({ chains }: { chains: Array<any> }) => {
   }
 
   const onCheckAllChange = (e: any) => {
-    setChain(e.target.checked ? chains : [])
+    setChain(e.target.checked ? chains.map((item) => item.chainId) : [])
     setIndeterminate(false)
     setCheckAll(e.target.checked)
   }

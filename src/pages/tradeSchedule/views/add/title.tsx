@@ -1,6 +1,5 @@
 import Form from 'antd/lib/form'
 import dynamicFormFields from 'components/form/dynamicFormFields'
-import { useSearchParams } from 'react-router-dom'
 import formConfig from '../add/titleConfig'
 import { ChainModal } from './model'
 

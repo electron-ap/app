@@ -11,13 +11,19 @@ import styles from './canvas-content.module.less'
 interface Props {
   experimentId: string
   className?: string
+  type?: string
+  nodes?: any
 }
 
 export const CanvasContent: React.FC<Props> = (props) => {
-  const { experimentId, className } = props
+  const { experimentId, className, type, nodes } = props
   const containerRef = useRef<HTMLDivElement | null>(null)
   const canvasRef = useRef<HTMLDivElement | null>(null)
   const expGraph = useExperimentGraph(experimentId)
+
+  useEffect(() => {
+    if (type !== 'add') expGraph.changeExperiment(experimentId, nodes, type)
+  }, [expGraph, nodes, type, experimentId])
 
   // 渲染画布
   useEffect(() => {

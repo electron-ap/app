@@ -1,5 +1,4 @@
 import { FieldType } from 'libs/types/formField'
-import { FormLayout } from 'antd/lib/form/Form'
 const fieldsForm: Array<FieldType> = [
   {
     label: '',

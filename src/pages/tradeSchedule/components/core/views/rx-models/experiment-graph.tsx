@@ -21,8 +21,7 @@ import {
   formatGraphData,
   formatNodeInfoToNodeMeta,
 } from './graph-util'
-import { addNode, copyNode, queryGraph } from '../../mock/graph'
-import { GetDetail } from 'libs/api/trade-schedule'
+import { addNode, copyNode } from '../../mock/graph'
 
 type NodeMeta = ReturnType<typeof formatGraphData>['nodes'][number]
 
@@ -39,7 +38,7 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
   experimentId: string
 
   // 是否是新增 / 编辑
-  type: string
+  type: string | undefined
 
   // 实验图加载状态
   loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
@@ -62,7 +61,7 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
   // 主动触发的重新渲染订阅
   reRenderSub?: Subscription
 
-  constructor(expId: string, type: string = 'add') {
+  constructor(expId: string) {
     super({
       history: true,
       frozen: true,
@@ -200,64 +199,25 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
       },
     })
     this.experimentId = expId
-    this.type = type
     this.initialize()
   }
 
   // 获取实验和图及执行状态信息
   async initialize() {
-    // eslint-disable-next-line: no-this-assignment
-    const { experimentId, type } = this
-    this.loading$.next(true)
-    try {
-      await this.loadExperiment(experimentId)
-      await this.loadExperimentGraph(experimentId, type)
-      this.loading$.next(false)
-    } catch (e) {
-      this.loading$.next(false)
-      console.error('加载实验错误', e)
+    const graphRes = {
+      nodes: [],
+      links: [],
     }
+    this.experimentGraph$.next(graphRes as any)
   }
 
   // 切换实验
-  async changeExperiment(id: string) {
+  async changeExperiment(id: string, node: any, type: string = '') {
     this.experimentId = id
-    await this.initialize()
+    this.type = type
+    this.experimentGraph$.next(node)
   }
 
-  // 获取实验
-  async loadExperiment(experimentId: string) {
-    try {
-      const res = {
-        projectName: 'sre_mpi_algo_dev',
-        gmtCreate: '2020-08-18 02:21:41',
-        description: '国药数据建模demo',
-        name: '国药数据',
-        id: 353355,
-      }
-      this.experiment$.next(res)
-      return { success: true }
-    } catch (e) {
-      console.error('加载实验错误', e)
-      return { success: false } as any
-    }
-  }
-
-  // 获取图
-  async loadExperimentGraph(experimentId: string, type: string) {
-    let graphRes = {}
-    if (type === 'editor') {
-      const result = await GetDetail({ receive: +experimentId })
-      graphRes = result.data
-    } else {
-      graphRes = {
-        nodes: [],
-        links: [],
-      }
-    }
-    console.log(graphRes)
-    this.experimentGraph$.next(graphRes as any)
-  }
   // 更新图元
   async updateExperimentGraph(
     nodes: NExperimentGraph.Node[] = [],
@@ -319,7 +279,15 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
       )
 
       .subscribe((graphData) => {
-        if (!this.graph) {
+        if (!this.graph || this.type !== 'add') {
+          this.appendOption = {
+            scroller: {
+              enabled: this.type !== 'normal',
+              pageVisible: false,
+              pageBreak: false,
+              pannable: this.type !== 'normal',
+            },
+          }
           const { nodes, edges } = formatGraphData(graphData)
           super.render({
             wrapper,
@@ -605,17 +573,6 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
     })
 
     this.experimentGraph$.next(newGraph as any)
-
-    // data.nodes.find()
-    // const renameRes = await { success: true }
-    // if (renameRes.success) {
-    //   const cell = this.getCellById(nodeInstanceId)
-    //   const data: object = cell!.getData()
-    //   const newData = { ...data, name: newName }
-    //   cell!.setData(newData)
-    //   this.updateExperimentGraph([newData as any])
-    // }
-    // return renameRes
   }
 
   // 缩放特定比例
@@ -642,14 +599,11 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
 
 export const gModelMap = new Map<string, ExperimentGraph>() // 存储实验图的 model
 
-export const useExperimentGraph = (
-  experimentId: number | string,
-  type?: string,
-) => {
+export const useExperimentGraph = (experimentId: number | string) => {
   const expId = experimentId.toString()
   let existedExperimentGraph = gModelMap.get(expId)
   if (!existedExperimentGraph) {
-    existedExperimentGraph = new ExperimentGraph(expId, type)
+    existedExperimentGraph = new ExperimentGraph(expId)
     gModelMap.set(expId, existedExperimentGraph)
   }
   return existedExperimentGraph

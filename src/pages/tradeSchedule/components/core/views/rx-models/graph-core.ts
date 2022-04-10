@@ -52,6 +52,8 @@ export class GraphCore<
   // 待复制的节点 id
   copyableNodeId$: BehaviorSubject<string> = new BehaviorSubject<string>('')
 
+  protected appendOption: any
+
   // 窗口大小 resize 的订阅
   private windowResizeSub?: Subscription
 
@@ -74,6 +76,7 @@ export class GraphCore<
     const { wrapper, container, nodes, edges, ...others } = options
     this.setMeta(options)
     this.options = others
+    this.appendOption = {}
   }
 
   setMeta(params: Pick<Options, 'wrapper' | 'container' | 'nodes' | 'edges'>) {
@@ -122,11 +125,11 @@ export class GraphCore<
   render(params: RenderParams) {
     this.setMeta(params)
     if (this.isMetaValid) {
-      const { wrapper, options, nodeMetas, edgeMetas } = this
+      const { wrapper, options, nodeMetas, edgeMetas, appendOption } = this
       const width = wrapper!.clientWidth
       const height = wrapper!.clientHeight
-      const graph = new Graph({ ...options, width, height })
-      console.log(options, width, height)
+      console.log(this.appendOption)
+      const graph = new Graph({ ...options, width, height, ...appendOption })
       this.graph = graph
       nodeMetas!.forEach((nodeMeta) => this.renderNode(nodeMeta))
       edgeMetas!.forEach((edgeMeta) => this.renderEdge(edgeMeta))

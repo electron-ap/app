@@ -1,12 +1,9 @@
-import { Button } from 'antd'
 import { operate } from './config'
 import { useExperimentGraph } from '../core/views/rx-models/experiment-graph'
 import { AddTradePath, UpdateTradePath } from 'libs/api/trade-schedule'
 import OperateJsx from 'components/operate'
-import { useSearchParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ChainModal } from 'pages/tradeSchedule/views/add/model'
-import html2canvas from 'html2canvas'
 
 export type optType = 'undo' | 'save' | 'share' | 'upload'
 interface appendType {
@@ -14,11 +11,14 @@ interface appendType {
   scheduingId?: number
 }
 const TopOperateJsx = ({ id, type }: { id: string; type: string }) => {
-  const expGraph = useExperimentGraph(id, type)
+  const expGraph = useExperimentGraph(id)
   const { chainParams } = ChainModal.useContainer()
+  const navigate = useNavigate()
 
   const actionImpl: operateType.intActionImpl<optType> = {
-    undo: function () {},
+    undo: function () {
+      // expGraph.undoDeleteNode()
+    },
     save: async function () {
       let api = AddTradePath
       let appendParams: appendType = {
@@ -31,26 +31,16 @@ const TopOperateJsx = ({ id, type }: { id: string; type: string }) => {
         }
       }
       const data = expGraph.experimentGraph$.getValue()
-      console.log(
-        document
-          .querySelector('.x6-graph .x6-graph-svg-viewport')!
-          .getBoundingClientRect(),
-      )
       try {
-        const canvas: HTMLCanvasElement = await html2canvas(
-          document.querySelector(
-            '.x6-graph .x6-graph-svg-viewport',
-          ) as HTMLElement,
-        )
-        let imgBase64 = canvas.toDataURL('image/jpeg', 0.5)
-        const result = await api({
-          snapshot: imgBase64,
+        await api({
+          snapshot: '',
           name: chainParams.name,
           producetName: chainParams.producetName,
           type: 0,
           data,
           ...appendParams,
         })
+        navigate(-1)
       } catch (err) {
         console.log(err)
       }

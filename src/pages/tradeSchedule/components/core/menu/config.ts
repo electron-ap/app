@@ -9,10 +9,10 @@ export const iconForm = [
   //     icon: require('assets/static/model/link-line.png').default,
   //     label: '连接线'
   // },
-  {
-    icon: require('assets/static/model/level-1.png').default,
-    name: 'basic-connect',
-  },
+  // {
+  //   icon: require('assets/static/model/level-1.png').default,
+  //   name: 'basic-connect',
+  // },
   // {
   //     icon: require('assets/static/model/level-2.png').default,
   //     name: 'two',
