@@ -1,32 +1,32 @@
-import { useRef, useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useRef, useEffect } from 'react'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 // import { useParamsContext } from "../context/paramsProvider";
 // import isEmpty from 'lodash/isEmpty';
-import get from "lodash/get";
-import cloneDeep from "lodash/cloneDeep";
-import set from "lodash/set";
-import message from "antd/lib/message";
+import get from 'lodash/get'
+import cloneDeep from 'lodash/cloneDeep'
+import set from 'lodash/set'
+import message from 'antd/lib/message'
 
 export const useBackground = (color) => {
-  const defaultBg = "#fff";
+  const defaultBg = '#fff'
   useEffect(() => {
-    document.body.style.background = color;
+    document.body.style.background = color
     return () => {
-      document.body.style.background = defaultBg;
-    };
-  }, [color]);
-};
+      document.body.style.background = defaultBg
+    }
+  }, [color])
+}
 
 export const useMountedRef = () => {
-  const isMounted = useRef(false);
+  const isMounted = useRef(false)
 
   useEffect(() => {
-    isMounted.current = true;
-    return () => (isMounted.current = false);
-  }, []);
+    isMounted.current = true
+    return () => (isMounted.current = false)
+  }, [])
 
-  return isMounted;
-};
+  return isMounted
+}
 
 // 文档：https://react-query.tanstack.com/reference/useQuery#_top
 export const useListQuery = ({ queryKey, api }, dependencies) => {
@@ -36,12 +36,12 @@ export const useListQuery = ({ queryKey, api }, dependencies) => {
   return useQuery(
     [queryKey, dependencies],
     () => {
-      const controller = new AbortController();
-      const signal = controller.signal;
-      const promise = api(dependencies, signal);
+      const controller = new AbortController()
+      const signal = controller.signal
+      const promise = api(dependencies, signal)
       // Cancel the request if React Query calls the `promise.cancel` method
-      promise.cancel = () => controller.abort();
-      return promise;
+      promise.cancel = () => controller.abort()
+      return promise
     },
     {
       refetchOnWindowFocus: false,
@@ -51,54 +51,58 @@ export const useListQuery = ({ queryKey, api }, dependencies) => {
         // setParams(null);
         // queryClient.removeQueries([queryKey, dependencies], { exact: true });
       },
-    }
-  );
-};
+    },
+  )
+}
 
 export const useDeleteMutation = ({ queryKey, api, itemKey }, dependencies) => {
   return useMutation(
     (apiParams) => api(apiParams),
     useCallBack([queryKey, dependencies], (target, old) => {
-      const arr = get(old, ["data", "data"], []);
+      const arr = get(old, ['data', 'data'], [])
       set(
         old,
-        ["data", "data"],
-        arr.filter((item) => item[itemKey] !== target[itemKey])
-      );
-      return old;
-    })
-  );
-};
+        ['data', 'data'],
+        arr.filter((item) => item[itemKey] !== target[itemKey]),
+      )
+      return old
+    }),
+  )
+}
 
 export const useUpdateMutation = ({ queryKey, api, itemKey }, dependencies) => {
   return useMutation(
     (apiParams) => api(apiParams),
     useCallBack([queryKey, dependencies], (target, old) => {
       old.data = old.data?.data?.map((item) =>
-        item[itemKey] === target[itemKey] ? { ...item, ...target } : item
-      );
-      return old;
-    })
-  );
-};
+        item[itemKey] === target[itemKey] ? { ...item, ...target } : item,
+      )
+      return old
+    }),
+  )
+}
 
 const useCallBack = (queryKey, callback) => {
-  const queryClient = useQueryClient();
+  debugger
+  const queryClient = useQueryClient()
   return {
     onMutate: async (variables) => {
-      await queryClient.cancelQueries(queryKey);
-      const previousItems = cloneDeep(queryClient.getQueryData(queryKey));
-      queryClient.setQueryData(queryKey, (old) => callback(variables, old));
-      return { previousItems };
+      debugger
+      await queryClient.cancelQueries(queryKey)
+      const previousItems = cloneDeep(queryClient.getQueryData(queryKey))
+      queryClient.setQueryData(queryKey, (old) => callback(variables, old))
+      return { previousItems }
     },
     onSettled: (data, error, variables, context) => {
+      debugger
       if (error) {
-        queryClient.setQueryData(queryKey, context.previousItems);
-        message.error(data.msg);
-      } else {
-        queryClient.invalidateQueries(queryKey);
+        queryClient.setQueryData(queryKey, context.previousItems)
+        message.error(data.msg)
       }
+      // else {
+      //   queryClient.invalidateQueries(queryKey);
+      // }
       // Error or success... doesn't matter!
     },
-  };
-};
+  }
+}

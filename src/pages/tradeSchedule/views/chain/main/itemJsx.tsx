@@ -2,7 +2,11 @@ import { Checkbox } from 'antd'
 import { operate } from './operateConfig'
 import styles from './item.module.less'
 import OperationJsx from 'components/operate'
-import { DeleteTradePath } from 'libs/api/trade-schedule'
+import {
+  DeleteTradePath,
+  PublishTradePath,
+  ShareTradePath,
+} from 'libs/api/trade-schedule'
 import { modelHandler } from 'libs/utils/model'
 import { useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -13,11 +17,13 @@ const ItemJsx = ({ chain }: { chain: any }) => {
   const queryClient = useQueryClient()
 
   const actionsImpl: operateType.intActionImpl<chainType.actionType> = {
-    share: function () {
-      console.log('share')
+    share: async function () {
+      const { chainId } = chain
+      await ShareTradePath({ chainIds: [chainId] })
     },
-    publish: function () {
-      console.log('publish')
+    publish: async function () {
+      const { chainId } = chain
+      await PublishTradePath({ ids: [chainId] })
     },
     editor: function () {
       const { chainId, name, productName } = chain

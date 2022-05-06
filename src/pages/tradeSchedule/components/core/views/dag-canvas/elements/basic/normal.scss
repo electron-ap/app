@@ -1,11 +1,21 @@
-.normalForm{
+.normalForm {
+  z-index: 1;
   width: 230px;
-  height: 280px;
+  height: 300px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background: #fff;
-  padding: 20px;
+  padding: 35px 20px 20px 20px;
   .ant-form-item{
     margin-bottom: 20px;
   }
+  position: relative;
+  .infoIcon {
+    font-size: 20px;
+    color: #555;
+    position: absolute; right: 5px; top: 5px;
+  }
+}
+.popDiv{
+  width: 120px;
 }

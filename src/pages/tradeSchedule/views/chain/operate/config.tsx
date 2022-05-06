@@ -42,12 +42,12 @@ export const operate: Array<operateType.optAction<SchedularDetail.actionType>> =
     //     },
     // },
     {
-      code: 'import',
+      code: 'export',
       name: '导出为表格',
       icon: <ImportOutlined />,
     },
     {
-      code: 'download',
+      code: 'join',
       name: '关联计划',
       icon: <LinkOutlined />,
       style: {
@@ -55,7 +55,7 @@ export const operate: Array<operateType.optAction<SchedularDetail.actionType>> =
       },
     },
     {
-      code: 'upload',
+      code: 'import',
       name: '导入贸易链',
       icon: <UploadOutlined />,
     },

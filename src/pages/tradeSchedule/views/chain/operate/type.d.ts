@@ -3,9 +3,9 @@ declare namespace SchedularDetail {
     | 'add'
     | 'share'
     | 'publish'
-    | 'preview'
+    // | 'preview'
     | 'import'
-    | 'download'
-    | 'upload'
+    | 'join'
+    | 'export'
     | 'batchDelete'
 }

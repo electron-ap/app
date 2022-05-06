@@ -57,3 +57,7 @@ export const companyQuery = xhrFactory.get(`/Company/Get`)
 // 删除排期
 export const deleteSchedule = (id: number) =>
   xhrFactory.delete(`/TradeScheduling/UpdateTradeScheduling?ids=${id}`)
+
+export const tradeSchedulingRelaPlan = xhrFactory.post(
+  `/TradeScheduling/TradeSchedulingRelaPlan`,
+)

@@ -55,6 +55,12 @@ export const addNode = ({ name, x, y, ...rest }: NodeParams) => {
     ...rest,
     id,
     name,
+    contractInfo: {
+      contract: '0%',
+      logistics: '0%',
+      funds: '0%',
+      bill: '0%',
+    },
     initialValues: {},
     inPorts: [
       {
@@ -63,12 +69,6 @@ export const addNode = ({ name, x, y, ...rest }: NodeParams) => {
         description: '输入1',
         id: id + '_in_1',
       },
-      {
-        tableName: 'germany_credit_data',
-        sequence: 2,
-        description: '输入2',
-        id: id + '_in_2',
-      },
     ],
     outPorts: [
       {
@@ -76,12 +76,6 @@ export const addNode = ({ name, x, y, ...rest }: NodeParams) => {
         sequence: 1,
         description: '输出表1',
         id: id + '_out_1',
-      },
-      {
-        tableName: 'germany_credit_data',
-        sequence: 2,
-        description: '输出表2',
-        id: id + '_out_2',
       },
     ],
     positionX: x,

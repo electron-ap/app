@@ -224,11 +224,16 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
     links: NExperimentGraph.Link[] = [],
   ) {
     const oldGraph = this.experimentGraph$.getValue()
+    console.log(oldGraph)
     const newGraph = produce(oldGraph, (nextGraph: any) => {
       if (nodes.length) {
         nextGraph.nodes.push(...nodes)
       }
       if (links.length) {
+        const isTrue = nextGraph.links.some(
+          (item: any) => item.id === links[0].id,
+        )
+        if (isTrue) return
         nextGraph.links.push(...links)
       }
     })
@@ -322,6 +327,7 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
           shape: 'ais-rect-port',
           component: (
             <NodeElement
+              contractInfo={data.contractInfo}
               nodeId={data.id || ''}
               initialValues={data.initialValues}
               experimentId={experimentId}
@@ -373,16 +379,17 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
       const portId = edge.getTargetPortId()
       if (node && portId) {
         // 触发 port 重新渲染
-        node.setPortProp(portId, 'connected', true)
+        node.setPortProp(portId, 'connected', false)
         // 更新连线样式
         edge.attr({
           line: {
             strokeDasharray: '',
-            targetMarker: '',
+            targetMarker: 'block',
             stroke: '#808080',
           },
         })
         const data = {
+          id: source.port + target.port,
           source: source.cell,
           target: target.cell,
           outputPortId: source.port,

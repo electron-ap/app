@@ -31,8 +31,16 @@ export namespace NExperimentGraph {
     data: EdgeView.PositionEventArgs<any>
   }
 
+  export type ConstactType = {
+    contract: string
+    logistics: string
+    funds: string
+    bill: string
+  }
+
   export interface Node {
     initialValues: object
+    contractInfo: ConstactType
     outPorts: OutPort[]
     inPorts: InPort[]
     // catId: number
@@ -65,6 +73,7 @@ export namespace NExperimentGraph {
   }
 
   export interface Link {
+    id: string
     inputPortId: number
     outputPortId: number
     source: number
