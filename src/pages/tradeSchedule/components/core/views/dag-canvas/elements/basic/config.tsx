@@ -10,6 +10,7 @@ const companyForm: Array<FieldType> = [
     label: '',
     type: 'select',
     extraProps: {
+      style: { width: '100%', textAlign: 'left' },
       showSearch: true,
       allowClear: true,
       optionsName: 'companyName',
@@ -52,6 +53,7 @@ export const formConfig: Array<FieldType> = [
     label: '数量',
     type: 'number',
     extraProps: {
+      addonAfter: '吨',
       style: {
         width: '100%',
       },
@@ -62,6 +64,7 @@ export const formConfig: Array<FieldType> = [
     label: '单价',
     type: 'number',
     extraProps: {
+      addonAfter: '元',
       style: {
         width: '100%',
       },
@@ -72,6 +75,7 @@ export const formConfig: Array<FieldType> = [
     label: '总金额',
     type: 'number',
     extraProps: {
+      addonAfter: '元',
       style: {
         width: '100%',
       },

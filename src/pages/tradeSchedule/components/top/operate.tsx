@@ -4,9 +4,9 @@ import { AddTradePath, UpdateTradePath } from 'libs/api/trade-schedule'
 import OperateJsx from 'components/operate'
 import { useNavigate } from 'react-router-dom'
 import { ChainModal } from 'pages/tradeSchedule/views/add/model'
-import { useMemo } from 'react'
+// import { useMemo } from 'react'
 
-export type optType = 'undo' | 'save' | 'share' | 'upload'
+export type optType = 'undo' | 'save'
 interface appendType {
   id?: number
   scheduingId?: number
@@ -16,12 +16,12 @@ const TopOperateJsx = ({ id, type }: { id: string; type: string }) => {
   const { chainParams } = ChainModal.useContainer()
   const navigate = useNavigate()
 
-  const operateItems = useMemo(() => {
-    if (type === 'editor') {
-      return operate
-    }
-    return operate.filter((item) => item.code !== 'share')
-  }, [type])
+  // const operateItems = useMemo(() => {
+  //   if (type === 'editor') {
+  //     return operate
+  //   }
+  //   return operate.filter((item) => item.code !== 'share')
+  // }, [type])
 
   const actionImpl: operateType.intActionImpl<optType> = {
     undo: function () {
@@ -53,10 +53,10 @@ const TopOperateJsx = ({ id, type }: { id: string; type: string }) => {
         console.log(err)
       }
     },
-    share: function () {},
-    upload: function () {},
+    // share: function () {},
+    // upload: function () {},
   }
 
-  return <OperateJsx<optType> operate={operateItems} actionsImpl={actionImpl} />
+  return <OperateJsx<optType> operate={operate} actionsImpl={actionImpl} />
 }
 export default TopOperateJsx

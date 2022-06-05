@@ -3,6 +3,9 @@ import { FormOutlined } from '@ant-design/icons'
 import './left.scss'
 import DragJsx from './menu'
 import { iconForm } from './config'
+import styles from '../views/common/canvas-handler/index.module.less'
+import Popover from 'antd/es/popover'
+
 const { Panel } = Collapse
 
 const ModelJsx = ({
@@ -11,11 +14,18 @@ const ModelJsx = ({
   modelData: Array<{ icon: any; name?: string }>
 }) => {
   return (
-    <div className={'moduleContainer'}>
-      {modelData.map(({ icon, ...rest }, ind: number) => (
-        <DragJsx node={rest} key={ind} icon={icon} />
-      ))}
-    </div>
+    <Popover
+      overlayClassName={styles.popover}
+      placement="top"
+      content={'按住鼠标左键可将元素拖动到画布中'}
+      trigger="hover"
+    >
+      <div className={'moduleContainer'}>
+        {modelData.map(({ icon, ...rest }, ind: number) => (
+          <DragJsx node={rest} key={ind} icon={icon} />
+        ))}
+      </div>
+    </Popover>
   )
 }
 

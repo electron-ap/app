@@ -1,127 +1,130 @@
-import { FormInstance } from "antd";
-import dayjs from "dayjs";
-import { TransformType } from "libs/types/formField";
-import { values, isEmpty } from "lodash";
+import { FormInstance } from 'antd'
+import dayjs from 'dayjs'
+import { TransformType } from 'libs/types/formField'
+import { values, isEmpty } from 'lodash'
 
-const nzhcn = require("nzh/cn");
+const nzhcn = require('nzh/cn')
 
 // const extralFormConfig = [
 
 // ];
 
 const normalWidthAndTop = {
-  width: "30%",
-  marginRight: "70%",
+  width: '30%',
+  marginRight: '70%',
   marginTop: -60,
-};
+}
 const normalAndPadding = {
-  width: "30%",
-  marginRight: "20%",
-};
+  width: '30%',
+  marginRight: '20%',
+}
 
 const normal = {
-  width: "30%",
-};
+  width: '30%',
+}
 
 // id = 0 为默认值
 export const productFieldImpl = (
-  id: string = "0",
-  productOptions: Array<any> = []
+  id: string = '0',
+  productOptions: Array<any> = [],
 ) => [
   {
     style: normalAndPadding,
-    label: "产品种类",
-    name: [id, "productId"],
-    type: "select",
-    rules: [{ required: true, message: "请输入" }],
+    label: '产品种类',
+    name: [id, 'productId'],
+    type: 'select',
+    rules: [{ required: true, message: '请输入' }],
     extraProps: {
-      optionsName: "name",
-      optionsKey: "id",
+      style: {
+        width: '100%',
+      },
+      optionsName: 'name',
+      optionsKey: 'id',
       options: productOptions,
     },
   },
   {
     style: normal,
-    label: "预计利润",
-    name: [id, "profit"],
-    type: "number",
+    label: '预计利润',
+    name: [id, 'profit'],
+    type: 'number',
     suffixIcon: ({ getFieldValue }: FormInstance) => {
-      const value = getFieldValue([id, "profit"]) as any;
+      const value = getFieldValue([id, 'profit']) as any
       return (
         <span
           style={{
             top: 35,
-            width: "20%",
+            width: '20%',
             left: 5,
-            position: "relative",
-            color: "#1890ff",
+            position: 'relative',
+            color: '#1890ff',
           }}
         >
-          {nzhcn.encodeB((value || 0) + "")}元
+          {nzhcn.encodeB((value || 0) + '')}元
         </span>
-      );
+      )
     },
     extraProps: {
       disabled: true,
-      addonAfter: "元",
+      addonAfter: '元',
       style: {
-        width: "100%",
+        width: '100%',
       },
       formatter: (value: any) =>
-        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-      parser: (value: any) => value.replace(/\$\s?|(,*)/g, ""),
+        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      parser: (value: any) => value.replace(/\$\s?|(,*)/g, ''),
     },
   },
   {
     style: normal,
-    label: "预计贸易总金额",
-    name: [id, "tradeAmountTotal"],
-    type: "number",
+    label: '预计贸易总金额',
+    name: [id, 'tradeAmountTotal'],
+    type: 'number',
     rules: [
-      { required: true, message: "请输入" },
+      { required: true, message: '请输入' },
       ({ getFieldValue, setFieldsValue }: FormInstance) => ({
         validator(_: unknown, value: number) {
-          const grossMargin = getFieldValue([id, "grossMargin"]);
+          const grossMargin = getFieldValue([id, 'grossMargin'])
           setFieldsValue({
             [id]: {
               profit: value * +(grossMargin / 100).toPrecision(4),
             },
-          });
-          return Promise.resolve();
+          })
+          return Promise.resolve()
         },
       }),
     ],
     suffixIcon: ({ getFieldValue }: FormInstance) => {
-      const value = getFieldValue([id, "tradeAmountTotal"]) as any;
+      const value = getFieldValue([id, 'tradeAmountTotal']) as any
       return (
         <span
           style={{
             top: 35,
-            width: "20%",
+            width: '20%',
             left: 5,
-            position: "relative",
-            color: "#1890ff",
+            position: 'relative',
+            color: '#1890ff',
           }}
         >
-          {nzhcn.encodeB((value || 0) + "")}元
+          {nzhcn.encodeB((value || 0) + '')}元
         </span>
-      );
+      )
     },
     extraProps: {
-      addonAfter: "元",
+      addonAfter: '元',
       style: {
-        width: "100%",
+        width: '100%',
       },
       formatter: (value: any) =>
-        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-      parser: (value: any) => value.replace(/\$\s?|(,*)/g, ""),
+        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      parser: (value: any) => value.replace(/\$\s?|(,*)/g, ''),
     },
   },
   {
     style: normalAndPadding,
-    label: "备注",
-    name: [id, "remake"],
-    type: "textarea",
+    label: '备注',
+    name: [id, 'remake'],
+    type: 'textarea',
     extraProps: {
       style: {
         height: 100,
@@ -130,31 +133,31 @@ export const productFieldImpl = (
   },
   {
     style: normalWidthAndTop,
-    label: "毛利率",
-    name: [id, "grossMargin"],
-    type: "number",
+    label: '毛利率',
+    name: [id, 'grossMargin'],
+    type: 'number',
     rules: [
-      { required: true, message: "请输入" },
+      { required: true, message: '请输入' },
       ({ getFieldValue, setFieldsValue }: FormInstance) => ({
         validator(_: unknown, value: number) {
-          const tradeAmountTotal = getFieldValue([id, "tradeAmountTotal"]);
+          const tradeAmountTotal = getFieldValue([id, 'tradeAmountTotal'])
           setFieldsValue({
             [id]: {
               profit: tradeAmountTotal * +(value / 100).toPrecision(4),
             },
-          });
-          return Promise.resolve();
+          })
+          return Promise.resolve()
         },
       }),
     ],
     extraProps: {
-      addonAfter: "%",
+      addonAfter: '%',
       style: {
-        width: "100%",
+        width: '100%',
       },
     },
   },
-];
+]
 
 // export const productsHeaderImpl = (id: string = "0", innerForm: Array<any>) => [
 //   {
@@ -171,261 +174,267 @@ export const productFieldImpl = (
 
 // 计算是否显示
 const calIsVisible = ({ getFieldsValue }: FormInstance) => {
-  let { ticket, ...rest } = getFieldsValue();
-  let value = 0;
-  if (isEmpty(rest)) return false;
+  let { ticket, ...rest } = getFieldsValue()
+  let value = 0
+  if (isEmpty(rest)) return false
   values(rest).forEach((item: any) => {
     if (!isEmpty(item)) {
-      value += item.tradeAmountTotal || 0;
+      value += item.tradeAmountTotal || 0
     }
-  });
-  return ticket.invoiceTotal < value;
-};
+  })
+  return ticket.invoiceTotal < value
+}
 
 export const companyFieldsImpl = (
   companyOptions: Array<any> = [],
-  invoicePlateTypeOptions: Array<any> = []
+  invoicePlateTypeOptions: Array<any> = [],
 ) => [
   {
     style: normalAndPadding,
-    label: "公司名称",
-    name: ["ticket", "companyId"],
-    rules: [{ required: true, message: "请选择" }],
-    type: "select",
+    label: '公司名称',
+    name: ['ticket', 'companyId'],
+    rules: [{ required: true, message: '请选择' }],
+    type: 'select',
     extraProps: {
-      optionsName: "name",
-      optionsKey: "id",
+      style: {
+        width: '100%',
+      },
+      optionsName: 'name',
+      optionsKey: 'id',
       options: companyOptions,
     },
   },
   {
     style: normal,
-    label: "发票总金额",
-    name: ["ticket", "invoiceTotal"],
-    type: "number",
-    rules: [{ required: true, message: "请输入" }],
+    label: '发票总金额',
+    name: ['ticket', 'invoiceTotal'],
+    type: 'number',
+    rules: [{ required: true, message: '请输入' }],
     suffixIcon: ({ getFieldValue }: FormInstance) => {
-      const value = getFieldValue(["ticket", "invoiceTotal"]) as any;
+      const value = getFieldValue(['ticket', 'invoiceTotal']) as any
       return (
         <span
           style={{
             top: 35,
-            width: "20%",
+            width: '20%',
             left: 5,
-            position: "relative",
-            color: "#1890ff",
+            position: 'relative',
+            color: '#1890ff',
           }}
         >
-          {nzhcn.encodeB((value || 0) + "")}元
+          {nzhcn.encodeB((value || 0) + '')}元
         </span>
-      );
+      )
     },
     extraProps: {
-      addonAfter: "元",
+      addonAfter: '元',
       style: {
-        width: "100%",
+        width: '100%',
       },
       formatter: (value: any) =>
-        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-      parser: (value: any) => value.replace(/\$\s?|(,*)/g, ""),
+        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      parser: (value: any) => value.replace(/\$\s?|(,*)/g, ''),
     },
   },
   {
     style: normalAndPadding,
-    label: "发票版型",
-    name: ["ticket", "invoicePlateType"],
-    rules: [{ required: true, message: "请选择" }],
-    type: "select",
+    label: '发票版型',
+    name: ['ticket', 'invoicePlateType'],
+    rules: [{ required: true, message: '请选择' }],
+    type: 'select',
     extraProps: {
-      optionsName: "name",
-      optionsKey: "name",
+      style: {
+        width: '100%',
+      },
+      optionsName: 'name',
+      optionsKey: 'name',
       options: invoicePlateTypeOptions,
     },
   },
   {
     style: normal,
-    label: "可使用发票总金额",
-    name: ["ticket", "invoiceUsable"],
-    type: "number",
-    rules: [{ required: true, message: "请输入" }],
+    label: '可使用发票总金额',
+    name: ['ticket', 'invoiceUsable'],
+    type: 'number',
+    rules: [{ required: true, message: '请输入' }],
     suffixIcon: ({ getFieldValue }: FormInstance) => {
-      const value = getFieldValue(["ticket", "invoiceUsable"]) as any;
+      const value = getFieldValue(['ticket', 'invoiceUsable']) as any
       return (
         <span
           style={{
             top: 35,
-            width: "20%",
+            width: '20%',
             left: 5,
-            position: "relative",
-            color: "#1890ff",
+            position: 'relative',
+            color: '#1890ff',
           }}
         >
-          {nzhcn.encodeB((value || 0) + "")}元
+          {nzhcn.encodeB((value || 0) + '')}元
         </span>
-      );
+      )
     },
     extraProps: {
-      addonAfter: "元",
+      addonAfter: '元',
       style: {
-        width: "100%",
+        width: '100%',
       },
       formatter: (value: any) =>
-        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-      parser: (value: any) => value.replace(/\$\s?|(,*)/g, ""),
+        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      parser: (value: any) => value.replace(/\$\s?|(,*)/g, ''),
     },
   },
   {
     style: normal,
-    label: "单月固定票量",
-    name: ["ticket", "ticketQuantity"],
-    type: "number",
-    rules: [{ required: true, message: "请输入" }],
+    label: '单月固定票量',
+    name: ['ticket', 'ticketQuantity'],
+    type: 'number',
+    rules: [{ required: true, message: '请输入' }],
     suffixIcon: ({ getFieldValue }: FormInstance) => {
-      const value = getFieldValue(["ticket", "ticketQuantity"]) as any;
+      const value = getFieldValue(['ticket', 'ticketQuantity']) as any
       return (
         <span
           style={{
             top: 35,
-            width: "20%",
+            width: '20%',
             left: 5,
-            position: "relative",
-            color: "#1890ff",
+            position: 'relative',
+            color: '#1890ff',
           }}
         >
-          {nzhcn.encodeB((value || 0) + "")}张
+          {nzhcn.encodeB((value || 0) + '')}张
         </span>
-      );
+      )
     },
     extraProps: {
-      addonAfter: "张",
+      addonAfter: '张',
       style: {
-        width: "100%",
+        width: '100%',
       },
       formatter: (value: any) =>
-        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-      parser: (value: any) => value.replace(/\$\s?|(,*)/g, ""),
+        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      parser: (value: any) => value.replace(/\$\s?|(,*)/g, ''),
     },
   },
   {
     style: normalAndPadding,
-    label: "资料提交截止日",
-    name: ["ticket", "stopTime"],
+    label: '资料提交截止日',
+    name: ['ticket', 'stopTime'],
     calIsVisible,
-    rules: [{ required: true, message: "请选择" }],
-    type: "date",
+    rules: [{ required: true, message: '请选择' }],
+    type: 'date',
     extraProps: {
       style: {
-        width: "100%",
+        width: '100%',
       },
     },
   },
   {
     style: normalAndPadding,
-    label: "计划月份",
-    name: ["ticket", "planMonth"],
-    type: "date",
+    label: '计划月份',
+    name: ['ticket', 'planMonth'],
+    type: 'date',
     extraProps: {
-      picker: "month",
+      picker: 'month',
       style: {
-        width: "100%",
+        width: '100%',
       },
     },
   },
   {
     style: normal,
-    label: "增版增量",
-    name: ["ticket", "editionIncr"],
+    label: '增版增量',
+    name: ['ticket', 'editionIncr'],
     calIsVisible,
-    rules: [{ required: true, message: "请选择" }],
-    type: "radioGroup",
+    rules: [{ required: true, message: '请选择' }],
+    type: 'radioGroup',
     extraProps: {
       options: [
         {
-          value: "1",
-          label: "增版",
+          value: '1',
+          label: '增版',
         },
         {
-          value: "2",
-          label: "增量",
+          value: '2',
+          label: '增量',
         },
       ],
     },
   },
   {
     style: normal,
-    label: "上月发票结余",
-    name: ["ticket", "invoiceBalance"],
-    type: "number",
-    rules: [{ required: true, message: "请输入" }],
+    label: '上月发票结余',
+    name: ['ticket', 'invoiceBalance'],
+    type: 'number',
+    rules: [{ required: true, message: '请输入' }],
     suffixIcon: ({ getFieldValue }: FormInstance) => {
-      const value = getFieldValue(["ticket", "invoiceBalance"]) as any;
+      const value = getFieldValue(['ticket', 'invoiceBalance']) as any
       return (
         <span
           style={{
             top: 35,
-            width: "20%",
+            width: '20%',
             left: 5,
-            position: "relative",
-            color: "#1890ff",
+            position: 'relative',
+            color: '#1890ff',
           }}
         >
-          {nzhcn.encodeB((value || 0) + "")}元
+          {nzhcn.encodeB((value || 0) + '')}元
         </span>
-      );
+      )
     },
     extraProps: {
-      addonAfter: "元",
+      addonAfter: '元',
       style: {
-        width: "100%",
+        width: '100%',
       },
       formatter: (value: any) =>
-        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-      parser: (value: any) => value.replace(/\$\s?|(,*)/g, ""),
+        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      parser: (value: any) => value.replace(/\$\s?|(,*)/g, ''),
     },
   },
   {
     calIsVisible,
     style: normalAndPadding,
-    label: "办理所需时间",
-    name: ["ticket", "needTime"],
-    rules: [{ required: true, message: "请输入" }],
-    type: "number",
+    label: '办理所需时间',
+    name: ['ticket', 'needTime'],
+    rules: [{ required: true, message: '请输入' }],
+    type: 'number',
     extraProps: {
       style: {
-        width: "100%",
+        width: '100%',
       },
-      addonAfter: "工作日",
+      addonAfter: '工作日',
     },
   },
   {
     calIsVisible,
     style: normalAndPadding,
-    label: "所需资料",
-    name: ["ticket", "materials"],
-    type: "text",
-    rules: [{ required: true, message: "请输入" }],
+    label: '所需资料',
+    name: ['ticket', 'materials'],
+    type: 'text',
+    rules: [{ required: true, message: '请输入' }],
   },
   {
     calIsVisible,
     style: normalAndPadding,
-    label: "其他",
-    name: ["ticket", "remake"],
-    type: "textarea",
+    label: '其他',
+    name: ['ticket', 'remake'],
+    type: 'textarea',
   },
-];
+]
 
 export const transformSubmitDataConfig: Array<TransformType> = [
   {
-    from: "ticket.planMonth",
-    to: "ticket.planMonth",
-    format: (value: Date) => dayjs(value).format("YYYY-MM"),
+    from: 'ticket.planMonth',
+    to: 'ticket.planMonth',
+    format: (value: Date) => dayjs(value).format('YYYY-MM'),
   },
   {
-    from: "ticket.stopTime",
-    to: "ticket.stopTime",
+    from: 'ticket.stopTime',
+    to: 'ticket.stopTime',
     format: (value: Date) => {
-      console.log(value);
-      return dayjs(value).format("YYYY-MM-DD");
+      console.log(value)
+      return dayjs(value).format('YYYY-MM-DD')
     },
   },
-];
+]
